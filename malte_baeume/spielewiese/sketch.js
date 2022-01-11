@@ -10,7 +10,7 @@ let onOff;
 
 
 function setup() {
-  const canvas = createCanvas(800, 1600);
+  const canvas = createCanvas(1280, 720);
 
   // create an engine
   const engine = Matter.Engine.create();
