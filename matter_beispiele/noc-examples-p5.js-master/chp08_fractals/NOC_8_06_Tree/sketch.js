@@ -15,7 +15,7 @@ function setup() {
 function draw() {
   background(51);
   // Let's pick an angle 0 to 90 degrees based on the mouse position
-  theta = map(mouseX,0,width,0,PI/2);
+  theta = map(mouseX,0,width,0,PI/12);
 
   // Start the tree from the bottom of the screen
   translate(width/2, height);
