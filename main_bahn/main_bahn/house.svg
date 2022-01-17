@@ -1,11 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 303.47 328.52">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 647.5 700.95">
   <g id="Ebene_2" data-name="Ebene 2">
     <g id="Ebene_1-2" data-name="Ebene 1">
-      <g id="Ebene_2-2" data-name="Ebene 2">
-        <g id="Ebene_1-2-2" data-name="Ebene 1-2">
-          <path d="M243.85,156.71v-35h-.42L121.72,0,0,121.72v206.8H243.85V225.12h43v103.4h8.84V225.12h7.78v-8.78ZM65.73,200.24h-28v-28h28Zm0-30.43h-28v-28h28Zm31.15,30.43h-28v-28h28Zm0-30.43h-28v-28h28Z" style="fill: #bdbcbc"/>
-        </g>
-      </g>
+      <polygon points="520.29 334.37 520.29 259.69 519.4 259.69 259.71 0 0 259.71 0 700.95 520.29 700.95 520.29 480.33 612.04 480.33 612.04 700.95 630.9 700.95 630.9 480.33 647.5 480.33 647.5 461.6 520.29 334.37" style="fill: #706f6f"/>
     </g>
   </g>
 </svg>
