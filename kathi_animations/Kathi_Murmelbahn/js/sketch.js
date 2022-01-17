@@ -165,7 +165,8 @@ function draw() {
       }
       if (lovelyPositions[i][0] > 0) {
         textSize(lovelySize);
-        text("❤", marblin.body.position.x + lovelyPositions[i][1], marblin.body.position.y-20-lovelyPositions[i][0]);
+        let wackeln = map(noise(lovelyPositions[i][0]/30)*10,0,10,-5,5);
+        text("❤", marblin.body.position.x + lovelyPositions[i][1]+wackeln, marblin.body.position.y-20-lovelyPositions[i][0]);
       }
     }
     //console.log("draw: ");
