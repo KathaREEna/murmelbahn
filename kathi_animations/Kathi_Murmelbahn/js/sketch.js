@@ -21,8 +21,27 @@ let newR = 255;
 let newG = 255;
 let newB = 255;
 
+//sleepy animation
+let sleepy = false;
+let sleepyLoop = 100;
+let sleepyPosition = 0;
+let sleepyOffsetX = 30;
+let sleepyOffsetY = 40;
+
+//in love animation
+let inLove = false;
+let lovelyLoop = 100;
+let lovelyBoundry = 60;
+let lovelyPosition = 0;
+let lovelyPositions; //Array welches für die einzelnen Positionen verwendet wird
+let lovelyCount = 12;
+let lovelySize = 20;
+//let lovelyArea = 60;
+
+
+
 function setup() {
-  const canvas = createCanvas(800, 600);
+  const canvas = createCanvas(1280, 720);
 
   // create an engine
   const engine = Matter.Engine.create();
@@ -61,7 +80,24 @@ function setup() {
   // run the engine
   Matter.Engine.run(engine);
   frameRate(frameR);
+
+
+  //setup hearts Array
+  lovelyPositions = new Array(lovelyCount);
+  for (var i = 0; i < lovelyPositions.length; i++) {
+    lovelyPositions[i] = new Array(2);
+  }
+  for (var i = 0; i < lovelyCount; i++) {
+    lovelyPositions[i][0] = floor(0 - (lovelyLoop / lovelyCount)*i);
+    lovelyPositions[i][1] = random(lovelyBoundry, -1*lovelyBoundry);
+  }
+  console.log(lovelyPositions);
+
 }
+
+
+
+
 
 function draw() {
   background('black');
@@ -75,7 +111,73 @@ function draw() {
 
   fill(255);
   textAlign(CENTER, CENTER);
+  textSize(29);
   text('TEST - GLaDOS', width/2, 50);
+
+
+//SCHLAFEN
+  if (sleepy) {
+    fill(color(0,180,255));
+    rectMode(CENTER);
+    rect(marblin.body.position.x-30,marblin.body.position.y+15,200,50);
+    rect(marblin.body.position.x-120,marblin.body.position.y,20,60);
+    rect(marblin.body.position.x+60.5,marblin.body.position.y,20,80);
+
+    let sleepyTransparency1 = map(sleepyPosition, 0, sleepyLoop, 0, 1255);
+    let sleepyTransparency2 = map((sleepyPosition+sleepyLoop/3)%sleepyLoop, 0, sleepyLoop, 0, 1255);
+    let sleepyTransparency3 = map((sleepyPosition+sleepyLoop/3*2)%sleepyLoop, 0, sleepyLoop, 0, 1255);
+    let sleepyPosition2 = (sleepyPosition + sleepyLoop/3)%sleepyLoop;
+    let sleepyPosition3 = (sleepyPosition + sleepyLoop/3*2)%sleepyLoop;
+
+    fill(125,sleepyTransparency1);
+    textSize((sleepyLoop-sleepyPosition)/2);
+    text("Z", marblin.body.position.x+sleepyOffsetX+sleepyPosition, marblin.body.position.y-sleepyOffsetY-sleepyPosition);
+
+    fill(125,sleepyTransparency2);
+    textSize((sleepyLoop-sleepyPosition2)/2);
+    text("Z", marblin.body.position.x+sleepyOffsetX+sleepyPosition2, marblin.body.position.y-sleepyOffsetY-sleepyPosition2);
+
+    fill(125,sleepyTransparency3);
+    textSize((sleepyLoop-sleepyPosition3)/2);
+    text("Z", marblin.body.position.x+sleepyOffsetX+sleepyPosition3, marblin.body.position.y-sleepyOffsetY-sleepyPosition3);
+
+    sleepyPosition = (sleepyPosition + 0.5) % sleepyLoop;
+  }
+
+
+
+//LIEBEN
+  if (inLove) {
+
+    for (var i = 0; i < lovelyCount; i++) {
+      let lovelyTransparency = map(lovelyPositions[i][0], 0, lovelyLoop, 0, 1255)
+      let lovelyTransparencyInverted = map(lovelyPositions[i][0], 0, lovelyLoop, 1255, 0)
+      if (lovelyPositions[i][0] < (lovelyLoop/2)) {
+        fill(255,192,203, lovelyTransparency);
+      } else {
+        fill(255,192,203, lovelyTransparencyInverted);
+      }
+      lovelyPositions[i][0] = (lovelyPositions[i][0] + 1) % lovelyLoop;
+
+      if (lovelyPositions[i][0] == 0) {
+        //lovelyOffsets
+        lovelyPositions[i][1] = floor(random(lovelyBoundry, -1*lovelyBoundry));
+      }
+      if (lovelyPositions[i][0] > 0) {
+        textSize(lovelySize);
+        text("❤", marblin.body.position.x + lovelyPositions[i][1], marblin.body.position.y-20-lovelyPositions[i][0]);
+      }
+    }
+    //console.log("draw: ");
+    //console.log(lovelyPositions);
+  }
+
+
+
+
+
+
+
 
 
 //counter für umrechnung von Frames in Zeit (Sekunden)
@@ -140,46 +242,83 @@ function shake(){
 
 function keyPressed() {
   // is SPACE pressed?
-  if (keyCode === 32) {
-    let direction = 1; // ball runs left to right ->
-    if ((marblin.body.position.x - marblin.body.positionPrev.x) < 0) {
-      direction = -1; // ball runs right to left <-
-    }
-    // use current direction and velocity for the jump
-    Matter.Body.applyForce(
-      marblin.body,
-      {x: marblin.body.position.x, y: marblin.body.position.y},
-      {x: (0.05 * direction) + marblin.body.velocity.x / 100, y: -0.2}
-    );
-  } else if (keyCode === 83) {
-    console.log("pressed s --> shaking ball");
+  let direction = 1;
+  switch (keyCode) {
+    case 32: //spacebar
+      sleepy = false;
+      direction = 1; // ball runs left to right ->
+      if ((marblin.body.position.x - marblin.body.positionPrev.x) < 0) {
+        direction = -1; // ball runs right to left <-
+      }
+      // use current direction and velocity for the jump
+      Matter.Body.applyForce(
+        marblin.body,
+        {x: marblin.body.position.x, y: marblin.body.position.y},
+        {x: (0.05 * direction) + marblin.body.velocity.x / 100, y: -0.2}
+      );
+      break;
+    case 83:
+      console.log("pressed s --> shaking ball");
       interval1 = setInterval(shake, 100);
 
-  } else if (keyCode === 17) { //STRG
-    let direction = 1;
-    if (alternate == 0) {
-      direction = -1; // ball runs right to left <-
-      alternate = 1; // ball runs left to right ->
-    }else {
+      break;
+    case 17: //STRG
       direction = 1;
-      alternate = 0;
-    }
-    Matter.Body.applyForce(
-      marblin.body,
-      {x: marblin.body.position.x, y: marblin.body.position.y},
-      {x: (0.05 * direction) /*+ marblin.body.velocity.x */, y: 0.01}
-    );
-  } else if (keyCode === 71) {
-    console.log("g - mache grün");
-    newR = 0;
-    newG = 255;
-    newB = 0;
-    interval2 = setInterval(colorFade, 10);
-  } else if (keyCode = 66) {
-    console.log("b - mache braun");
-    newR = 101;
-    newG = 67;
-    newB = 33;
-    interval2 = setInterval(colorFade, 10);
+      if (alternate == 0) {
+        direction = -1; // ball runs right to left <-
+        alternate = 1; // ball runs left to right ->
+      }else {
+        direction = 1;
+        alternate = 0;
+      }
+      Matter.Body.applyForce(
+        marblin.body,
+        {x: marblin.body.position.x, y: marblin.body.position.y},
+        {x: (0.05 * direction), y: 0.01}
+      );
+      break;
+    case 71:
+      console.log("g - mache grün");
+      newR = 0;
+      newG = 255;
+      newB = 0;
+      interval2 = setInterval(colorFade, 10);
+      break;
+    case 66:
+      console.log("b - mache braun");
+      newR = 101;
+      newG = 67;
+      newB = 33;
+      interval2 = setInterval(colorFade, 10);
+      break;
+    case 87:
+      console.log("w - mache weiß");
+      newR = 255;
+      newG = 255;
+      newB = 255;
+      interval2 = setInterval(colorFade, 10);
+      break;
+    case 89: //z
+      console.log("sleeping animation");
+      console.log(marblin.body.position);
+      if (sleepy) {
+        sleepy = false;
+      } else {
+        sleepy = true;
+      }
+      break;
+    case 76: //L inLove
+      if (inLove) {
+        inLove = false;
+      } else {
+        inLove = true;
+      }
+      break;
+    /*
+    case 87:
+
+      break;*/
+    default:
+
   }
 }
