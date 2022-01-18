@@ -66,14 +66,14 @@ function setup() {
     { isStatic: true }
   );
 
-  // seperator_1 = new BlockCore(world,
-  //   { x: viewportW/2, y: viewportH , w: viewportW, h: 2, color: "white"},
-  //   { isStatic: true }
-  // );
-  // seperator_2 = new BlockCore(world,
-  //   { x: viewportW/2, y: 2*viewportH , w: viewportW, h: 2, color: "white"},
-  //   { isStatic: true }
-  // );
+  seperator_1 = new BlockCore(world,
+    { x: viewportW/2, y: viewportH , w: viewportW, h: 2, color: "white"},
+    { isStatic: true }
+  );
+  seperator_2 = new BlockCore(world,
+    { x: viewportW/2, y: 2*viewportH , w: viewportW, h: 2, color: "white"},
+    { isStatic: true }
+  );
   seperator_3 = new BlockCore(world,
     { x: viewportW/2, y: 3*viewportH , w: viewportW, h: 2, color: "white"},
     { isStatic: true }
@@ -82,18 +82,18 @@ function setup() {
     { x: viewportW/2, y: 4*viewportH , w: viewportW, h: 2, color: "white"},
     { isStatic: true }
   );
-  // seperator_5 = new BlockCore(world,
-  //   { x: viewportW/2, y: 5*viewportH , w: viewportW, h: 2, color: "white"},
-  //   { isStatic: true }
-  // );
-  // seperator_6 = new BlockCore(world,
-  //   { x: viewportW/2, y: 6*viewportH , w: viewportW, h: 2, color: "white"},
-  //   { isStatic: true }
-  // );
-  // seperator_7 = new BlockCore(world,
-  //   { x: viewportW/2, y: 7*viewportH , w: viewportW, h: 2, color: "white"},
-  //   { isStatic: true }
-  // );
+  seperator_5 = new BlockCore(world,
+    { x: viewportW/2, y: 5*viewportH , w: viewportW, h: 2, color: "white"},
+    { isStatic: true }
+  );
+  seperator_6 = new BlockCore(world,
+    { x: viewportW/2, y: 6*viewportH , w: viewportW, h: 2, color: "white"},
+    { isStatic: true }
+  );
+  seperator_7 = new BlockCore(world,
+    { x: viewportW/2, y: 7*viewportH , w: viewportW, h: 2, color: "white"},
+    { isStatic: true }
+  );
 
 
  terrain_1 = new BlockCore(world,
@@ -116,18 +116,18 @@ function setup() {
 
 
 
-  // create zwischensequenz 1 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  // create zwischensequenz 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 for (let i=0; i<30; i++){
   for (let j=0; j<12; j++){
   const kugel = new Ball(
   world,
   {
-    x: 20+i*50, y: viewportH+50*j, r: 20,
+    x: 20+i*50, y: 5*viewportH+50*j, r: 20,
     color: terrainColor
   },
   { isStatic: false, restitution: 0.3 }
 );
-kugel.constrainTo(null, { pointB: { x: 20+i*50, y: viewportH+50*j-200 }, length: 300, draw: false });
+kugel.constrainTo(null, { pointB: { x: 20+i*50, y: 5*viewportH+50*j-200 }, length: 300, draw: false });
 blocks.push(kugel);
 }}
 
@@ -137,18 +137,18 @@ blocks.push(kugel);
 
   // create level 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-  terrain_3 = new BlockCore(world,
-    { x: viewportW*1/2, y: viewportH*(6/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: "#003EF7"},
-    { isStatic: true }
-  );
-  terrain_4 = new BlockCore(world,
-    { x: viewportW*1/2, y: viewportH*(7/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: "#002BAB"},
-    { isStatic: true }
-  );
-  terrain_5 = new BlockCore(world,
-    { x: viewportW*1/2, y: viewportH*(8/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: terrainColor},
-    { isStatic: true }
-  );
+  // terrain_3 = new BlockCore(world,
+  //   { x: viewportW*1/2, y: 2*viewportH*(6/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: "#003EF7"},
+  //   { isStatic: true }
+  // );
+  // terrain_4 = new BlockCore(world,
+  //   { x: viewportW*1/2, y: 2*viewportH*(7/3)*viewportH, w: viewportW, h: viewportH/3, color: "#002BAB"},
+  //   { isStatic: true }
+  // );
+  // terrain_5 = new BlockCore(world,
+  //   { x: viewportW*1/2, y: viewportH*(8/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: terrainColor},
+  //   { isStatic: true }
+  // );
 
 
 
@@ -166,11 +166,11 @@ blocks.push(kugel);
     { isStatic: true }
   );
   terrain_7 = new BlockCore(world,
-    { x: 213, y: viewportH*6.5+116, w: 200, h: 22, color: "white"},
+    { x: 233, y: viewportH*6.5+116, w: 200, h: 22, color: "white"},
     { isStatic: true }
   );  
   terrain_8 = new BlockCore(world,
-    { x: 120, y: viewportH*6.5-6, w: 40, h: 270, color: "white"},
+    { x: 130, y: viewportH*6.5-6, w: 40, h: 270, color: "white"},
     { isStatic: true }
   );
   ove = new PolygonFromSVG(world,
@@ -222,21 +222,21 @@ function draw() {
   sun_moon.draw();
   terrain_1.draw();
   terrain_2.draw();
-  terrain_3.draw();
-  terrain_4.draw();
-  terrain_5.draw();
+  // terrain_3.draw();
+  // terrain_4.draw();
+  // terrain_5.draw();
   // terrain_6.draw();
   // terrain_7.draw();
   // terrain_8.draw();
   
-  balls.draw();
-  // seperator_1.draw();
-  // seperator_2.draw();
+  // balls.draw();
+  seperator_1.draw();
+  seperator_2.draw();
   seperator_3.draw();
   seperator_4.draw();
-  // seperator_5.draw();
-  // seperator_6.draw();
-  // seperator_7.draw();
+  seperator_5.draw();
+  seperator_6.draw();
+  seperator_7.draw();
 
   // ove.draw();
   // theta = map(ball.attrs.x,0,width,0,PI/12);
