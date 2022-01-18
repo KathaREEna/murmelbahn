@@ -25,9 +25,11 @@ let terrainColor = "darkblue";
 let sun_moonColor = "#EBE0C5";
 
 
+
 function preload() {
   house = loadImage('./house.jpg');
 }
+
 
 
 function setup() {
@@ -107,29 +109,31 @@ function setup() {
 
 
 
-
-
-
-
-
-
-
   // create zwischensequenz 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-for (let i=0; i<30; i++){
-  for (let j=0; j<12; j++){
-  const kugel = new Ball(
-  world,
-  {
-    x: 20+i*50, y: 5*viewportH+50*j, r: 20,
-    color: terrainColor
-  },
-  { isStatic: false, restitution: 0.3 }
-);
-kugel.constrainTo(null, { pointB: { x: 20+i*50, y: 5*viewportH+50*j-200 }, length: 300, draw: false });
-blocks.push(kugel);
-}}
-
-
+    for (let i = 0; i < 30; i++) {
+      for (let j = 0; j < 12; j++) {
+        const kugel = new Ball(
+          world, {
+            x: 20 + i * 50,
+            y: 5 * viewportH + 50 * j,
+            r: 20,
+            color: terrainColor
+          }, {
+            isStatic: false,
+            restitution: 0.3
+          }
+        );
+        kugel.constrainTo(null, {
+          pointB: {
+            x: 20 + i * 50,
+            y: 5 * viewportH + 50 * j - 200
+          },
+          length: 300,
+          draw: false
+        });
+        blocks.push(kugel);
+      }
+    }
 
 
 
@@ -150,11 +154,13 @@ blocks.push(kugel);
 
 
 
+  // create "level 6.5" <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   let level65position = viewportH*5.5;
   balls = new Stack(world, {
     x: 0, y: level65position, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
     create: (x, y) => Matter.Bodies.circle(x, y, 15, { restitution: 0.1, friction: -0.1})
   });
+
 
 
   // create level 7 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -178,24 +184,23 @@ blocks.push(kugel);
 
 
 
-    // run the engine
-    Matter.Engine.run(engine);
-    // setup mouse
-    mouse = new Mouse(engine, canvas);
-  }
+  // run the engine
+  Matter.Engine.run(engine);
+  // setup mouse
+  mouse = new Mouse(engine, canvas);
+}
 
- // Create the tree function
- function branch(len) {
+
+
+// Create the tree function
+function branch(len) {
   // Each branch will be 2/3rds the size of the previous one
-
   //float sw = map(len,2,120,1,10);
   //strokeWeight(sw);
   strokeWeight(2);
-
   line(0, 0, 0, -len);
   // Move to the end of that line
   translate(0, -len);
-
   len *= 0.66;
   // All recursive functions must have an exit condition!!!!
   // Here, ours is when the length of the branch is 2 pixels or less
@@ -204,7 +209,6 @@ blocks.push(kugel);
     rotate(theta);   // Rotate by theta
     branch(len);       // Ok, now call myself to draw two new branches!!
     pop();     // Whenever we get back here, we "pop" in order to restore the previous matrix state
-
     // Repeat the same thing, only branch off to the "left" this time!
     push();
     rotate(-theta);
@@ -212,6 +216,8 @@ blocks.push(kugel);
     pop();
   }
 }
+
+
 
 function draw() {
   background(backgroundColor);
