@@ -3,7 +3,7 @@
 // setup wrap coordinates plugin
 Matter.use('matter-wrap');
 
-let ball;
+let marblin;
 let obstacle;
 let slide;
 let frameR = 60;
@@ -34,9 +34,13 @@ let lovelyLoop = 100;
 let lovelyBoundry = 60;
 let lovelyPosition = 0;
 let lovelyPositions; //Array welches für die einzelnen Positionen verwendet wird
-let lovelyCount = 12;
+let lovelyCount = 10;
 let lovelySize = 20;
-//let lovelyArea = 60;
+
+//mating call animation
+let matingCall = true;
+let particleEmit = false;
+
 
 
 
@@ -74,6 +78,10 @@ function setup() {
     { x: 0, y: 300, w: 20, h: 600, color: 'grey' },
     { isStatic: true, angle: 0 }
   );
+  shaderblock = new Block(world,
+    { x: 150, y: 700, w: 200, h: 60, color: 'blue' },
+    { isStatic: true, angle: 0 }
+  );
   // setup mouse
   mouse = new Mouse(engine, canvas);
 
@@ -107,6 +115,7 @@ function draw() {
   grenzeO.draw();
   grenzeR.draw();
   grenzeL.draw();
+  shaderblock.draw();
   mouse.draw();
 
   fill(255);
@@ -173,9 +182,10 @@ function draw() {
     //console.log(lovelyPositions);
   }
 
-
-
-
+  if (particleEmit) {
+    particle("🌹", marblin.body.position.x, marblin.body.position.y-400, 10, -4.55);
+  }
+//✨
 
 
 
@@ -189,6 +199,29 @@ function draw() {
   }
 }
 
+
+function particle(letter, posX, posY, directionX, directionY){
+  for (var i = 0; i < lovelyCount; i++) {
+    let lovelyTransparency = map(lovelyPositions[i][0], 0, lovelyLoop, 0, 1255)
+    let lovelyTransparencyInverted = map(lovelyPositions[i][0], 0, lovelyLoop, 1255, 0)
+    if (lovelyPositions[i][0] < (lovelyLoop/2)) {
+      fill(255,192,203, lovelyTransparency);
+    } else {
+      fill(255,192,203, lovelyTransparencyInverted);
+    }
+    lovelyPositions[i][0] = (lovelyPositions[i][0] + 1) % lovelyLoop;
+
+    if (lovelyPositions[i][0] == 0) {
+      //lovelyOffsets
+      lovelyPositions[i][1] = floor(random(lovelyBoundry, -1*lovelyBoundry));
+    }
+    if (lovelyPositions[i][0] > 0) {
+      textSize(lovelySize);
+      let wackeln = map(noise(lovelyPositions[i][0]/30)*10,0,10,-5,5);
+      text(letter, posX + (lovelyPositions[i][1]+wackeln)*directionX, posY-20-(lovelyPositions[i][0])*directionY);
+    }
+  }
+}
 
 
 function colorFade(){
@@ -314,6 +347,9 @@ function keyPressed() {
       } else {
         inLove = true;
       }
+      break;
+    case 80: //p
+      particleEmit = true;
       break;
     /*
     case 87:

@@ -1,6 +1,6 @@
 Matter.use('matter-wrap');
 
-let ball;
+let marblin;
 let canvasW = 1280;
 let canvasH = 720*7;
 let viewportW = 1280;
@@ -18,8 +18,8 @@ let terrain_2;
 let number = 0;
 let spiel = [];
 let blocks = [];
-let theta
- 
+let theta;
+
 let backgroundColor = "blue";
 let terrainColor = "darkblue";
 let sun_moonColor = "#EBE0C5";
@@ -39,30 +39,28 @@ function setup() {
   const engine = Matter.Engine.create();
   const world = engine.world;
 
-
   // config wrap area
   const wrap = {
     min: { x: 0, y: 0 },
     max: { x: width, y: height }
   };
 
-
-  // create cirle, slide and obstacle
-  ball = new Ball(world,
+  // create Main Character MURMEL
+  marblin = new Ball(world,
     { x: 300, y: 50, r: 40, color: 'white' },
-      
+
     { restitution: 0, plugin: { wrap: wrap } }
   );
- 
+
 
 
   // create the world <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   // create level 1 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
- 
- 
+  let level1position;
+
   sun_moon = new Ball(world,
     { x: viewportW*4/5, y: viewportH*1/5, r: 70, color: sun_moonColor },
-      
+
     { isStatic: true }
   );
 
@@ -108,7 +106,7 @@ function setup() {
   );
 
 
- 
+
 
 
 
@@ -152,29 +150,29 @@ blocks.push(kugel);
 
 
 
-
+  let level65position = viewportH*5.5;
   balls = new Stack(world, {
-    x: 0, y: viewportH*5.5, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
+    x: 0, y: level65position, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
     create: (x, y) => Matter.Bodies.circle(x, y, 15, { restitution: 0.1, friction: -0.1})
   });
 
 
   // create level 7 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-      
+  let level7position = viewportH*6.5;
   terrain_6 = new BlockCore(world,
-    { x: 273, y: viewportH*6.5-44, w: 130, h: 190, color: "white"},
+    { x: 273, y: level7position-44, w: 130, h: 190, color: "white"},
     { isStatic: true }
   );
   terrain_7 = new BlockCore(world,
-    { x: 233, y: viewportH*6.5+116, w: 200, h: 22, color: "white"},
+    { x: 233, y: level7position+116, w: 200, h: 22, color: "white"},
     { isStatic: true }
-  );  
+  );
   terrain_8 = new BlockCore(world,
-    { x: 130, y: viewportH*6.5-6, w: 40, h: 270, color: "white"},
+    { x: 130, y: level7position-6, w: 40, h: 270, color: "white"},
     { isStatic: true }
   );
   ove = new PolygonFromSVG(world,
-    { x: viewportW/2-100, y: viewportH*6.5, fromFile: './love.svg', scale: 1, color: 'white' },
+    { x: viewportW/2-100, y: level7position, fromFile: './love.svg', scale: 1, color: 'white' },
     { isStatic: true, friction: 1, density: 100}
   );
 
@@ -184,7 +182,7 @@ blocks.push(kugel);
     Matter.Engine.run(engine);
     // setup mouse
     mouse = new Mouse(engine, canvas);
-  }  
+  }
 
  // Create the tree function
  function branch(len) {
@@ -193,7 +191,7 @@ blocks.push(kugel);
   //float sw = map(len,2,120,1,10);
   //strokeWeight(sw);
   strokeWeight(2);
-      
+
   line(0, 0, 0, -len);
   // Move to the end of that line
   translate(0, -len);
@@ -218,7 +216,7 @@ blocks.push(kugel);
 function draw() {
   background(backgroundColor);
   blocks.forEach(block => block.draw());
-  ball.draw();
+  marblin.draw();
   sun_moon.draw();
   terrain_1.draw();
   terrain_2.draw();
@@ -228,8 +226,8 @@ function draw() {
   // terrain_6.draw();
   // terrain_7.draw();
   // terrain_8.draw();
-  
-  // balls.draw();
+
+  balls.draw();
   seperator_1.draw();
   seperator_2.draw();
   seperator_3.draw();
@@ -239,8 +237,8 @@ function draw() {
   seperator_7.draw();
 
   // ove.draw();
-  // theta = map(ball.attrs.x,0,width,0,PI/12);
-  theta = 0.4
+  theta = map(marblin.body.position.x,0,width,0,PI/12);
+  //theta = 0.4
 
   translate(width/2, 530);
   stroke(255);
@@ -249,9 +247,3 @@ function draw() {
   stroke(255);
   branch(60);
 }
-
- 
-
-
-
-
