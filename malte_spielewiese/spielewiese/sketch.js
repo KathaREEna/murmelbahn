@@ -28,10 +28,20 @@ const drawBodies = Helpers.drawBodies;
 let engine;
 let attractor;
 let boxes;
-
+let marblin;
 
 function setup() {
   const canvas = createCanvas(800, 600);
+  const wrap = {
+    min: {
+      x: 0,
+      y: 0
+    },
+    max: {
+      x: width,
+      y: height
+    }
+  };
   
   // create an engine
   engine = Engine.create();
@@ -40,8 +50,21 @@ function setup() {
   // engine.world.gravity.scale = 0;
 
 
+   // create Main Character MURMEL
+   marblin = new Ball(world, {
+    x: 300,
+    y: 50,
+    r: 40,
+    color: 'white'
+  }, {
+    restitution: 0,
+    plugin: {
+      wrap: wrap
+    }
+  });
+  // marblin.body.position.x
   // add attractor
-  attractor = Bodies.circle(400, 400, 50, {
+  attractor = Bodies.circle(400, 400, 20, {
     isStatic: false,
     plugin: {
       attractors: [
@@ -64,8 +87,8 @@ function setup() {
   World.add(engine.world, boxes);
 
   terrain_1 = new BlockCore(world,
-    { x: viewportW*1/5, y: 620, w: viewportW, h: viewportH/4, color: "white"},
-    { isStatic: true }
+    { x: viewportW*1/5, y: 620, w: viewportW*3, h: viewportH/4, color: "darkblue"},
+    { isStatic: true, wrap: wrap}
   );
 
   // run the engine
@@ -73,8 +96,9 @@ function setup() {
 }
 
 function draw() {
-  background(0);
+  background("blue");
 
+  marblin.draw();
   if (mouseIsPressed) {
     // smoothly move the attractor body towards the mouse
     Body.translate(attractor, {
@@ -82,9 +106,8 @@ function draw() {
       y: (mouseY - attractor.position.y) * 0.25
     });
   }
-  terrain_1.draw()
-  stroke(128);
-  strokeWeight(1);
+  terrain_1.draw();
+  noStroke();
   fill(255);
   drawBodies(boxes.bodies);
   drawBody(attractor);
