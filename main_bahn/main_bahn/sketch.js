@@ -150,6 +150,7 @@ function setup() {
      marblin.body.friction = 0.05;
      ramp4.body.collisionFilter.group = -1
      marblinLover.body.collisionFilter.group = -1
+     terrain_9.body.collisionFilter.group = -1
 
     
 
@@ -223,69 +224,69 @@ function setup() {
     isStatic: true, label: 'ramp4'
   });
 
-  seperator_1 = new BlockCore(world, {
-    x: viewportW / 2,
-    y: viewportH,
-    w: viewportW,
-    h: 2,
-    color: "white"
-  }, {
-    isStatic: true
-  });
-  seperator_2 = new BlockCore(world, {
-    x: viewportW / 2,
-    y: 2 * viewportH,
-    w: viewportW,
-    h: 2,
-    color: "white"
-  }, {
-    isStatic: true
-  });
-  seperator_3 = new BlockCore(world, {
-    x: viewportW / 2,
-    y: 3 * viewportH,
-    w: viewportW,
-    h: 2,
-    color: "white"
-  }, {
-    isStatic: true
-  });
-  seperator_4 = new BlockCore(world, {
-    x: viewportW / 2,
-    y: 4 * viewportH,
-    w: viewportW,
-    h: 2,
-    color: "white"
-  }, {
-    isStatic: true
-  });
-  seperator_5 = new BlockCore(world, {
-    x: viewportW / 2,
-    y: 5 * viewportH,
-    w: viewportW,
-    h: 2,
-    color: "white"
-  }, {
-    isStatic: true
-  });
-  seperator_6 = new BlockCore(world, {
-    x: viewportW / 2,
-    y: 6 * viewportH,
-    w: viewportW,
-    h: 2,
-    color: "white"
-  }, {
-    isStatic: true
-  });
-  seperator_7 = new BlockCore(world, {
-    x: viewportW / 2,
-    y: 7 * viewportH,
-    w: viewportW,
-    h: 2,
-    color: "white"
-  }, {
-    isStatic: true
-  });
+  // seperator_1 = new BlockCore(world, {
+  //   x: viewportW / 2,
+  //   y: viewportH,
+  //   w: viewportW,
+  //   h: 2,
+  //   color: "white"
+  // }, {
+  //   isStatic: true
+  // });
+  // seperator_2 = new BlockCore(world, {
+  //   x: viewportW / 2,
+  //   y: 2 * viewportH,
+  //   w: viewportW,
+  //   h: 2,
+  //   color: "white"
+  // }, {
+  //   isStatic: true
+  // });
+  // seperator_3 = new BlockCore(world, {
+  //   x: viewportW / 2,
+  //   y: 3 * viewportH,
+  //   w: viewportW,
+  //   h: 2,
+  //   color: "white"
+  // }, {
+  //   isStatic: true
+  // });
+  // seperator_4 = new BlockCore(world, {
+  //   x: viewportW / 2,
+  //   y: 4 * viewportH,
+  //   w: viewportW,
+  //   h: 2,
+  //   color: "white"
+  // }, {
+  //   isStatic: true
+  // });
+  // seperator_5 = new BlockCore(world, {
+  //   x: viewportW / 2,
+  //   y: 5 * viewportH,
+  //   w: viewportW,
+  //   h: 2,
+  //   color: "white"
+  // }, {
+  //   isStatic: true
+  // });
+  // seperator_6 = new BlockCore(world, {
+  //   x: viewportW / 2,
+  //   y: 6 * viewportH,
+  //   w: viewportW,
+  //   h: 2,
+  //   color: "white"
+  // }, {
+  //   isStatic: true
+  // });
+  // seperator_7 = new BlockCore(world, {
+  //   x: viewportW / 2,
+  //   y: 7 * viewportH,
+  //   w: viewportW,
+  //   h: 2,
+  //   color: "white"
+  // }, {
+  //   isStatic: true
+  // });
 
 
   terrain_1 = new BlockCore(world, {
@@ -353,21 +354,21 @@ function setup() {
     w: viewportW,
     h: viewportH/3,
     color: "darkblue"
-  });
+  },{ isStatic: true });
   terrain_10 = new BlockCore(world, {
     x: viewportW/2,
     y: level2position,
     w: viewportW,
     h: viewportH/3,
     color: "#050B4E"
-  });
+  },{ isStatic: true });
   terrain_11 = new BlockCore(world, {
     x: viewportW/2,
     y: level2position+viewportH/3,
     w: viewportW,
     h: viewportH/3,
     color: "black"
-  });
+  },{ isStatic: true });
 
 
   // terrain_3 = new BlockCore(world,
@@ -577,7 +578,7 @@ function draw() {
   background(backgroundColor);
 
   blocks.forEach(block => block.draw());
-  marblin.draw();
+  
   house.draw();
         // //collisionen aussschalten
         // marblin.body.collisionFilter.group = -1;
@@ -603,15 +604,15 @@ function draw() {
   terrain_10.draw();
   terrain_11.draw();
 
-  //balls.draw();
-  seperator_1.draw();
-  seperator_2.draw();
-  seperator_3.draw();
-  seperator_4.draw();
-  seperator_5.draw();
-  seperator_6.draw();
-  seperator_7.draw();
-
+  // //balls.draw();
+  // seperator_1.draw();
+  // seperator_2.draw();
+  // seperator_3.draw();
+  // seperator_4.draw();
+  // seperator_5.draw();
+  // seperator_6.draw();
+  // seperator_7.draw();
+  marblin.draw();
   ove.draw();
 
   //Bäume Mappen
@@ -664,6 +665,7 @@ function draw() {
 
     sleepyPosition = (sleepyPosition + 0.5) % sleepyLoop;
     // console.log(sleepyPosition);
+    
   }
 }
 
