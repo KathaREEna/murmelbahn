@@ -64,7 +64,7 @@ function setup() {
   // marblin.body.position.x
   // add attractor
   attractor = Bodies.circle(400, 400, 20, {
-    isStatic: true,
+    isStatic: false,
     plugin: {
       attractors: [
         function(bodyA, bodyB) {

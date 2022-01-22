@@ -72,6 +72,7 @@ const drawBody = Helpers.drawBody;
 const drawBodies = Helpers.drawBodies;
 let attractor;
 let boxes;
+let engine;
 
 
 
@@ -498,16 +499,10 @@ function draw() {
   seperator_7.draw();
 
 // attractors config
+  noStroke();
+  fill(255);
   drawBodies(boxes.bodies);
   drawBody(attractor);
-
-  if (mouseIsPressed) {
-    // smoothly move the attractor body towards the mouse
-    Body.translate(attractor, {
-      x: (mouseX - attractor.position.x) * 0.25,
-      y: (mouseY - attractor.position.y) * 0.25
-    });
-  }
 
   // ove.draw();
   theta = map(marblin.body.position.x, 0, width, 0, PI / 4);
