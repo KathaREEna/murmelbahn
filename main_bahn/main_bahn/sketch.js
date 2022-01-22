@@ -33,13 +33,13 @@ let stair4;
 let stair5;
 let stair6;
 let stair7;
-let drawStair1;
-let drawStair2;
-let drawStair3;
-let drawStair4;
-let drawStair5;
-let drawStair6;
-let drawStair7;
+let drawStair1 = false;
+let drawStair2 = false;
+let drawStair3 = false;
+let drawStair4 = false;
+let drawStair5 = false;
+let drawStair6 = false;
+let drawStair7 = false;
 
 //Color Fade Variables
 let intervalTERRAIN;
@@ -173,8 +173,6 @@ function setup() {
     },
   });
 
-
-
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
@@ -295,50 +293,51 @@ function setup() {
   stair1 = new Block(
     world,
     { x: 1000, y: 1440, w: 100, h: 100, color: 'darkblue' },
-    { isStatic: true, friction: 1, restitution: 1, label: 'stair1' }
+    { isStatic: true, restitution: 1, label: 'stair' }
   );
 
   stair2 = new Block(
     world, 
-    { x: 700, y : 1640, w: 100, h: 100, color: 'darkblue' }, 
-    { isStatic: true, friction: 1, restitution: 1, label: 'stair2' }
+    { x: 709, y : 1640, w: 100, h: 100, color: 'darkblue' }, 
+    { isStatic: true, restitution: 1, label: 'stair2' }
   );
 
   stair3 = new Block(
     world, 
     { x: 400, y : 1840, w: 100, h: 100, color: 'darkblue' }, 
-    { isStatic: true, restitution: 1, label: 'stair3' }
+    { isStatic: true, restitution: 0.1, label: 'stair3' }
   );
 
   stair4 = new Block(
     world, 
     { x: 100, y : 2340, w: 200, h: 100, color: '#050D7F' }, 
-    { isStatic: true, friction: 0.5, restitution: 0, label: 'stair4' }
+    { isStatic: true, label: 'stair4' }
   );
 
   stair5 = new Block(
     world, 
     { x: 100, y : 2440, w: 500, h: 100, color: '#0794DB' }, 
-    { isStatic: true, restitution: 1, label: 'stair5' }
+    { isStatic: true, label: 'stair5' }
   );
 
   stair6 = new Block(
     world, 
     { x: 100, y : 2540, w: 800, h: 100, color: '#00BFEC' }, 
-    { isStatic: true, restitution: 1, label: 'stair6' }
+    { isStatic: true, label: 'stair6' }
   );
+  
   stair7 = new Block(
     world, 
     { x: 100, y : 2640, w: 1100, h: 110, color: '#1CD0F8' }, 
-    { isStatic: true, restitution: 1, label: 'stair7' }
+    { isStatic: true, label: 'stair7' }
   );
-  
 
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
-    if (bodyA.label === "stair1" || bodyB.label === "stair1") {
+    if (bodyA.label === "stair" || bodyB.label === "stair") {
+      drawStair1 = true;
     }
   });
 
@@ -347,6 +346,8 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "stair2" || bodyB.label === "stair2") {
+      drawStair1 = false;
+      drawStair2 = true;
     }
   });
 
@@ -355,6 +356,8 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "stair3" || bodyB.label === "stair3") {
+      drawStair2 = false;
+      drawStair3 = true;
     }
   });
 
@@ -363,6 +366,8 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "stair4" || bodyB.label === "stair4") {
+      drawStair3 = false;
+      drawStair4 = true;
     }
   });
 
@@ -371,6 +376,7 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "stair5" || bodyB.label === "stair5") {
+      drawStair5 = true;
     }
   });
 
@@ -379,6 +385,7 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "stair6" || bodyB.label === "stair6") {
+      drawStair6 = true;
     }
   });
 
@@ -387,6 +394,7 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "stair7" || bodyB.label === "stair7") {
+      drawStair7 = true;
     }
   });
 
@@ -694,13 +702,34 @@ function draw() {
   //Bäume Mappen
   theta = map(marblin.body.position.x, 300, 740, 0, PI / 4);
   //draw the stairs
-  stair1.draw();
-  stair2.draw();
-  stair3.draw();
-  stair4.draw();
-  stair5.draw();
-  stair6.draw();
-  stair7.draw();
+  
+  if (drawStair1) {
+    stair1.draw();
+  }
+
+  if (drawStair2) {
+    stair2.draw();
+  }
+
+  if(drawStair3) {
+    stair3.draw();
+  }
+  
+  if(drawStair4) {
+    stair4.draw();
+  }
+
+  if (drawStair5) {
+    stair5.draw();
+  }
+
+  if (drawStair6) {
+    stair6.draw();
+  }
+
+  if (drawStair7) {
+    stair7.draw();
+  }
 
 // attractors config
   // noStroke();
