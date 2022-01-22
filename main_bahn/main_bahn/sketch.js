@@ -22,7 +22,6 @@ let spiel = [];
 let blocks = [];
 let theta;
 let theta2;
-<<<<<<< Updated upstream
 
 //Color Fade Variables
 let intervalTERRAIN;
@@ -49,9 +48,7 @@ let sunnewR = 255;
 let sunnewG = 255;
 let sunnewB = 255;
 
-=======
 let house;
->>>>>>> Stashed changes
 
 //sleepy animation
 let sleepy = false;
@@ -485,7 +482,6 @@ function draw() {
 }
 
 
-<<<<<<< Updated upstream
 
 function colorFadeTERRAIN(){
   //console.log("newR: " + newR + "newG: " + newG + "newB: " + newB);
@@ -579,8 +575,6 @@ function colorFadeSUN(){
 
 
 
-=======
->>>>>>> Stashed changes
 function keyPressed() {
   let direction = 1;
   switch (keyCode) {
