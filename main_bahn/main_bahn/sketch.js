@@ -95,8 +95,13 @@ function setup() {
     x: 300,
     y: 50,
     r: 40,
-    color: 'white'
-  }, {
+    color: 'white',
+    trigger: (marblin, terrain_1) => {
+      console.log("test");
+    }
+  }, 
+  
+  {
     restitution: 0,
     plugin: {
       wrap: wrap
