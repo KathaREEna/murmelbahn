@@ -62,6 +62,17 @@ let backgroundColor;
 let terrainColor;
 let sun_moonColor;
 
+// attractor configs
+const World = Matter.World;
+const Bodies = Matter.Bodies;
+const Body = Matter.Body;
+const MouseConstraint = Matter.MouseConstraint;
+const Composites = Matter.Composites;
+const drawBody = Helpers.drawBody;
+const drawBodies = Helpers.drawBodies;
+let attractor;
+let boxes;
+
 
 
 
@@ -100,7 +111,7 @@ function setup() {
     restitution: 0,
     plugin: {
       wrap: wrap
-    }
+    },
   });
   marblinLover = new Ball(world, {
     x: 1100,
@@ -228,7 +239,66 @@ function setup() {
     restitution: 1.0
   });
 
-  // create zwischensequenz 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  // create zwischensequenz 1 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  // create level 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  let level2position = viewportH * 4.5;
+  // marblin als attractor definieren
+  attractor = Bodies.circle(400, viewportH * 3, 20, {
+    isStatic: false,
+    plugin: {
+      attractors: [
+        function(bodyA, bodyB) {
+          return {
+            x: (bodyA.position.x - bodyB.position.x) * 1e-6,
+            y: (bodyA.position.y - bodyB.position.y) * 1e-6,
+          };
+        }
+      ]
+    }
+  });
+  World.add(engine.world, attractor);
+
+  boxes = Composites.stack(viewportW/2, viewportH * 3, 3, 20, 3, 3, function(x, y) {
+    return Bodies.circle(x, y, 10);
+  });
+  World.add(engine.world, boxes);
+
+  terrain_9 = new BlockCore(world, {
+    x: viewportW/2,
+    y: level2position-viewportH/3,
+    w: viewportW,
+    h: viewportH/3,
+    color: "darkblue"
+  });
+  terrain_10 = new BlockCore(world, {
+    x: viewportW/2,
+    y: level2position,
+    w: viewportW,
+    h: viewportH/3,
+    color: "#050B4E"
+  });
+  terrain_11 = new BlockCore(world, {
+    x: viewportW/2,
+    y: level2position+viewportH/3,
+    w: viewportW,
+    h: viewportH/3,
+    color: "black"
+  });
+
+
+  // terrain_3 = new BlockCore(world,
+  //   { x: viewportW*1/2, y: 2*viewportH*(6/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: "#003EF7"},
+  //   { isStatic: true }
+  // );
+  // terrain_4 = new BlockCore(world,
+  //   { x: viewportW*1/2, y: 2*viewportH*(7/3)*viewportH, w: viewportW, h: viewportH/3, color: "#002BAB"},
+  //   { isStatic: true }
+  // );
+  // terrain_5 = new BlockCore(world,
+  //   { x: viewportW*1/2, y: viewportH*(8/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: terrainColor},
+  //   { isStatic: true }
+  // );
+
 
 
   // create zwischensequenz 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -259,7 +329,6 @@ function setup() {
 
 
 
-  // create level 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   // terrain_3 = new BlockCore(world,
   //   { x: viewportW*1/2, y: 2*viewportH*(6/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: "#003EF7"},
@@ -415,6 +484,9 @@ function draw() {
   // terrain_6.draw();
   // terrain_7.draw();
   // terrain_8.draw();
+  terrain_9.draw();
+  terrain_10.draw();
+  terrain_11.draw();
 
   //balls.draw();
   seperator_1.draw();
@@ -425,7 +497,19 @@ function draw() {
   seperator_6.draw();
   seperator_7.draw();
 
-  ove.draw();
+// attractors config
+  drawBodies(boxes.bodies);
+  drawBody(attractor);
+
+  if (mouseIsPressed) {
+    // smoothly move the attractor body towards the mouse
+    Body.translate(attractor, {
+      x: (mouseX - attractor.position.x) * 0.25,
+      y: (mouseY - attractor.position.y) * 0.25
+    });
+  }
+
+  // ove.draw();
   theta = map(marblin.body.position.x, 0, width, 0, PI / 4);
   theta2 = map(marblinLover.body.position.x, 0, width, 0, PI / 12);
   //theta = 0.4
