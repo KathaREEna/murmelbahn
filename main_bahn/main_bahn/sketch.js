@@ -1,5 +1,6 @@
 Matter.use('matter-wrap');
 
+
 let marblin;
 let marblinLover;
 let canvasW = 1280;
@@ -17,6 +18,8 @@ let seperator_6;
 let seperator_7;
 let terrain_1;
 let terrain_2;
+let terrain_1edge;
+let ramp;
 let number = 0;
 let spiel = [];
 let blocks = [];
@@ -48,6 +51,12 @@ let sunnewR = 255;
 let sunnewG = 255;
 let sunnewB = 255;
 
+//Shake
+let sekunden = 0;
+let dauer = 3; //Zeit Sekunden
+let countertestzahl = 0;
+let alternate = 0;
+
 let house;
 
 //sleepy animation
@@ -62,8 +71,32 @@ let backgroundColor;
 let terrainColor;
 let sun_moonColor;
 
+// attractor configs
+const World = Matter.World;
+const Bodies = Matter.Bodies;
+const Body = Matter.Body;
+const MouseConstraint = Matter.MouseConstraint;
+const Composites = Matter.Composites;
+const drawBody = Helpers.drawBody;
+const drawBodies = Helpers.drawBodies;
+let attractor;
+let boxes;
+let engine;
 
 
+function preload() {
+  const engine = Matter.Engine.create();
+  let world = engine.world;
+  //create house
+  house = new PolygonFromSVG(world, {
+    x: 250,
+    y: 417,
+    fromFile: './house.svg',
+    scale: 3,
+    color: 'white'
+  });
+
+}
 
 function setup() {
   rectMode(CORNER);
@@ -71,8 +104,7 @@ function setup() {
 
   // create an engine
   const engine = Matter.Engine.create();
-  const world = engine.world;
-
+  let world = engine.world;
   // config wrap area
   const wrap = {
     min: {
@@ -92,16 +124,33 @@ function setup() {
 
   // create Main Character MURMEL
   marblin = new Ball(world, {
-    x: 300,
+    x: 250,
     y: 50,
     r: 40,
     color: 'white'
-  }, {
+  },
+
+  {
     restitution: 0,
+    friction: 0,
+    label: "marblin",
     plugin: {
       wrap: wrap
-    }
+    },
   });
+
+
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "terrain_1" || bodyB.label === "marblin") {
+      bodyA.friction = -1;
+    }
+
+  });
+
   marblinLover = new Ball(world, {
     x: 1100,
     y: 50,
@@ -113,8 +162,6 @@ function setup() {
       wrap: wrap
     }
   });
-
-
 
   // create the world <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   // create level 1 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -132,15 +179,25 @@ function setup() {
     }
   );
 
-  //create house
-  house = new PolygonFromSVG(world, {
-    x: 100,
-    y: 100,
-    fromFile: './house.svg',
-    scale: 3,
-    color: 'white'
+  ramp = new BlockCore(world, {
+    x: viewportW * 1 / 5-10,
+    y: 500,
+    w: 30,
+    h: 30,
+    color: terrainColor
+  }, {
+    isStatic: true, angle: radians(45), label: 'ramp'
   });
 
+  ramp2 = new BlockCore(world, {
+    x: viewportW * 1 / 5,
+    y: 480,
+    w: 30,
+    h: 30,
+    color: terrainColor
+  }, {
+    isStatic: true, label: 'ramp'
+  });
 
   seperator_1 = new BlockCore(world, {
     x: viewportW / 2,
@@ -210,11 +267,23 @@ function setup() {
   terrain_1 = new BlockCore(world, {
     x: viewportW * 1 / 5,
     y: 620,
-    w: viewportW * 4 / 5,
+    w: viewportW * 3 / 5,
     h: viewportH / 4,
     color: terrainColor
   }, {
-    isStatic: true
+    isStatic: true,
+    label: "terrain_1"
+  });
+
+  terrain_1edge = new BlockCore(world, {
+    x: viewportW * 3 / 5,
+    y: 620,
+    w: viewportW * 1 / 5,
+    h: viewportH / 4,
+    color: terrainColor
+  }, {
+    isStatic: true,
+    label: "terrain_1edge"
   });
 
   terrain_2 = new BlockCore(world, {
@@ -228,7 +297,68 @@ function setup() {
     restitution: 1.0
   });
 
-  // create zwischensequenz 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  // create zwischensequenz 1 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  // create level 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  let level2position = viewportH * 4.5;
+  // marblin als attractor definieren
+
+
+  attractor = Bodies.circle(400, viewportH * 3, 20, {
+    isStatic: false,
+    plugin: {
+      attractors: [
+        function(bodyA, bodyB) {
+          return {
+            x: (bodyA.position.x - bodyB.position.x) * 1e-6,
+            y: (bodyA.position.y - bodyB.position.y) * 1e-6,
+          };
+        }
+      ]
+    }
+  });
+  World.add(engine.world, attractor);
+
+  boxes = Composites.stack(viewportW/2, viewportH * 3, 3, 20, 3, 3, function(x, y) {
+    return Bodies.circle(x, y, 10);
+  });
+  World.add(engine.world, boxes);
+
+  terrain_9 = new BlockCore(world, {
+    x: viewportW/2,
+    y: level2position-viewportH/3,
+    w: viewportW,
+    h: viewportH/3,
+    color: "darkblue"
+  });
+  terrain_10 = new BlockCore(world, {
+    x: viewportW/2,
+    y: level2position,
+    w: viewportW,
+    h: viewportH/3,
+    color: "#050B4E"
+  });
+  terrain_11 = new BlockCore(world, {
+    x: viewportW/2,
+    y: level2position+viewportH/3,
+    w: viewportW,
+    h: viewportH/3,
+    color: "black"
+  });
+
+
+  // terrain_3 = new BlockCore(world,
+  //   { x: viewportW*1/2, y: 2*viewportH*(6/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: "#003EF7"},
+  //   { isStatic: true }
+  // );
+  // terrain_4 = new BlockCore(world,
+  //   { x: viewportW*1/2, y: 2*viewportH*(7/3)*viewportH, w: viewportW, h: viewportH/3, color: "#002BAB"},
+  //   { isStatic: true }
+  // );
+  // terrain_5 = new BlockCore(world,
+  //   { x: viewportW*1/2, y: viewportH*(8/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: terrainColor},
+  //   { isStatic: true }
+  // );
+
 
 
   // create zwischensequenz 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -259,7 +389,6 @@ function setup() {
 
 
 
-  // create level 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   // terrain_3 = new BlockCore(world,
   //   { x: viewportW*1/2, y: 2*viewportH*(6/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: "#003EF7"},
@@ -368,6 +497,30 @@ function branch(len) {
 
 
 
+function shake(){
+  //console.log(sekunden);
+  countertestzahl++;
+  if (countertestzahl >= 30) {
+    clearInterval(interval1);
+    countertestzahl = 0;
+  }
+  let direction = 1;
+  if (alternate == 0) {
+    direction = -1; // ball runs right to left <-
+    alternate = 1; // ball runs left to right ->
+  }else {
+    direction = 1;
+    alternate = 0;
+  }
+  Matter.Body.applyForce(
+    marblin.body,
+    {x: marblin.body.position.x, y: marblin.body.position.y},
+    {x: (0.05 * direction) /*+ marblin.body.velocity.x */, y: 0.01}
+  );
+}
+
+
+
 function branch2(len2) {
   // Each branch will be 2/3rds the size of the previous one
   //float sw = map(len,2,120,1,10);
@@ -392,7 +545,9 @@ function branch2(len2) {
   }
 }
 
-
+    //  //collisionen aussschalten
+    //  marblin.body.collisionFilter.group = -1
+    //  house.body.collisionFilter.group = -1
 
 function draw() {
   background(backgroundColor);
@@ -400,13 +555,16 @@ function draw() {
   blocks.forEach(block => block.draw());
   marblin.draw();
   house.draw();
-        //collisionen aussschalten
-        // marblin.body.collisionFilter.group = -1
-        // house.body.collisionFilter.group = -1
+        // //collisionen aussschalten
+        // marblin.body.collisionFilter.group = -1;
+        // house.body.collisionFilter.group = -1;
 
   marblinLover.draw();
   sun_moon.draw();
   terrain_1.draw();
+  terrain_1edge.draw();
+  // ramp.draw();
+  // ramp2.draw();
   terrain_2.draw();
   // house.draw();
   // terrain_3.draw();
@@ -415,6 +573,9 @@ function draw() {
   // terrain_6.draw();
   // terrain_7.draw();
   // terrain_8.draw();
+  terrain_9.draw();
+  terrain_10.draw();
+  terrain_11.draw();
 
   //balls.draw();
   seperator_1.draw();
@@ -443,7 +604,7 @@ function draw() {
 
   //sleepyTrigger
 
-  if (marblin.body.position.x > 260 && marblin.body.position.x < 300 && marblin.body.position.y > 480 && marblin.body.position.y < 500) {
+  if (marblin.body.position.x > 240 && marblin.body.position.x < 300 && marblin.body.position.y > 400 && marblin.body.position.y < 500) {
     sleepy = true;
   } else {
     sleepy = false;
@@ -504,6 +665,7 @@ function colorFadeTERRAIN(){
   }
   //console.log("new values: actualR: " + actualR + "actualG: " + actualG + "actualB: " + actualB);
   terrain_1.attrs.color = color(actualR,actualG,actualB);
+  terrain_1edge.attrs.color = color(actualR,actualG,actualB);
   terrain_2.attrs.color = color(actualR,actualG,actualB);
 
   if (newB-actualB+newG-actualG+newR-actualR == 0){
@@ -580,8 +742,8 @@ function keyPressed() {
     case 90: //z
       console.log("collisions aus");
               //collisionen aussschalten
-      marblin.body.collisionFilter.group = -1;
-      house.body.collisionFilter.group = -1;
+      ramp2.body.collisionFilter.group = -1
+      marblin.body.collisionFilter.group = -1
       break;
     case 32:
       //TerrainColors
@@ -599,6 +761,11 @@ function keyPressed() {
       sunnewG = 255;
       sunnewB = 0;
       intervalSUN = setInterval(colorFadeSUN,200);
+
+      break;
+    case 83:
+      console.log("pressed s --> shaking ball");
+      interval1 = setInterval(shake, 100);
 
       break;
 

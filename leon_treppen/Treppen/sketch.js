@@ -28,7 +28,7 @@ function setup() {
 
   // create the obects
 
-  marblin = new Ball(world, { x: 140, y: 50, r: 20, color: 'white' }, { isStatic: false } );
+  marblin = new Ball(world, { x: 140, y: 50, r: 20, color: 'white' }, { isStatic: false, label: 'marblin' } );
 
   stair = new Block(
     world,
@@ -117,6 +117,9 @@ function setup() {
     const bodyB = pairs.bodyB;
     if (bodyA.label === "stairFive" || bodyB.label === "stairFive") {
       drawStair5 = true;
+      rest = 10;
+      console.log('rest');
+      bodyA.restitution = 10;
     }
   });
 
@@ -146,6 +149,8 @@ function setup() {
 function draw() {
   background('blue');
   marblin.draw();
+  stair.draw();
+  stairFive.draw();
 
   if (drawStair) {
     stair.draw();
