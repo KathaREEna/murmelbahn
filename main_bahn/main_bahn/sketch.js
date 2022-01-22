@@ -78,7 +78,19 @@ let boxes;
 let engine;
 
 
+function preload() {  
+  const engine = Matter.Engine.create();
+  let world = engine.world;
+  //create house
+  house = new PolygonFromSVG(world, {
+    x: 250,
+    y: 417,
+    fromFile: './house.svg',
+    scale: 3,
+    color: 'white'
+  });
 
+}
 
 function setup() {
   rectMode(CORNER);
@@ -86,8 +98,7 @@ function setup() {
 
   // create an engine
   const engine = Matter.Engine.create();
-  const world = engine.world;
-
+  let world = engine.world;
   // config wrap area
   const wrap = {
     min: {
@@ -107,7 +118,7 @@ function setup() {
 
   // create Main Character MURMEL
   marblin = new Ball(world, {
-    x: 300,
+    x: 250,
     y: 50,
     r: 40,
     color: 'white'
@@ -122,15 +133,7 @@ function setup() {
     },
   });
 
-  ramp = new BlockCore(world, {
-    x: viewportW * 1 / 5,
-    y: 500,
-    w: 30,
-    h: 30,
-    color: terrainColor
-  }, {
-    isStatic: true, angle: radians(45), label: 'ramp'
-  });
+
 
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
@@ -170,15 +173,25 @@ function setup() {
     }
   );
 
-  //create house
-  house = new PolygonFromSVG(world, {
-    x: 100,
-    y: 100,
-    fromFile: './house.svg',
-    scale: 3,
-    color: 'white'
+  ramp = new BlockCore(world, {
+    x: viewportW * 1 / 5-10,
+    y: 500,
+    w: 30,
+    h: 30,
+    color: terrainColor
+  }, {
+    isStatic: true, angle: radians(45), label: 'ramp'
   });
 
+  ramp2 = new BlockCore(world, {
+    x: viewportW * 1 / 5,
+    y: 480,
+    w: 30,
+    h: 30,
+    color: terrainColor
+  }, {
+    isStatic: true, label: 'ramp'
+  });
   
   seperator_1 = new BlockCore(world, {
     x: viewportW / 2,
@@ -282,6 +295,8 @@ function setup() {
   // create level 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   let level2position = viewportH * 4.5;
   // marblin als attractor definieren
+
+
   attractor = Bodies.circle(400, viewportH * 3, 20, {
     isStatic: false,
     plugin: {
@@ -511,15 +526,15 @@ function draw() {
   marblin.draw();
   house.draw();
         // //collisionen aussschalten
-        marblin.body.collisionFilter.group = -1;
-        house.
-        //.body.collisionFilter.group = -1;
+        // marblin.body.collisionFilter.group = -1;
+        // house.body.collisionFilter.group = -1;
 
   marblinLover.draw();
   sun_moon.draw();
   terrain_1.draw();
   terrain_1edge.draw();
-  ramp.draw();
+  // ramp.draw();
+  // ramp2.draw();
   terrain_2.draw();
   // house.draw();
   // terrain_3.draw();
@@ -703,8 +718,8 @@ function keyPressed() {
     case 90: //z
       console.log("collisions aus");
               //collisionen aussschalten
+      ramp2.body.collisionFilter.group = -1
       marblin.body.collisionFilter.group = -1
-      house.body.collisionFilter.group = -1
       break;
     case 32:
       //TerrainColors
