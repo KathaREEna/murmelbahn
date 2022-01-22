@@ -142,21 +142,22 @@ function setup() {
     if (bodyA.label === "terrain_1edge" || bodyB.label === "terrain_1edge") {
       console.log("COLLISION")
      marblin.body.friction = 0.05;
+     ramp4.body.collisionFilter.group = -1
+     marblinLover.body.collisionFilter.group = -1
+
     
     }
     
   });
 
   marblinLover = new Ball(world, {
-    x: 1100,
+    x: 1350,
     y: 50,
     r: 40,
-    color: 'white'
+    color: 'red'
   }, {
-    restitution: 0,
-    plugin: {
-      wrap: wrap
-    }
+    friction: 0.001,
+    restitution: 0
   });
 
   // create the world <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -193,8 +194,28 @@ function setup() {
     color: terrainColor
   }, {
     isStatic: true, label: 'ramp'
-  });
+  }); 
   
+  ramp3 = new BlockCore(world, {
+    x: viewportW+90,
+    y: 500,
+    w: 30,
+    h: 30,
+    color: terrainColor
+  }, {
+    isStatic: true, label: 'ramp',angle: radians(45),
+  });
+
+  ramp4 = new BlockCore(world, {
+    x: viewportW+50,
+    y: 280,
+    w: 100,
+    h: 30,
+    color: terrainColor
+  }, {
+    isStatic: true, label: 'ramp4'
+  });
+
   seperator_1 = new BlockCore(world, {
     x: viewportW / 2,
     y: viewportH,
@@ -290,7 +311,7 @@ function setup() {
     color: terrainColor
   }, {
     isStatic: true,
-    restitution: 1.0
+    restitution: 0
   });
 
   // create zwischensequenz 1 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -526,7 +547,7 @@ function draw() {
   
   blocks.forEach(block => block.draw());
   marblin.draw();
-  // house.draw();
+  house.draw();
         // //collisionen aussschalten
         // marblin.body.collisionFilter.group = -1;
         // house.body.collisionFilter.group = -1;
@@ -535,8 +556,10 @@ function draw() {
   sun_moon.draw();
   terrain_1.draw();
   terrain_1edge.draw();
-  ramp.draw();
-  ramp2.draw();
+  // ramp.draw();
+  // ramp2.draw();
+    ramp3.draw();
+    ramp4.draw();
   terrain_2.draw();
   // house.draw();
   // terrain_3.draw();
@@ -722,7 +745,7 @@ function keyPressed() {
               //collisionen aussschalten
       ramp2.body.collisionFilter.group = -1
       marblin.body.collisionFilter.group = -1
-      marblin.body.friction = -0.05
+      marblin.body.friction = -0.04
       break;
     case 32:
       //TerrainColors
