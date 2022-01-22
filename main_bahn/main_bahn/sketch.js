@@ -51,6 +51,12 @@ let sunnewR = 255;
 let sunnewG = 255;
 let sunnewB = 255;
 
+//Shake
+let sekunden = 0;
+let dauer = 3; //Zeit Sekunden
+let countertestzahl = 0;
+let alternate = 0;
+
 let house;
 
 //sleepy animation
@@ -78,7 +84,7 @@ let boxes;
 let engine;
 
 
-function preload() {  
+function preload() {
   const engine = Matter.Engine.create();
   let world = engine.world;
   //create house
@@ -122,8 +128,8 @@ function setup() {
     y: 50,
     r: 40,
     color: 'white'
-  }, 
-  
+  },
+
   {
     restitution: 0,
     friction: 0,
@@ -146,8 +152,9 @@ function setup() {
      marblinLover.body.collisionFilter.group = -1
 
     
+
     }
-    
+
   });
 
   marblinLover = new Ball(world, {
@@ -482,7 +489,7 @@ function setup() {
   mouse = new Mouse(engine, canvas);
   frameRate(frameR);
 
-  
+
 }
 
 
@@ -510,6 +517,30 @@ function branch(len) {
     branch(len);
     pop();
   }
+}
+
+
+
+function shake(){
+  //console.log(sekunden);
+  countertestzahl++;
+  if (countertestzahl >= 30) {
+    clearInterval(interval1);
+    countertestzahl = 0;
+  }
+  let direction = 1;
+  if (alternate == 0) {
+    direction = -1; // ball runs right to left <-
+    alternate = 1; // ball runs left to right ->
+  }else {
+    direction = 1;
+    alternate = 0;
+  }
+  Matter.Body.applyForce(
+    marblin.body,
+    {x: marblin.body.position.x, y: marblin.body.position.y},
+    {x: (0.05 * direction) /*+ marblin.body.velocity.x */, y: 0.01}
+  );
 }
 
 
@@ -544,7 +575,7 @@ function branch2(len2) {
 
 function draw() {
   background(backgroundColor);
-  
+
   blocks.forEach(block => block.draw());
   marblin.draw();
   house.draw();
@@ -581,14 +612,10 @@ function draw() {
   seperator_6.draw();
   seperator_7.draw();
 
-// attractors config
-  noStroke();
-  fill(255);
-  drawBodies(boxes.bodies);
-  drawBody(attractor);
+  ove.draw();
 
-  // ove.draw();
-  theta = map(marblin.body.position.x, 0, width, 0, PI / 4);
+  //Bäume Mappen
+  theta = map(marblin.body.position.x, 300, 740, 0, PI / 4);
   theta2 = map(marblinLover.body.position.x, 0, width, 0, PI / 12);
   //theta = 0.4
   push();
@@ -602,12 +629,12 @@ function draw() {
 
 
   //sleepyTrigger
-  /*
-  if (marblin.body.position.x > 260 && marblin.body.position.x < 300 && marblin.body.position.y > 480 && marblin.body.position.x < 500) {
+
+  if (marblin.body.position.x > 240 && marblin.body.position.x < 300 && marblin.body.position.y > 400 && marblin.body.position.y < 500) {
     sleepy = true;
   } else {
     sleepy = false;
-  }*/
+  }
 
   //SLEEPY
   if (sleepy) {
@@ -637,10 +664,7 @@ function draw() {
 
     sleepyPosition = (sleepyPosition + 0.5) % sleepyLoop;
     // console.log(sleepyPosition);
-
-    
   }
-  
 }
 
 
@@ -667,6 +691,7 @@ function colorFadeTERRAIN(){
   }
   //console.log("new values: actualR: " + actualR + "actualG: " + actualG + "actualB: " + actualB);
   terrain_1.attrs.color = color(actualR,actualG,actualB);
+  terrain_1edge.attrs.color = color(actualR,actualG,actualB);
   terrain_2.attrs.color = color(actualR,actualG,actualB);
 
   if (newB-actualB+newG-actualG+newR-actualR == 0){
@@ -702,6 +727,7 @@ function colorFadeBG(){
   if (bgnewB-bgactualB+bgnewG-bgactualG+bgnewR-bgactualR == 0){
     clearInterval(intervalBG);
     console.log("clearing intervalBG");
+    collisionSleepOff();
   }
 }
 
@@ -737,6 +763,35 @@ function colorFadeSUN(){
 
 
 
+function changeColorSonnenaufgang(){
+  newR = 101;
+  newG = 67;
+  newB = 33;
+  intervalTERRAIN = setInterval(colorFadeTERRAIN, 5);
+  bgnewR = 205;
+  bgnewG = 105;
+  bgnewB = 255;
+  intervalBG = setInterval(colorFadeBG, 1);
+
+  sunnewR = 255;
+  sunnewG = 255;
+  sunnewB = 0;
+  intervalSUN = setInterval(colorFadeSUN,200);
+}
+
+
+
+function collisionSleepOff(){
+  console.log("collisions aus");
+          //collisionen aussschalten
+  ramp2.body.collisionFilter.group = -1;
+  marblin.body.collisionFilter.group = -1;
+  marblin.body.friction = -0.05;
+}
+
+
+
+
 function keyPressed() {
   let direction = 1;
   switch (keyCode) {
@@ -749,20 +804,12 @@ function keyPressed() {
       break;
     case 32:
       //TerrainColors
-      newR = 101;
-      newG = 67;
-      newB = 33;
-      intervalTERRAIN = setInterval(colorFadeTERRAIN, 5);
-      //backgroundColor 205, 105, 255
-      bgnewR = 205;
-      bgnewG = 105;
-      bgnewB = 255;
-      intervalBG = setInterval(colorFadeBG, 1);
+      changeColorSonnenaufgang();
 
-      sunnewR = 255;
-      sunnewG = 255;
-      sunnewB = 0;
-      intervalSUN = setInterval(colorFadeSUN,200);
+      break;
+    case 83:
+      console.log("pressed s --> shaking ball");
+      interval1 = setInterval(shake, 100);
 
       break;
 
