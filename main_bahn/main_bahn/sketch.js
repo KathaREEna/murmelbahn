@@ -26,6 +26,21 @@ let blocks = [];
 let theta;
 let theta2;
 
+let stair1;
+let stair2;
+let stair3;
+let stair4;
+let stair5;
+let stair6;
+let stair7;
+let drawStair1;
+let drawStair2;
+let drawStair3;
+let drawStair4;
+let drawStair5;
+let drawStair6;
+let drawStair7;
+
 //Color Fade Variables
 let intervalTERRAIN;
 let actualR = 0;
@@ -204,12 +219,67 @@ function setup() {
     isStatic: true, label: 'ramp'
   }); 
   
+<<<<<<< Updated upstream
   ramp3 = new BlockCore(world, {
     x: viewportW+90,
     y: 500,
     w: 30,
     h: 30,
     color: terrainColor
+=======
+  seperator_1 = new BlockCore(world, {
+    x: viewportW / 2,
+    y: viewportH,
+    w: viewportW,
+    h: 2,
+    color: "white"
+  }, {
+    isStatic: true
+  });
+  /*seperator_2 = new BlockCore(world, {
+    x: viewportW / 2,
+    y: 2 * viewportH,
+    w: viewportW,
+    h: 2,
+    color: "white"
+  }, {
+    isStatic: true
+  });
+  */
+  seperator_3 = new BlockCore(world, {
+    x: viewportW / 2,
+    y: 3 * viewportH,
+    w: viewportW,
+    h: 2,
+    color: "white"
+  }, {
+    isStatic: true
+  });
+  seperator_4 = new BlockCore(world, {
+    x: viewportW / 2,
+    y: 4 * viewportH,
+    w: viewportW,
+    h: 2,
+    color: "white"
+  }, {
+    isStatic: true
+  });
+  seperator_5 = new BlockCore(world, {
+    x: viewportW / 2,
+    y: 5 * viewportH,
+    w: viewportW,
+    h: 2,
+    color: "white"
+  }, {
+    isStatic: true
+  });
+  seperator_6 = new BlockCore(world, {
+    x: viewportW / 2,
+    y: 6 * viewportH,
+    w: viewportW,
+    h: 2,
+    color: "white"
+>>>>>>> Stashed changes
   }, {
     isStatic: true, label: 'ramp',angle: radians(45),
   });
@@ -326,6 +396,105 @@ function setup() {
   // create level 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   let level2position = viewportH * 4.5;
   // marblin als attractor definieren
+
+  stair1 = new Block(
+    world,
+    { x: 1000, y: 1440, w: 100, h: 100, color: 'darkblue' },
+    { isStatic: true, friction: 1, restitution: 1, label: 'stair1' }
+  );
+
+  stair2 = new Block(
+    world, 
+    { x: 700, y : 1640, w: 100, h: 100, color: 'darkblue' }, 
+    { isStatic: true, friction: 1, restitution: 1, label: 'stair2' }
+  );
+
+  stair3 = new Block(
+    world, 
+    { x: 400, y : 1840, w: 100, h: 100, color: 'darkblue' }, 
+    { isStatic: true, restitution: 1, label: 'stair3' }
+  );
+
+  stair4 = new Block(
+    world, 
+    { x: 100, y : 2340, w: 200, h: 100, color: '#050D7F' }, 
+    { isStatic: true, friction: 0.5, restitution: 0, label: 'stair4' }
+  );
+
+  stair5 = new Block(
+    world, 
+    { x: 100, y : 2440, w: 500, h: 100, color: '#0794DB' }, 
+    { isStatic: true, restitution: 1, label: 'stair5' }
+  );
+
+  stair6 = new Block(
+    world, 
+    { x: 100, y : 2540, w: 800, h: 100, color: '#00BFEC' }, 
+    { isStatic: true, restitution: 1, label: 'stair6' }
+  );
+  stair7 = new Block(
+    world, 
+    { x: 100, y : 2640, w: 1100, h: 110, color: '#1CD0F8' }, 
+    { isStatic: true, restitution: 1, label: 'stair7' }
+  );
+  
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "stair1" || bodyB.label === "stair1") {
+    }
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "stair2" || bodyB.label === "stair2") {
+    }
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "stair3" || bodyB.label === "stair3") {
+    }
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "stair4" || bodyB.label === "stair4") {
+    }
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "stair5" || bodyB.label === "stair5") {
+    }
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "stair6" || bodyB.label === "stair6") {
+    }
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "stair7" || bodyB.label === "stair7") {
+    }
+  });
+
 
 
   attractor = Bodies.circle(400, viewportH * 3, 20, {
@@ -604,6 +773,7 @@ function draw() {
   terrain_10.draw();
   terrain_11.draw();
 
+<<<<<<< Updated upstream
   // //balls.draw();
   // seperator_1.draw();
   // seperator_2.draw();
@@ -617,6 +787,34 @@ function draw() {
 
   //Bäume Mappen
   theta = map(marblin.body.position.x, 300, 740, 0, PI / 4);
+=======
+  //draw the stairs
+  stair1.draw();
+  stair2.draw();
+  stair3.draw();
+  stair4.draw();
+  stair5.draw();
+  stair6.draw();
+  stair7.draw();
+
+  //balls.draw();
+  seperator_1.draw();
+  //seperator_2.draw();
+  seperator_3.draw();
+  seperator_4.draw();
+  seperator_5.draw();
+  seperator_6.draw();
+  seperator_7.draw();
+
+// attractors config
+  noStroke();
+  fill(255);
+  drawBodies(boxes.bodies);
+  drawBody(attractor);
+
+  // ove.draw();
+  theta = map(marblin.body.position.x, 0, width, 0, PI / 4);
+>>>>>>> Stashed changes
   theta2 = map(marblinLover.body.position.x, 0, width, 0, PI / 12);
   //theta = 0.4
   push();
