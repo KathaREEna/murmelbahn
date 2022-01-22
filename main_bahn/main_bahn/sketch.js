@@ -141,7 +141,7 @@ function setup() {
     color: 'white'
   });
 
-  
+
   seperator_1 = new BlockCore(world, {
     x: viewportW / 2,
     y: viewportH,
@@ -336,7 +336,7 @@ function setup() {
   mouse = new Mouse(engine, canvas);
   frameRate(frameR);
 
-  
+
 }
 
 
@@ -396,7 +396,7 @@ function branch2(len2) {
 
 function draw() {
   background(backgroundColor);
-  
+
   blocks.forEach(block => block.draw());
   marblin.draw();
   house.draw();
@@ -426,7 +426,9 @@ function draw() {
   seperator_7.draw();
 
   ove.draw();
-  theta = map(marblin.body.position.x, 0, width, 0, PI / 4);
+
+  //Bäume Mappen
+  theta = map(marblin.body.position.x, 300, 740, 0, PI / 4);
   theta2 = map(marblinLover.body.position.x, 0, width, 0, PI / 12);
   //theta = 0.4
   push();
@@ -440,12 +442,12 @@ function draw() {
 
 
   //sleepyTrigger
-  /*
-  if (marblin.body.position.x > 260 && marblin.body.position.x < 300 && marblin.body.position.y > 480 && marblin.body.position.x < 500) {
+
+  if (marblin.body.position.x > 260 && marblin.body.position.x < 300 && marblin.body.position.y > 480 && marblin.body.position.y < 500) {
     sleepy = true;
   } else {
     sleepy = false;
-  }*/
+  }
 
   //SLEEPY
   if (sleepy) {
@@ -475,10 +477,7 @@ function draw() {
 
     sleepyPosition = (sleepyPosition + 0.5) % sleepyLoop;
     // console.log(sleepyPosition);
-
-    
   }
-  
 }
 
 
@@ -581,8 +580,8 @@ function keyPressed() {
     case 90: //z
       console.log("collisions aus");
               //collisionen aussschalten
-      marblin.body.collisionFilter.group = -1
-      house.body.collisionFilter.group = -1
+      marblin.body.collisionFilter.group = -1;
+      house.body.collisionFilter.group = -1;
       break;
     case 32:
       //TerrainColors
