@@ -57,6 +57,15 @@ let dauer = 3; //Zeit Sekunden
 let countertestzahl = 0;
 let alternate = 0;
 
+//in love animation
+let inLove = false;
+let lovelyLoop = 100;
+let lovelyBoundry = 60;
+let lovelyPosition = 0;
+let lovelyPositions; //Array welches für die einzelnen Positionen verwendet wird
+let lovelyCount = 10;
+let lovelySize = 20;
+
 let house;
 
 //sleepy animation
@@ -122,6 +131,16 @@ function setup() {
   terrainColor = color(actualR, actualG, actualB);//"darkblue";
   sun_moonColor = color(sunactualR, sunactualG, sunactualB);//"#EBE0C5";
 
+  //variablen für inLove initialisieren
+  lovelyPositions = new Array(lovelyCount);
+  for (var i = 0; i < lovelyPositions.length; i++) {
+    lovelyPositions[i] = new Array(2);
+  }
+  for (var i = 0; i < lovelyCount; i++) {
+    lovelyPositions[i][0] = floor(0 - (lovelyLoop / lovelyCount)*i);
+    lovelyPositions[i][1] = random(lovelyBoundry, -1*lovelyBoundry);
+  }
+
   // create Main Character MURMEL
   marblin = new Ball(world, {
     x: 250,
@@ -148,12 +167,10 @@ function setup() {
     if (bodyA.label === "terrain_1edge" || bodyB.label === "terrain_1edge") {
       console.log("COLLISION")
      marblin.body.friction = 0.05;
-     ramp4.body.collisionFilter.group = -1
-     marblinLover.body.collisionFilter.group = -1
-     terrain_9.body.collisionFilter.group = -1
-
-    
-
+     ramp4.body.collisionFilter.group = -1;
+     marblinLover.body.collisionFilter.group = -1;
+     terrain_9.body.collisionFilter.group = -1;
+     toggleInLove();
     }
 
   });
@@ -202,8 +219,8 @@ function setup() {
     color: terrainColor
   }, {
     isStatic: true, label: 'ramp'
-  }); 
-  
+  });
+
   ramp3 = new BlockCore(world, {
     x: viewportW+90,
     y: 500,
@@ -578,7 +595,7 @@ function draw() {
   background(backgroundColor);
 
   blocks.forEach(block => block.draw());
-  
+
   house.draw();
         // //collisionen aussschalten
         // marblin.body.collisionFilter.group = -1;
@@ -630,7 +647,6 @@ function draw() {
 
 
   //sleepyTrigger
-
   if (marblin.body.position.x > 240 && marblin.body.position.x < 300 && marblin.body.position.y > 400 && marblin.body.position.y < 500) {
     sleepy = true;
   } else {
@@ -639,12 +655,6 @@ function draw() {
 
   //SLEEPY
   if (sleepy) {
-    //fill(color(0,180,255));
-    //rectMode(CENTER);
-    //rect(marblin.body.position.x-30,marblin.body.position.y+15,200,50);
-    //rect(marblin.body.position.x-120,marblin.body.position.y,20,60);
-    //rect(marblin.body.position.x+60.5,marblin.body.position.y,20,80);
-
     let sleepyTransparency1 = map(sleepyPosition, 0, sleepyLoop, 0, 1255);
     let sleepyTransparency2 = map((sleepyPosition + sleepyLoop / 3) % sleepyLoop, 0, sleepyLoop, 0, 1255);
     let sleepyTransparency3 = map((sleepyPosition + sleepyLoop / 3 * 2) % sleepyLoop, 0, sleepyLoop, 0, 1255);
@@ -665,8 +675,36 @@ function draw() {
 
     sleepyPosition = (sleepyPosition + 0.5) % sleepyLoop;
     // console.log(sleepyPosition);
-    
+
   }
+
+
+  //LIEBEN
+  if (inLove) {
+    for (var i = 0; i < lovelyCount; i++) {
+      let lovelyTransparency = map(lovelyPositions[i][0], 0, lovelyLoop, 0, 1255)
+      let lovelyTransparencyInverted = map(lovelyPositions[i][0], 0, lovelyLoop, 1255, 0)
+      if (lovelyPositions[i][0] < (lovelyLoop/2)) {
+        fill(255,192,203, lovelyTransparency);
+      } else {
+        fill(255,192,203, lovelyTransparencyInverted);
+      }
+      lovelyPositions[i][0] = (lovelyPositions[i][0] + 1) % lovelyLoop;
+
+      if (lovelyPositions[i][0] == 0) {
+        //lovelyOffsets
+        lovelyPositions[i][1] = floor(random(lovelyBoundry, -1*lovelyBoundry));
+      }
+      if (lovelyPositions[i][0] > 0) {
+        textSize(lovelySize);
+        let wackeln = map(noise(lovelyPositions[i][0]/30)*10,0,10,-5,5);
+        text("❤", marblin.body.position.x + lovelyPositions[i][1]+wackeln, marblin.body.position.y-20-lovelyPositions[i][0]);
+      }
+    }
+    //console.log("draw: ");
+    //console.log(lovelyPositions);
+  }
+
 }
 
 
@@ -793,6 +831,15 @@ function collisionSleepOff(){
 
 
 
+function toggleInLove(){
+  if (inLove) {
+    inLove = false;
+  } else {
+    inLove = true;
+  }
+}
+
+
 
 function keyPressed() {
   let direction = 1;
@@ -813,6 +860,9 @@ function keyPressed() {
       console.log("pressed s --> shaking ball");
       interval1 = setInterval(shake, 100);
 
+      break;
+    case 76: //L inLove
+      toggleInLove();
       break;
 
     default:

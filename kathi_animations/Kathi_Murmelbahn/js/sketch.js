@@ -37,6 +37,15 @@ let lovelyPositions; //Array welches für die einzelnen Positionen verwendet wir
 let lovelyCount = 10;
 let lovelySize = 20;
 
+//in love animation
+let inParticle = false;
+let particleLoop = 100;
+let particleBoundry = 60;
+let particlePosition = 0;
+let particlePositions; //Array welches für die einzelnen Positionen verwendet wird
+let particleCount = 10;
+let particleSize = 20;
+
 //mating call animation
 let matingCall = true;
 let particleEmit = false;
@@ -99,7 +108,15 @@ function setup() {
     lovelyPositions[i][0] = floor(0 - (lovelyLoop / lovelyCount)*i);
     lovelyPositions[i][1] = random(lovelyBoundry, -1*lovelyBoundry);
   }
-  console.log(lovelyPositions);
+  console.log(particlePositions);
+  particlePositions = new Array(particleCount);
+  for (var i = 0; i < particlePositions.length; i++) {
+    particlePositions[i] = new Array(2);
+  }
+  for (var i = 0; i < particleCount; i++) {
+    particlePositions[i][0] = floor(0 - (particleLoop / particleCount)*i);
+    particlePositions[i][1] = random(particleBoundry, -1*particleBoundry);
+  }
 
 }
 
@@ -201,24 +218,24 @@ function draw() {
 
 
 function particle(letter, posX, posY, directionX, directionY){
-  for (var i = 0; i < lovelyCount; i++) {
-    let lovelyTransparency = map(lovelyPositions[i][0], 0, lovelyLoop, 0, 1255)
-    let lovelyTransparencyInverted = map(lovelyPositions[i][0], 0, lovelyLoop, 1255, 0)
-    if (lovelyPositions[i][0] < (lovelyLoop/2)) {
-      fill(255,192,203, lovelyTransparency);
+  for (var i = 0; i < particleCount; i++) {
+    let particleTransparency = map(particlePositions[i][0], 0, particleLoop, 0, 1255)
+    let particleTransparencyInverted = map(particlePositions[i][0], 0, particleLoop, 1255, 0)
+    if (particlePositions[i][0] < (particleLoop/2)) {
+      fill(255,192,203, particleTransparency);
     } else {
-      fill(255,192,203, lovelyTransparencyInverted);
+      fill(255,192,203, particleTransparencyInverted);
     }
-    lovelyPositions[i][0] = (lovelyPositions[i][0] + 1) % lovelyLoop;
+    particlePositions[i][0] = (particlePositions[i][0] + 1) % particleLoop;
 
-    if (lovelyPositions[i][0] == 0) {
-      //lovelyOffsets
-      lovelyPositions[i][1] = floor(random(lovelyBoundry, -1*lovelyBoundry));
+    if (particlePositions[i][0] == 0) {
+      //particleOffsets
+      particlePositions[i][1] = floor(random(particleBoundry, -1*particleBoundry));
     }
-    if (lovelyPositions[i][0] > 0) {
-      textSize(lovelySize);
-      let wackeln = map(noise(lovelyPositions[i][0]/30)*10,0,10,-5,5);
-      text(letter, posX + (lovelyPositions[i][1]+wackeln)*directionX, posY-20-(lovelyPositions[i][0])*directionY);
+    if (particlePositions[i][0] > 0) {
+      textSize(particleSize);
+      let wackeln = map(noise(particlePositions[i][0]/30)*10,0,10,-5,5);
+      text(letter, posX + (particlePositions[i][1]+wackeln)*directionX, posY-20-(particlePositions[i][0])*directionY);
     }
   }
 }
@@ -349,7 +366,11 @@ function keyPressed() {
       }
       break;
     case 80: //p
-      particleEmit = true;
+      if (particleEmit) {
+        particleEmit = false;
+      } else {
+        particleEmit = true;
+      }
       break;
     /*
     case 87:
