@@ -1,5 +1,10 @@
 Matter.use('matter-wrap');
 
+const Engine = Matter.Engine;
+const Bodies = Matter.Bodies;
+const Events = Matter.Events;
+const World = Matter.World;
+
 let marblin;
 let marblinLover;
 let canvasW = 1280;
@@ -17,6 +22,8 @@ let seperator_6;
 let seperator_7;
 let terrain_1;
 let terrain_2;
+let terrain_1edge;
+let ramp;
 let number = 0;
 let spiel = [];
 let blocks = [];
@@ -107,18 +114,37 @@ function setup() {
     x: 300,
     y: 50,
     r: 40,
-    color: 'white',
-    trigger: (marblin, terrain_1) => {
-      console.log("test");
-    }
+    color: 'white'
   }, 
   
   {
     restitution: 0,
+    friction: 0,
+    label: "marblin",
     plugin: {
       wrap: wrap
     },
   });
+
+  ramp = new BlockCore(world, {
+    x: viewportW * 1 / 5,
+    y: 500,
+    w: 30,
+    h: 30,
+    color: terrainColor
+  }, {
+    isStatic: true, angle: radians(45), label: 'ramp'
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "terrain_1" || bodyB.label === "marblin") {
+      bodyA.friction = -1;
+    }
+  });
+
   marblinLover = new Ball(world, {
     x: 1100,
     y: 50,
@@ -130,8 +156,6 @@ function setup() {
       wrap: wrap
     }
   });
-
-
 
   // create the world <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   // create level 1 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -227,11 +251,23 @@ function setup() {
   terrain_1 = new BlockCore(world, {
     x: viewportW * 1 / 5,
     y: 620,
-    w: viewportW * 4 / 5,
+    w: viewportW * 3 / 5,
     h: viewportH / 4,
     color: terrainColor
   }, {
-    isStatic: true
+    isStatic: true,
+    label: "terrain_1"
+  });
+
+  terrain_1edge = new BlockCore(world, {
+    x: viewportW * 3 / 5,
+    y: 620,
+    w: viewportW * 1 / 5,
+    h: viewportH / 4,
+    color: terrainColor
+  }, {
+    isStatic: true,
+    label: "terrain_1edge"
   });
 
   terrain_2 = new BlockCore(world, {
@@ -482,6 +518,8 @@ function draw() {
   marblinLover.draw();
   sun_moon.draw();
   terrain_1.draw();
+  terrain_1edge.draw();
+  ramp.draw();
   terrain_2.draw();
   // house.draw();
   // terrain_3.draw();
