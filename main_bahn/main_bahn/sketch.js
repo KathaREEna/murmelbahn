@@ -148,7 +148,7 @@ function setup() {
     if (bodyA.label === "terrain_1edge" || bodyB.label === "terrain_1edge") {
       console.log("COLLISION")
      marblin.body.friction = 0.05;
-    
+
     }
 
   });
@@ -703,6 +703,7 @@ function colorFadeBG(){
   if (bgnewB-bgactualB+bgnewG-bgactualG+bgnewR-bgactualR == 0){
     clearInterval(intervalBG);
     console.log("clearing intervalBG");
+    collisionSleepOff();
   }
 }
 
@@ -738,6 +739,35 @@ function colorFadeSUN(){
 
 
 
+function changeColorSonnenaufgang(){
+  newR = 101;
+  newG = 67;
+  newB = 33;
+  intervalTERRAIN = setInterval(colorFadeTERRAIN, 5);
+  bgnewR = 205;
+  bgnewG = 105;
+  bgnewB = 255;
+  intervalBG = setInterval(colorFadeBG, 1);
+
+  sunnewR = 255;
+  sunnewG = 255;
+  sunnewB = 0;
+  intervalSUN = setInterval(colorFadeSUN,200);
+}
+
+
+
+function collisionSleepOff(){
+  console.log("collisions aus");
+          //collisionen aussschalten
+  ramp2.body.collisionFilter.group = -1;
+  marblin.body.collisionFilter.group = -1;
+  marblin.body.friction = -0.05;
+}
+
+
+
+
 function keyPressed() {
   let direction = 1;
   switch (keyCode) {
@@ -750,20 +780,7 @@ function keyPressed() {
       break;
     case 32:
       //TerrainColors
-      newR = 101;
-      newG = 67;
-      newB = 33;
-      intervalTERRAIN = setInterval(colorFadeTERRAIN, 5);
-      //backgroundColor 205, 105, 255
-      bgnewR = 205;
-      bgnewG = 105;
-      bgnewB = 255;
-      intervalBG = setInterval(colorFadeBG, 1);
-
-      sunnewR = 255;
-      sunnewG = 255;
-      sunnewB = 0;
-      intervalSUN = setInterval(colorFadeSUN,200);
+      changeColorSonnenaufgang();
 
       break;
     case 83:
