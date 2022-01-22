@@ -4,7 +4,7 @@ Matter.use('matter-wrap');
 let marblin;
 let marblinLover;
 let canvasW = 1280;
-let canvasH = 720 * 9;
+let canvasH = 720 * 11;
 let viewportW = 1280;
 let viewportH = 720;
 let frameR = 60;
@@ -120,6 +120,16 @@ function preload() {
     color: 'white'
   });
 
+  let level4position = viewportH * 7.5;
+  lamp = new PolygonFromSVG(world, {
+    x: viewportW / 2 +200,
+    y: level4position+200,
+    fromFile: './lamp.svg',
+    scale: 1,
+    color: 'yellow'
+  });
+  
+
 }
 
 function setup() {
@@ -185,6 +195,7 @@ function setup() {
      ramp4.body.collisionFilter.group = -1;
      marblinLover.body.collisionFilter.group = -1;
      terrain_9.body.collisionFilter.group = -1;
+     prison.body.collisionFilter.group = -1;
      toggleInLove();
     }
 
@@ -393,6 +404,7 @@ function setup() {
  // create level 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
  let level2position = viewportH * 4.5;
 
+
   // attractor = Bodies.circle(400, viewportH * 3, 20, {
   //   isStatic: false,
   //   plugin: {
@@ -479,7 +491,21 @@ function setup() {
   // create level 3 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   let level3position = viewportH * 6.5;
 
-  
+  prison = new BlockCore(world, {
+    x: viewportW/2,
+    y: level3position,
+    w: 400,
+    h: 400,
+    color: "red"
+  },{ isStatic: false });
+
+  // prisonHolder = new BlockCore(world, {
+  //   x: viewportW/2,
+  //   y: level3position-viewportH/4,
+  //   w: 400,
+  //   h: 400,
+  //   color: "darkred"
+  // },{ isStatic: false });
 
  terrain_12 = new BlockCore(world, {
     x: viewportW/2,
@@ -488,6 +514,14 @@ function setup() {
     h: viewportH/6,
     color: "darkblue"
   },{ isStatic: true });
+
+
+    // create ÜBERGANG 3 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+      // create level 4 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      let level4position = viewportH * 7.5;
+
 
   // terrain_3 = new BlockCore(world,
   //   { x: viewportW*1/2, y: 2*viewportH*(6/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: "#003EF7"},
@@ -516,7 +550,7 @@ function setup() {
 
 
   // create level 5 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  let level7position = viewportH * 8.5;
+  let level7position = viewportH * 10.5;
   terrain_6 = new BlockCore(world, {
     x: 273,
     y: level7position - 44,
@@ -678,7 +712,11 @@ function draw() {
   terrain_10.draw();
   terrain_11.draw();
   terrain_12.draw();
-  
+ 
+  // prisonHolder.draw();
+
+  lamp.draw();
+
 
   // //balls.draw();
   // seperator_1.draw();
@@ -689,6 +727,7 @@ function draw() {
   // seperator_6.draw();
   // seperator_7.draw();
   marblin.draw();
+  prison.draw();
   ove.draw();
 
   //Bäume Mappen
