@@ -196,7 +196,7 @@ function setup() {
     r: 40,
     color: 'red'
   }, {
-    friction: 0.001,
+    friction: 0.004,
     restitution: 0
   });
 
@@ -256,71 +256,6 @@ function setup() {
     isStatic: true, label: 'ramp4'
   });
 
-  // seperator_1 = new BlockCore(world, {
-  //   x: viewportW / 2,
-  //   y: viewportH,
-  //   w: viewportW,
-  //   h: 2,
-  //   color: "white"
-  // }, {
-  //   isStatic: true
-  // });
-  // seperator_2 = new BlockCore(world, {
-  //   x: viewportW / 2,
-  //   y: 2 * viewportH,
-  //   w: viewportW,
-  //   h: 2,
-  //   color: "white"
-  // }, {
-  //   isStatic: true
-  // });
-  // seperator_3 = new BlockCore(world, {
-  //   x: viewportW / 2,
-  //   y: 3 * viewportH,
-  //   w: viewportW,
-  //   h: 2,
-  //   color: "white"
-  // }, {
-  //   isStatic: true
-  // });
-  // seperator_4 = new BlockCore(world, {
-  //   x: viewportW / 2,
-  //   y: 4 * viewportH,
-  //   w: viewportW,
-  //   h: 2,
-  //   color: "white"
-  // }, {
-  //   isStatic: true
-  // });
-  // seperator_5 = new BlockCore(world, {
-  //   x: viewportW / 2,
-  //   y: 5 * viewportH,
-  //   w: viewportW,
-  //   h: 2,
-  //   color: "white"
-  // }, {
-  //   isStatic: true
-  // });
-  // seperator_6 = new BlockCore(world, {
-  //   x: viewportW / 2,
-  //   y: 6 * viewportH,
-  //   w: viewportW,
-  //   h: 2,
-  //   color: "white"
-  // }, {
-  //   isStatic: true
-  // });
-  // seperator_7 = new BlockCore(world, {
-  //   x: viewportW / 2,
-  //   y: 7 * viewportH,
-  //   w: viewportW,
-  //   h: 2,
-  //   color: "white"
-  // }, {
-  //   isStatic: true
-  // });
-
-
   terrain_1 = new BlockCore(world, {
     x: viewportW * 1 / 5,
     y: 620,
@@ -355,9 +290,7 @@ function setup() {
   });
 
   // create zwischensequenz 1 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  // create level 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  let level2position = viewportH * 4.5;
-  // marblin als attractor definieren
+
 
   stair1 = new Block(
     world,
@@ -457,27 +390,28 @@ function setup() {
     }
   });
 
+ // create level 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+ let level2position = viewportH * 4.5;
 
+  // attractor = Bodies.circle(400, viewportH * 3, 20, {
+  //   isStatic: false,
+  //   plugin: {
+  //     attractors: [
+  //       function(bodyA, bodyB) {
+  //         return {
+  //           x: (bodyA.position.x - bodyB.position.x) * 1e-6,
+  //           y: (bodyA.position.y - bodyB.position.y) * 1e-6,
+  //         };
+  //       }
+  //     ]
+  //   }
+  // });
+  // World.add(engine.world, attractor);
 
-  attractor = Bodies.circle(400, viewportH * 3, 20, {
-    isStatic: false,
-    plugin: {
-      attractors: [
-        function(bodyA, bodyB) {
-          return {
-            x: (bodyA.position.x - bodyB.position.x) * 1e-6,
-            y: (bodyA.position.y - bodyB.position.y) * 1e-6,
-          };
-        }
-      ]
-    }
-  });
-  World.add(engine.world, attractor);
-
-  boxes = Composites.stack(viewportW/2, viewportH * 3, 3, 20, 3, 3, function(x, y) {
-    return Bodies.circle(x, y, 10);
-  });
-  World.add(engine.world, boxes);
+  // boxes = Composites.stack(viewportW/2, viewportH * 3, 3, 20, 3, 3, function(x, y) {
+  //   return Bodies.circle(x, y, 10);
+  // });
+  // World.add(engine.world, boxes);
 
   terrain_9 = new BlockCore(world, {
     x: viewportW/2,
@@ -542,9 +476,18 @@ function setup() {
       blocks.push(kugel);
     }
   }
+  // create level 3 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  let level3position = viewportH * 6.5;
 
+  
 
-
+ terrain_12 = new BlockCore(world, {
+    x: viewportW/2,
+    y: level3position+viewportH/6*2,
+    w: viewportW,
+    h: viewportH/6,
+    color: "darkblue"
+  },{ isStatic: true });
 
   // terrain_3 = new BlockCore(world,
   //   { x: viewportW*1/2, y: 2*viewportH*(6/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: "#003EF7"},
@@ -734,6 +677,8 @@ function draw() {
   terrain_9.draw();
   terrain_10.draw();
   terrain_11.draw();
+  terrain_12.draw();
+  
 
   // //balls.draw();
   // seperator_1.draw();
@@ -758,10 +703,10 @@ function draw() {
   stair7.draw();
 
 // attractors config
-  noStroke();
-  fill(255);
-  drawBodies(boxes.bodies);
-  drawBody(attractor);
+  // noStroke();
+  // fill(255);
+  // drawBodies(boxes.bodies);
+  // drawBody(attractor);
 
   // ove.draw();
   theta = map(marblin.body.position.x, 0, width, 0, PI / 4);
