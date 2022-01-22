@@ -23,6 +23,31 @@ let blocks = [];
 let theta;
 let theta2;
 
+//Color Fade Variables
+let intervalTERRAIN;
+let actualR = 0;
+let actualG = 0;
+let actualB = 139;
+let newR = 255;
+let newG = 255;
+let newB = 255;
+
+let intervalBG;
+let bgactualR = 0;
+let bgactualG = 0;
+let bgactualB = 255;
+let bgnewR = 255;
+let bgnewG = 255;
+let bgnewB = 255;
+
+let intervalSUN;
+let sunactualR = 235;
+let sunactualG = 224;
+let sunactualB = 197;
+let sunnewR = 255;
+let sunnewG = 255;
+let sunnewB = 255;
+
 
 //sleepy animation
 let sleepy = false;
@@ -32,9 +57,9 @@ let sleepyOffsetX = 30;
 let sleepyOffsetY = 40;
 
 
-let backgroundColor = "blue";
-let terrainColor = "darkblue";
-let sun_moonColor = "#EBE0C5";
+let backgroundColor;
+let terrainColor;
+let sun_moonColor;
 
 
 
@@ -64,6 +89,11 @@ function setup() {
       y: height
     }
   };
+
+  //Farben initialisieren
+  backgroundColor = color(bgactualR, bgactualG, bgactualB);//"blue";
+  terrainColor = color(actualR, actualG, actualB);//"darkblue";
+  sun_moonColor = color(sunactualR, sunactualG, sunactualB);//"#EBE0C5";
 
   // create Main Character MURMEL
   marblin = new Ball(world, {
@@ -177,11 +207,7 @@ function setup() {
     y: 620,
     w: viewportW * 4 / 5,
     h: viewportH / 4,
-    color: terrainColor,
-    trigger: (marblin, block) => {
-      // console.log("Trigger ", ball, block, puzzle);
-      marblin.attrs.color = 'gray';
-    }
+    color: terrainColor
   }, {
     isStatic: true
   });
@@ -400,11 +426,12 @@ function draw() {
 
 
   //sleepyTrigger
+  /*
   if (marblin.body.position.x > 260 && marblin.body.position.x < 300 && marblin.body.position.y > 480 && marblin.body.position.x < 500) {
     sleepy = true;
   } else {
     sleepy = false;
-  }
+  }*/
 
   //SLEEPY
   if (sleepy) {
@@ -437,6 +464,100 @@ function draw() {
   }
 }
 
+
+
+function colorFadeTERRAIN(){
+  //console.log("newR: " + newR + "newG: " + newG + "newB: " + newB);
+  //console.log("actualR: " + actualR + "actualG: " + actualG + "actualB: " + actualB);
+  if (newR-actualR > 0) {
+    actualR++;
+  } else if (newR-actualR < 0) {
+    actualR--;
+  }
+
+  if (newG-actualG > 0) {
+    actualG++;
+  }else if (newG-actualG < 0) {
+    actualG--;
+  }
+
+  if (newB-actualB > 0) {
+    actualB++;
+  }else if (newB-actualB < 0) {
+    actualB--;
+  }
+  //console.log("new values: actualR: " + actualR + "actualG: " + actualG + "actualB: " + actualB);
+  terrain_1.attrs.color = color(actualR,actualG,actualB);
+  terrain_2.attrs.color = color(actualR,actualG,actualB);
+
+  if (newB-actualB+newG-actualG+newR-actualR == 0){
+    clearInterval(intervalTERRAIN);
+    console.log("clearing intervalTERRAIN");
+  }
+}
+
+
+function colorFadeBG(){
+  //console.log("bgnewR: " + bgnewR + "bgnewG: " + bgnewG + "bgnewB: " + bgnewB);
+  //console.log("bgactualR: " + bgactualR + "bgactualG: " + bgactualG + "bgactualB: " + bgactualB);
+  if (bgnewR-bgactualR > 0) {
+    bgactualR++;
+  } else if (bgnewR-bgactualR < 0) {
+    bgactualR--;
+  }
+
+  if (bgnewG-bgactualG > 0) {
+    bgactualG++;
+  }else if (bgnewG-bgactualG < 0) {
+    bgactualG--;
+  }
+
+  if (bgnewB-bgactualB > 0) {
+    bgactualB++;
+  }else if (bgnewB-bgactualB < 0) {
+    bgactualB--;
+  }
+  //console.log("new values: bgactualR: " + bgactualR + "bgactualG: " + bgactualG + "bgactualB: " + bgactualB);
+  backgroundColor = color(bgactualR,bgactualG,bgactualB);
+
+  if (bgnewB-bgactualB+bgnewG-bgactualG+bgnewR-bgactualR == 0){
+    clearInterval(intervalBG);
+    console.log("clearing intervalBG");
+  }
+}
+
+
+function colorFadeSUN(){
+  //console.log("newR: " + newR + "newG: " + newG + "newB: " + newB);
+  //console.log("actualR: " + actualR + "actualG: " + actualG + "actualB: " + actualB);
+  if (sunnewR-sunactualR > 0) {
+    sunactualR++;
+  } else if (sunnewR-sunactualR < 0) {
+    sunactualR--;
+  }
+
+  if (sunnewG-sunactualG > 0) {
+    sunactualG++;
+  }else if (sunnewG-sunactualG < 0) {
+    sunactualG--;
+  }
+
+  if (sunnewB-sunactualB > 0) {
+    sunactualB++;
+  }else if (sunnewB-sunactualB < 0) {
+    sunactualB--;
+  }
+  //console.log("new values: actualR: " + actualR + "actualG: " + actualG + "actualB: " + actualB);
+  sun_moon.attrs.color = color(sunactualR,sunactualG,sunactualB);
+
+  if (sunnewB-sunactualB+sunnewG-sunactualG+sunnewR-sunactualR == 0){
+    clearInterval(intervalSUN);
+    console.log("clearing intervalSUN");
+  }
+}
+
+
+
 function keyPressed() {
   let direction = 1;
   switch (keyCode) {
@@ -448,6 +569,24 @@ function keyPressed() {
       } else {
         sleepy = true;
       }
+      break;
+    case 32:
+      //TerrainColors
+      newR = 101;
+      newG = 67;
+      newB = 33;
+      intervalTERRAIN = setInterval(colorFadeTERRAIN, 5);
+      //backgroundColor 205, 105, 255
+      bgnewR = 205;
+      bgnewG = 105;
+      bgnewB = 255;
+      intervalBG = setInterval(colorFadeBG, 1);
+
+      sunnewR = 255;
+      sunnewG = 255;
+      sunnewB = 0;
+      intervalSUN = setInterval(colorFadeSUN,200);
+
       break;
 
     default:

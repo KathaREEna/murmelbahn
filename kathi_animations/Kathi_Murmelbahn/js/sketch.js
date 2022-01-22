@@ -8,10 +8,12 @@ let frameR = 60;
 let frameCounter = 0;
 let sekunden = 0;
 let dauer = 3; //Zeit Sekunden
-let interval1;
-let interval2;
 let countertestzahl = 0;
 let alternate = 0;
+
+
+let interval1;
+let interval2;
 let actualR = 255;
 let actualG = 255;
 let actualB = 255;
