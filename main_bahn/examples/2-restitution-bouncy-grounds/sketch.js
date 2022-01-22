@@ -29,6 +29,10 @@ function setup() {
     { plugin: { wrap: wrap } }
   );
 
+  //collisionen aussschalten
+  marblin.body.collisionFilter.group = -1
+  house.body.collisionFilter.group = -1
+
   // create two trampolines and a ground
   trampolineA = new Block(world,
     { x: 600, y: 500, w: 200, h: 50, color: 'white' },

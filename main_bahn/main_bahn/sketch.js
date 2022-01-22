@@ -22,6 +22,7 @@ let spiel = [];
 let blocks = [];
 let theta;
 let theta2;
+<<<<<<< Updated upstream
 
 //Color Fade Variables
 let intervalTERRAIN;
@@ -48,6 +49,9 @@ let sunnewR = 255;
 let sunnewG = 255;
 let sunnewB = 255;
 
+=======
+let house;
+>>>>>>> Stashed changes
 
 //sleepy animation
 let sleepy = false;
@@ -63,14 +67,8 @@ let sun_moonColor;
 
 
 
-function preload() {
-  house = loadImage('./house.jpg');
-}
-
-
 
 function setup() {
-  image(house, 100, 100);
   rectMode(CORNER);
   const canvas = createCanvas(canvasW, canvasH);
 
@@ -137,6 +135,16 @@ function setup() {
     }
   );
 
+  //create house
+  house = new PolygonFromSVG(world, {
+    x: 100,
+    y: 100,
+    fromFile: './house.svg',
+    scale: 3,
+    color: 'white'
+  });
+
+  
   seperator_1 = new BlockCore(world, {
     x: viewportW / 2,
     y: viewportH,
@@ -211,7 +219,6 @@ function setup() {
   }, {
     isStatic: true
   });
-  // turns off collisions
 
   terrain_2 = new BlockCore(world, {
     x: viewportW,
@@ -224,6 +231,7 @@ function setup() {
     restitution: 1.0
   });
 
+  // create zwischensequenz 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
   // create zwischensequenz 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -330,6 +338,8 @@ function setup() {
   // setup mouse
   mouse = new Mouse(engine, canvas);
   frameRate(frameR);
+
+  
 }
 
 
@@ -339,11 +349,11 @@ function branch(len) {
   // Each branch will be 2/3rds the size of the previous one
   //float sw = map(len,2,120,1,10);
   //strokeWeight(sw);
-  strokeWeight(2);
+  strokeWeight(8);
   line(0, 0, 0, -len);
   // Move to the end of that line
   translate(0, -len);
-  len *= 0.66;
+  len *= 0.6;
   // All recursive functions must have an exit condition!!!!
   // Here, ours is when the length of the branch is 2 pixels or less
   if (len > 2) {
@@ -365,11 +375,11 @@ function branch2(len2) {
   // Each branch will be 2/3rds the size of the previous one
   //float sw = map(len,2,120,1,10);
   //strokeWeight(sw);
-  strokeWeight(2);
+  strokeWeight(10);
   line(0, 0, 0, -len2);
   // Move to the end of that line
   translate(0, -len2);
-  len2 *= 0.66;
+  len2 *= 0.6;
   // All recursive functions must have an exit condition!!!!
   // Here, ours is when the length of the branch is 2 pixels or less
   if (len2 > 2) {
@@ -389,12 +399,19 @@ function branch2(len2) {
 
 function draw() {
   background(backgroundColor);
+  
   blocks.forEach(block => block.draw());
   marblin.draw();
+  house.draw();
+        //collisionen aussschalten
+        // marblin.body.collisionFilter.group = -1
+        // house.body.collisionFilter.group = -1
+
   marblinLover.draw();
   sun_moon.draw();
   terrain_1.draw();
   terrain_2.draw();
+  // house.draw();
   // terrain_3.draw();
   // terrain_4.draw();
   // terrain_5.draw();
@@ -411,17 +428,17 @@ function draw() {
   seperator_6.draw();
   seperator_7.draw();
 
-  // ove.draw();
+  ove.draw();
   theta = map(marblin.body.position.x, 0, width, 0, PI / 4);
   theta2 = map(marblinLover.body.position.x, 0, width, 0, PI / 12);
   //theta = 0.4
   push();
-  translate(width / 2, 530);
+  translate(width / 2, 526);
   stroke(255);
-  branch(60);
-  translate(500, 60);
+  branch(80);
+  translate(500, 80);
   stroke(255);
-  branch2(60);
+  branch2(80);
   pop();
 
 
@@ -460,11 +477,15 @@ function draw() {
     text("Z", marblin.body.position.x + sleepyOffsetX + sleepyPosition3, marblin.body.position.y - sleepyOffsetY - sleepyPosition3);
 
     sleepyPosition = (sleepyPosition + 0.5) % sleepyLoop;
-    console.log(sleepyPosition);
+    // console.log(sleepyPosition);
+
+    
   }
+  
 }
 
 
+<<<<<<< Updated upstream
 
 function colorFadeTERRAIN(){
   //console.log("newR: " + newR + "newG: " + newG + "newB: " + newB);
@@ -558,17 +579,16 @@ function colorFadeSUN(){
 
 
 
+=======
+>>>>>>> Stashed changes
 function keyPressed() {
   let direction = 1;
   switch (keyCode) {
-    case 89: //z
-      console.log("sleeping animation");
-      console.log(marblin.body.position);
-      if (sleepy) {
-        sleepy = false;
-      } else {
-        sleepy = true;
-      }
+    case 90: //z
+      console.log("collisions aus");
+              //collisionen aussschalten
+      marblin.body.collisionFilter.group = -1
+      house.body.collisionFilter.group = -1
       break;
     case 32:
       //TerrainColors
