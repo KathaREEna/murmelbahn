@@ -4,7 +4,7 @@ Matter.use('matter-wrap');
 let marblin;
 let marblinLover;
 let canvasW = 1280;
-let canvasH = 720 * 9;
+let canvasH = 720 * 11;
 let viewportW = 1280;
 let viewportH = 720;
 let frameR = 60;
@@ -33,13 +33,13 @@ let stair4;
 let stair5;
 let stair6;
 let stair7;
-let drawStair1;
-let drawStair2;
-let drawStair3;
-let drawStair4;
-let drawStair5;
-let drawStair6;
-let drawStair7;
+let drawStair1 = false;
+let drawStair2 = false;
+let drawStair3 = false;
+let drawStair4 = false;
+let drawStair5 = false;
+let drawStair6 = false;
+let drawStair7 = false;
 
 //Color Fade Variables
 let intervalmarblin;
@@ -128,6 +128,16 @@ function preload() {
     color: 'white'
   });
 
+  let level4position = viewportH * 7.5;
+  lamp = new PolygonFromSVG(world, {
+    x: viewportW / 2 +200,
+    y: level4position+200,
+    fromFile: './lamp.svg',
+    scale: 1,
+    color: 'yellow'
+  });
+  
+
 }
 
 function setup() {
@@ -181,8 +191,6 @@ function setup() {
     },
   });
 
-
-
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
@@ -193,6 +201,11 @@ function setup() {
      ramp4.body.collisionFilter.group = -1;
      marblinLover.body.collisionFilter.group = -1;
      terrain_9.body.collisionFilter.group = -1;
+<<<<<<< HEAD
+=======
+     prison.body.collisionFilter.group = -1;
+     toggleInLove();
+>>>>>>> 6f32b9f697a25a10e8e223881b2d81619d1906eb
     }
 
   });
@@ -302,10 +315,11 @@ function setup() {
   stair1 = new Block(
     world,
     { x: 1000, y: 1440, w: 100, h: 100, color: 'darkblue' },
-    { isStatic: true, friction: 1, restitution: 1, label: 'stair1' }
+    { isStatic: true, restitution: 1, label: 'stair' }
   );
 
   stair2 = new Block(
+<<<<<<< HEAD
     world,
     { x: 700, y : 1640, w: 100, h: 100, color: 'darkblue' },
     { isStatic: true, friction: 1, restitution: 1, label: 'stair2' }
@@ -333,19 +347,57 @@ function setup() {
     world,
     { x: 100, y : 2540, w: 800, h: 100, color: '#00BFEC' },
     { isStatic: true, restitution: 1, label: 'stair6' }
+=======
+    world, 
+    { x: 709, y : 1640, w: 100, h: 100, color: 'darkblue' }, 
+    { isStatic: true, restitution: 1, label: 'stair2' }
   );
+
+  stair3 = new Block(
+    world, 
+    { x: 400, y : 1840, w: 100, h: 100, color: 'darkblue' }, 
+    { isStatic: true, restitution: 0.1, label: 'stair3' }
+  );
+
+  stair4 = new Block(
+    world, 
+    { x: 100, y : 2340, w: 200, h: 100, color: '#050D7F' }, 
+    { isStatic: true, label: 'stair4' }
+  );
+
+  stair5 = new Block(
+    world, 
+    { x: 100, y : 2440, w: 500, h: 100, color: '#0794DB' }, 
+    { isStatic: true, label: 'stair5' }
+  );
+
+  stair6 = new Block(
+    world, 
+    { x: 100, y : 2540, w: 800, h: 100, color: '#00BFEC' }, 
+    { isStatic: true, label: 'stair6' }
+>>>>>>> 6f32b9f697a25a10e8e223881b2d81619d1906eb
+  );
+  
   stair7 = new Block(
+<<<<<<< HEAD
     world,
     { x: 100, y : 2640, w: 1100, h: 110, color: '#1CD0F8' },
     { isStatic: true, restitution: 1, label: 'stair7' }
   );
 
+=======
+    world, 
+    { x: 100, y : 2640, w: 1100, h: 110, color: '#1CD0F8' }, 
+    { isStatic: true, label: 'stair7' }
+  );
+>>>>>>> 6f32b9f697a25a10e8e223881b2d81619d1906eb
 
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
-    if (bodyA.label === "stair1" || bodyB.label === "stair1") {
+    if (bodyA.label === "stair" || bodyB.label === "stair") {
+      drawStair1 = true;
     }
   });
 
@@ -354,6 +406,8 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "stair2" || bodyB.label === "stair2") {
+      drawStair1 = false;
+      drawStair2 = true;
     }
   });
 
@@ -362,6 +416,8 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "stair3" || bodyB.label === "stair3") {
+      drawStair2 = false;
+      drawStair3 = true;
     }
   });
 
@@ -370,6 +426,8 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "stair4" || bodyB.label === "stair4") {
+      drawStair3 = false;
+      drawStair4 = true;
     }
   });
 
@@ -378,6 +436,7 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "stair5" || bodyB.label === "stair5") {
+      drawStair5 = true;
     }
   });
 
@@ -386,6 +445,7 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "stair6" || bodyB.label === "stair6") {
+      drawStair6 = true;
     }
   });
 
@@ -394,11 +454,13 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "stair7" || bodyB.label === "stair7") {
+      drawStair7 = true;
     }
   });
 
  // create level 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
  let level2position = viewportH * 4.5;
+
 
   // attractor = Bodies.circle(400, viewportH * 3, 20, {
   //   isStatic: false,
@@ -486,7 +548,25 @@ function setup() {
   // create level 3 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   let level3position = viewportH * 6.5;
 
+<<<<<<< HEAD
 
+=======
+  prison = new BlockCore(world, {
+    x: viewportW/2,
+    y: level3position,
+    w: 400,
+    h: 400,
+    color: "red"
+  },{ isStatic: false });
+
+  // prisonHolder = new BlockCore(world, {
+  //   x: viewportW/2,
+  //   y: level3position-viewportH/4,
+  //   w: 400,
+  //   h: 400,
+  //   color: "darkred"
+  // },{ isStatic: false });
+>>>>>>> 6f32b9f697a25a10e8e223881b2d81619d1906eb
 
  terrain_12 = new BlockCore(world, {
     x: viewportW/2,
@@ -495,6 +575,14 @@ function setup() {
     h: viewportH/6,
     color: "darkblue"
   },{ isStatic: true });
+
+
+    // create ÜBERGANG 3 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+      // create level 4 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      let level4position = viewportH * 7.5;
+
 
   // terrain_3 = new BlockCore(world,
   //   { x: viewportW*1/2, y: 2*viewportH*(6/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: "#003EF7"},
@@ -523,7 +611,7 @@ function setup() {
 
 
   // create level 5 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  let level7position = viewportH * 8.5;
+  let level7position = viewportH * 10.5;
   terrain_6 = new BlockCore(world, {
     x: 273,
     y: level7position - 44,
@@ -685,6 +773,13 @@ function draw() {
   terrain_10.draw();
   terrain_11.draw();
   terrain_12.draw();
+<<<<<<< HEAD
+=======
+ 
+  // prisonHolder.draw();
+
+  lamp.draw();
+>>>>>>> 6f32b9f697a25a10e8e223881b2d81619d1906eb
 
 
   // //balls.draw();
@@ -696,18 +791,40 @@ function draw() {
   // seperator_6.draw();
   // seperator_7.draw();
   marblin.draw();
+  prison.draw();
   ove.draw();
 
   //Bäume Mappen
   theta = map(marblin.body.position.x, 300, 740, 0, PI / 4);
   //draw the stairs
-  stair1.draw();
-  stair2.draw();
-  stair3.draw();
-  stair4.draw();
-  stair5.draw();
-  stair6.draw();
-  stair7.draw();
+  
+  if (drawStair1) {
+    stair1.draw();
+  }
+
+  if (drawStair2) {
+    stair2.draw();
+  }
+
+  if(drawStair3) {
+    stair3.draw();
+  }
+  
+  if(drawStair4) {
+    stair4.draw();
+  }
+
+  if (drawStair5) {
+    stair5.draw();
+  }
+
+  if (drawStair6) {
+    stair6.draw();
+  }
+
+  if (drawStair7) {
+    stair7.draw();
+  }
 
 // attractors config
   // noStroke();

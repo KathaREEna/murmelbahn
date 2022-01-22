@@ -149,8 +149,6 @@ function setup() {
 function draw() {
   background('blue');
   marblin.draw();
-  stair.draw();
-  stairFive.draw();
 
   if (drawStair) {
     stair.draw();
