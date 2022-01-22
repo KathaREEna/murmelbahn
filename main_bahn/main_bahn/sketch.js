@@ -145,8 +145,10 @@ function setup() {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
-    if (bodyA.label === "terrain_1" || bodyB.label === "marblin") {
-      bodyA.friction = -1;
+    if (bodyA.label === "terrain_1edge" || bodyB.label === "terrain_1edge") {
+      console.log("COLLISION")
+     marblin.body.friction = 0.05;
+    
     }
 
   });
@@ -180,7 +182,7 @@ function setup() {
   );
 
   ramp = new BlockCore(world, {
-    x: viewportW * 1 / 5-10,
+    x: viewportW * 1 / 5-15,
     y: 500,
     w: 30,
     h: 30,
@@ -554,7 +556,7 @@ function draw() {
 
   blocks.forEach(block => block.draw());
   marblin.draw();
-  house.draw();
+  // house.draw();
         // //collisionen aussschalten
         // marblin.body.collisionFilter.group = -1;
         // house.body.collisionFilter.group = -1;
@@ -563,8 +565,8 @@ function draw() {
   sun_moon.draw();
   terrain_1.draw();
   terrain_1edge.draw();
-  // ramp.draw();
-  // ramp2.draw();
+  ramp.draw();
+  ramp2.draw();
   terrain_2.draw();
   // house.draw();
   // terrain_3.draw();
@@ -744,6 +746,7 @@ function keyPressed() {
               //collisionen aussschalten
       ramp2.body.collisionFilter.group = -1
       marblin.body.collisionFilter.group = -1
+      marblin.body.friction = -0.05
       break;
     case 32:
       //TerrainColors
