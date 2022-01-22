@@ -198,8 +198,8 @@ var MatterAttractors = {
           force = Matter.Vector.mult(normal, magnitude);
 
       // to apply forces to both bodies
-      // Matter.Body.applyForce(bodyA, bodyA.position, Matter.Vector.neg(force));
-      // Matter.Body.applyForce(bodyB, bodyB.position, force);
+      Matter.Body.applyForce(bodyA, bodyA.position, Matter.Vector.neg(force));
+      Matter.Body.applyForce(bodyB, bodyB.position, force);
     }
   }
 };
