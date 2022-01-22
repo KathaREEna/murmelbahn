@@ -1,9 +1,5 @@
 Matter.use('matter-wrap');
 
-const Engine = Matter.Engine;
-const Bodies = Matter.Bodies;
-const Events = Matter.Events;
-const World = Matter.World;
 
 let marblin;
 let marblinLover;
@@ -143,6 +139,7 @@ function setup() {
     if (bodyA.label === "terrain_1" || bodyB.label === "marblin") {
       bodyA.friction = -1;
     }
+    
   });
 
   marblinLover = new Ball(world, {
@@ -503,7 +500,9 @@ function branch2(len2) {
   }
 }
 
-
+    //  //collisionen aussschalten
+    //  marblin.body.collisionFilter.group = -1
+    //  house.body.collisionFilter.group = -1
 
 function draw() {
   background(backgroundColor);
@@ -511,9 +510,10 @@ function draw() {
   blocks.forEach(block => block.draw());
   marblin.draw();
   house.draw();
-        //collisionen aussschalten
-        // marblin.body.collisionFilter.group = -1
-        // house.body.collisionFilter.group = -1
+        // //collisionen aussschalten
+        marblin.body.collisionFilter.group = -1;
+        house.
+        //.body.collisionFilter.group = -1;
 
   marblinLover.draw();
   sun_moon.draw();
