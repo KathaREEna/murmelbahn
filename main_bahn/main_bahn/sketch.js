@@ -4,7 +4,7 @@ Matter.use('matter-wrap');
 let marblin;
 let marblinLover;
 let canvasW = 1280;
-let canvasH = 720 * 7;
+let canvasH = 720 * 9;
 let viewportW = 1280;
 let viewportH = 720;
 let frameR = 60;
@@ -441,8 +441,8 @@ function setup() {
 
 
 
-  // create level 7 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  let level7position = viewportH * 6.5;
+  // create level 5 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  let level7position = viewportH * 8.5;
   terrain_6 = new BlockCore(world, {
     x: 273,
     y: level7position - 44,
