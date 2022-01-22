@@ -219,67 +219,12 @@ function setup() {
     isStatic: true, label: 'ramp'
   }); 
   
-<<<<<<< Updated upstream
   ramp3 = new BlockCore(world, {
     x: viewportW+90,
     y: 500,
     w: 30,
     h: 30,
     color: terrainColor
-=======
-  seperator_1 = new BlockCore(world, {
-    x: viewportW / 2,
-    y: viewportH,
-    w: viewportW,
-    h: 2,
-    color: "white"
-  }, {
-    isStatic: true
-  });
-  /*seperator_2 = new BlockCore(world, {
-    x: viewportW / 2,
-    y: 2 * viewportH,
-    w: viewportW,
-    h: 2,
-    color: "white"
-  }, {
-    isStatic: true
-  });
-  */
-  seperator_3 = new BlockCore(world, {
-    x: viewportW / 2,
-    y: 3 * viewportH,
-    w: viewportW,
-    h: 2,
-    color: "white"
-  }, {
-    isStatic: true
-  });
-  seperator_4 = new BlockCore(world, {
-    x: viewportW / 2,
-    y: 4 * viewportH,
-    w: viewportW,
-    h: 2,
-    color: "white"
-  }, {
-    isStatic: true
-  });
-  seperator_5 = new BlockCore(world, {
-    x: viewportW / 2,
-    y: 5 * viewportH,
-    w: viewportW,
-    h: 2,
-    color: "white"
-  }, {
-    isStatic: true
-  });
-  seperator_6 = new BlockCore(world, {
-    x: viewportW / 2,
-    y: 6 * viewportH,
-    w: viewportW,
-    h: 2,
-    color: "white"
->>>>>>> Stashed changes
   }, {
     isStatic: true, label: 'ramp',angle: radians(45),
   });
@@ -773,7 +718,6 @@ function draw() {
   terrain_10.draw();
   terrain_11.draw();
 
-<<<<<<< Updated upstream
   // //balls.draw();
   // seperator_1.draw();
   // seperator_2.draw();
@@ -787,7 +731,6 @@ function draw() {
 
   //Bäume Mappen
   theta = map(marblin.body.position.x, 300, 740, 0, PI / 4);
-=======
   //draw the stairs
   stair1.draw();
   stair2.draw();
@@ -797,15 +740,6 @@ function draw() {
   stair6.draw();
   stair7.draw();
 
-  //balls.draw();
-  seperator_1.draw();
-  //seperator_2.draw();
-  seperator_3.draw();
-  seperator_4.draw();
-  seperator_5.draw();
-  seperator_6.draw();
-  seperator_7.draw();
-
 // attractors config
   noStroke();
   fill(255);
@@ -814,7 +748,6 @@ function draw() {
 
   // ove.draw();
   theta = map(marblin.body.position.x, 0, width, 0, PI / 4);
->>>>>>> Stashed changes
   theta2 = map(marblinLover.body.position.x, 0, width, 0, PI / 12);
   //theta = 0.4
   push();
