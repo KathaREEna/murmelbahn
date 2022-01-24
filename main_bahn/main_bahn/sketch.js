@@ -42,6 +42,14 @@ let drawStair6 = false;
 let drawStair7 = false;
 
 //Color Fade Variables
+let intervalmarblin;
+let marblinactualR = 255;
+let marblinactualG = 255;
+let marblinactualB = 255;
+let marblinnewR = 255;
+let marblinnewG = 255;
+let marblinnewB = 255;
+
 let intervalTERRAIN;
 let actualR = 0;
 let actualG = 0;
@@ -128,7 +136,7 @@ function preload() {
     scale: 1,
     color: 'yellow'
   });
-  
+
 
 }
 
@@ -193,8 +201,6 @@ function setup() {
      ramp4.body.collisionFilter.group = -1;
      marblinLover.body.collisionFilter.group = -1;
      terrain_9.body.collisionFilter.group = -1;
-     prison.body.collisionFilter.group = -1;
-     toggleInLove();
     }
 
   });
@@ -308,40 +314,41 @@ function setup() {
   );
 
   stair2 = new Block(
-    world, 
-    { x: 709, y : 1640, w: 100, h: 100, color: 'darkblue' }, 
-    { isStatic: true, restitution: 1, label: 'stair2' }
+    world,
+    { x: 700, y : 1640, w: 100, h: 100, color: 'darkblue' },
+    { isStatic: true, friction: 1, restitution: 1, label: 'stair2' }
   );
 
   stair3 = new Block(
-    world, 
-    { x: 400, y : 1840, w: 100, h: 100, color: 'darkblue' }, 
-    { isStatic: true, restitution: 0.1, label: 'stair3' }
+    world,
+    { x: 400, y : 1840, w: 100, h: 100, color: 'darkblue' },
+    { isStatic: true, restitution: 1, label: 'stair3' }
   );
 
   stair4 = new Block(
-    world, 
-    { x: 100, y : 2340, w: 200, h: 100, color: '#050D7F' }, 
-    { isStatic: true, label: 'stair4' }
+    world,
+    { x: 100, y : 2340, w: 200, h: 100, color: '#050D7F' },
+    { isStatic: true, friction: 0.5, restitution: 0, label: 'stair4' }
   );
 
   stair5 = new Block(
-    world, 
-    { x: 100, y : 2440, w: 500, h: 100, color: '#0794DB' }, 
-    { isStatic: true, label: 'stair5' }
+    world,
+    { x: 100, y : 2440, w: 500, h: 100, color: '#0794DB' },
+    { isStatic: true, restitution: 1, label: 'stair5' }
   );
 
   stair6 = new Block(
-    world, 
-    { x: 100, y : 2540, w: 800, h: 100, color: '#00BFEC' }, 
-    { isStatic: true, label: 'stair6' }
+    world,
+    { x: 100, y : 2540, w: 800, h: 100, color: '#00BFEC' },
+    { isStatic: true, restitution: 1, label: 'stair6' }
   );
-  
+
   stair7 = new Block(
-    world, 
-    { x: 100, y : 2640, w: 1100, h: 110, color: '#1CD0F8' }, 
-    { isStatic: true, label: 'stair7' }
+    world,
+    { x: 100, y : 2640, w: 1100, h: 110, color: '#1CD0F8' },
+    { isStatic: true, restitution: 1, label: 'stair7' }
   );
+
 
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
@@ -499,21 +506,7 @@ function setup() {
   // create level 3 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   let level3position = viewportH * 6.5;
 
-  prison = new BlockCore(world, {
-    x: viewportW/2,
-    y: level3position,
-    w: 400,
-    h: 400,
-    color: "red"
-  },{ isStatic: false });
 
-  // prisonHolder = new BlockCore(world, {
-  //   x: viewportW/2,
-  //   y: level3position-viewportH/4,
-  //   w: 400,
-  //   h: 400,
-  //   color: "darkred"
-  // },{ isStatic: false });
 
  terrain_12 = new BlockCore(world, {
     x: viewportW/2,
@@ -720,10 +713,6 @@ function draw() {
   terrain_10.draw();
   terrain_11.draw();
   terrain_12.draw();
- 
-  // prisonHolder.draw();
-
-  lamp.draw();
 
 
   // //balls.draw();
@@ -735,13 +724,13 @@ function draw() {
   // seperator_6.draw();
   // seperator_7.draw();
   marblin.draw();
-  prison.draw();
+  //prison.draw();
   ove.draw();
 
   //Bäume Mappen
   theta = map(marblin.body.position.x, 300, 740, 0, PI / 4);
   //draw the stairs
-  
+
   if (drawStair1) {
     stair1.draw();
   }
@@ -753,7 +742,7 @@ function draw() {
   if(drawStair3) {
     stair3.draw();
   }
-  
+
   if(drawStair4) {
     stair4.draw();
   }
@@ -795,6 +784,12 @@ function draw() {
     sleepy = true;
   } else {
     sleepy = false;
+  }
+
+  //inLoveTrigger
+  if (marblinLover.body.position.x > 1100 && marblinLover.body.position.x < 1150 && marblinLover.body.position.y > 480 && marblinLover.body.position.y < 500) {
+
+    inLove = true;
   }
 
   //SLEEPY
@@ -849,6 +844,36 @@ function draw() {
     //console.log(lovelyPositions);
   }
 
+}
+
+
+
+function colorFade(){
+  //console.log("marblinnewR: " + marblinnewR + "marblinnewG: " + marblinnewG + "marblinnewB: " + marblinnewB);
+  //console.log("marblinactualR: " + marblinactualR + "marblinactualG: " + marblinactualG + "marblinactualB: " + marblinactualB);
+  if (marblinnewR-marblinactualR > 0) {
+    marblinactualR++;
+  } else if (marblinnewR-marblinactualR < 0) {
+    marblinactualR--;
+  }
+
+  if (marblinnewG-marblinactualG > 0) {
+    marblinactualG++;
+  }else if (marblinnewG-marblinactualG < 0) {
+    marblinactualG--;
+  }
+
+  if (marblinnewB-marblinactualB > 0) {
+    marblinactualB++;
+  }else if (marblinnewB-marblinactualB < 0) {
+    marblinactualB--;
+  }
+  //console.log("new values: marblinactualR: " + marblinactualR + "marblinactualG: " + marblinactualG + "marblinactualB: " + marblinactualB);
+  marblin.attrs.color = color(marblinactualR,marblinactualG,marblinactualB);
+  if (marblinnewB-marblinactualB+marblinnewG-marblinactualG+marblinnewR-marblinactualR == 0){
+    clearInterval(intervalmarblin);
+    console.log("clearing interval2");
+  }
 }
 
 
@@ -995,14 +1020,17 @@ function keyPressed() {
       marblin.body.collisionFilter.group = -1
       marblin.body.friction = -0.04
       break;
-    case 32:
+    case 32: //SPACE
       //TerrainColors
+      event.preventDefault();
       changeColorSonnenaufgang();
+
 
       break;
     case 83:
       console.log("pressed s --> shaking ball");
       interval1 = setInterval(shake, 100);
+
 
       break;
     case 76: //L inLove
