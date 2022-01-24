@@ -13,7 +13,13 @@ let alternate = 0;
 
 
 let interval1;
-
+let interval2;
+let actualR = 255;
+let actualG = 255;
+let actualB = 255;
+let newR = 255;
+let newG = 255;
+let newB = 255;
 
 //sleepy animation
 let sleepy = false;
@@ -235,7 +241,55 @@ function particle(letter, posX, posY, directionX, directionY){
 }
 
 
+function colorFade(){
+  console.log("newR: " + newR + "newG: " + newG + "newB: " + newB);
+  console.log("actualR: " + actualR + "actualG: " + actualG + "actualB: " + actualB);
+  if (newR-actualR > 0) {
+    actualR++;
+  } else if (newR-actualR < 0) {
+    actualR--;
+  }
 
+  if (newG-actualG > 0) {
+    actualG++;
+  }else if (newG-actualG < 0) {
+    actualG--;
+  }
+
+  if (newB-actualB > 0) {
+    actualB++;
+  }else if (newB-actualB < 0) {
+    actualB--;
+  }
+  console.log("new values: actualR: " + actualR + "actualG: " + actualG + "actualB: " + actualB);
+  marblin.attrs.color = color(actualR,actualG,actualB);
+  if (newB-actualB+newG-actualG+newR-actualR == 0){
+    clearInterval(interval2);
+    console.log("clearing interval2");
+  }
+}
+
+function shake(){
+  console.log(sekunden);
+  countertestzahl++;
+  if (countertestzahl >= 30) {
+    clearInterval(interval1);
+    countertestzahl = 0;
+  }
+  let direction = 1;
+  if (alternate == 0) {
+    direction = -1; // ball runs right to left <-
+    alternate = 1; // ball runs left to right ->
+  }else {
+    direction = 1;
+    alternate = 0;
+  }
+  Matter.Body.applyForce(
+    marblin.body,
+    {x: marblin.body.position.x, y: marblin.body.position.y},
+    {x: (0.05 * direction) /*+ marblin.body.velocity.x */, y: 0.01}
+  );
+}
 
 function keyPressed() {
   // is SPACE pressed?
