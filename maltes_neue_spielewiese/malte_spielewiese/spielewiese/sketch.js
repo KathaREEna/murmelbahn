@@ -68,6 +68,7 @@ function setup() {
     plugin: {
       attractors: [
         function(bodyA, bodyB) {
+          console.log("code geht")
           return {
             x: (bodyA.position.x - bodyB.position.x) * 1e-6,
             y: (bodyA.position.y - bodyB.position.y) * 1e-6,
@@ -103,13 +104,13 @@ function draw() {
   //   ps.shatter();
   // }
   // move attractor
-  if (mouseIsPressed) {
-    // smoothly move the attractor body towards the mouse
-    Body.translate(attractor, {
-      x: (mouseX - attractor.position.x) * 0.25,
-      y: (mouseY - attractor.position.y) * 0.25
-    });
-  }
+  // if (mouseIsPressed) {
+  //   // smoothly move the attractor body towards the mouse
+  //   Body.translate(attractor, {
+  //     x: (mouseX - attractor.position.x) * 0.25,
+  //     y: (mouseY - attractor.position.y) * 0.25
+  //   });
+  // }
   terrain_1.draw();
   noStroke();
   fill(255);

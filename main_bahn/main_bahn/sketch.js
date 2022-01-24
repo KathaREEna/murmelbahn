@@ -3,6 +3,7 @@ Matter.use('matter-wrap');
 //marblinGrows
 let marblinGrows = false;
 
+Matter.use('matter-attractors');
 
 let marblin;
 let marblinLover;
@@ -159,7 +160,6 @@ function setup() {
     r: 40,
     color: 'white'
   },
-
   {
     restitution: 0,
     friction: 0,
@@ -168,6 +168,8 @@ function setup() {
       wrap: wrap
     },
   });
+
+
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
@@ -398,25 +400,18 @@ function setup() {
  let level2position = viewportH * 4.5;
 
 
-  // attractor = Bodies.circle(400, viewportH * 3, 20, {
-  //   isStatic: false,
-  //   plugin: {
-  //     attractors: [
-  //       function(bodyA, bodyB) {
-  //         return {
-  //           x: (bodyA.position.x - bodyB.position.x) * 1e-6,
-  //           y: (bodyA.position.y - bodyB.position.y) * 1e-6,
-  //         };
-  //       }
-  //     ]
-  //   }
-  // });
-  // World.add(engine.world, attractor);
 
-  // boxes = Composites.stack(viewportW/2, viewportH * 3, 3, 20, 3, 3, function(x, y) {
-  //   return Bodies.circle(x, y, 10);
-  // });
-  // World.add(engine.world, boxes);
+ //attractor code BEGINN
+
+
+  boxes = Composites.stack(viewportW/2, level2position-viewportH, 3, 20, 3, 3, function(x, y) {
+    return Bodies.circle(x, y, 10);
+  });
+  World.add(engine.world, boxes);
+
+//attractor code ENDE
+
+
 
   terrain_9 = new BlockCore(world, {
     x: viewportW/2,
@@ -799,10 +794,10 @@ function draw() {
   }
 
 // attractors config
-  // noStroke();
-  // fill(255);
-  // drawBodies(boxes.bodies);
-  // drawBody(attractor);
+  noStroke();
+  fill(255);
+  drawBodies(boxes.bodies);
+
 
   // ove.draw();
   theta = map(marblin.body.position.x, 0, width, 0, PI / 4);
@@ -902,8 +897,29 @@ function keyPressed() {
     case 76: //L inLove
       toggleInLove();
       break;
+
+
+      case 71: // G gravity attractor on
+      marblin.body.plugin.attractors = [
+        function(bodyA, bodyB) {
+          return {
+            x: (bodyA.position.x - bodyB.position.x) * 1e-6,
+            y: (bodyA.position.y - bodyB.position.y) * 1e-6,
+          };
+        }
+      ];
+
+        break;
+
+
+        case 72: // H gravity attractor off
+        marblin.body.plugin.attractors = "";
+
+        break;
+
+
     case 70:
-      marblinTest2.body.friction = -0.03
+      marblinTest2.body.friction = -0.03;
 
       break;
 
