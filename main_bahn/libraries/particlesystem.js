@@ -30,7 +30,7 @@ class ParticleSystem {
   shatter() {
     for (let particle of this.particles) {
       let force = p5.Vector.random2D();
-      force.mult(10 );
+      force.mult(10*2);
       particle.applyForce(force);
     }
     // this.intact = false;

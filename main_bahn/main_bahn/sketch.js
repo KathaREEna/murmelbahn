@@ -75,10 +75,18 @@ let sunnewG = 255;
 let sunnewB = 255;
 
 //Shake
+let interval1;
 let sekunden = 0;
 let dauer = 3; //Zeit Sekunden
 let countertestzahl = 0;
 let alternate = 0;
+
+//ShakePrison
+let pinterval1;
+let psekunden = 0;
+let pdauer = 3; //Zeit Sekunden
+let pcountertestzahl = 0;
+let palternate = 0;
 
 //in love animation
 let inLove = false;
@@ -103,6 +111,7 @@ let backgroundColor;
 let terrainColor;
 let sun_moonColor;
 
+
 // attractor configs
 const World = Matter.World;
 const Bodies = Matter.Bodies;
@@ -118,6 +127,9 @@ let engine;
 // prison
 let ps
 let prisonColor = "white"
+let boom = false;
+let level3position;
+let prisonSize;
 
 
 function preload() {
@@ -509,13 +521,13 @@ function setup() {
     }
   }
   // create level 3 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  let level3position = viewportH * 6.5;
+  level3position = viewportH * 6.5;
 
   // variablen: ParticleSystem(x, y, r)
   // r ist höhe und breite eines particles
   // ParticleSystem besteht aus 15 reihen und 15 columns, zu ändern in particlesystem.js
-  let prisonSize = 25;
-  ps = new ParticleSystem(viewportW/2, level3position-184, prisonSize);
+  prisonSize = 25;
+  //ps = new ParticleSystem(viewportW/2, level3position-184, prisonSize);
 
   prison = new BlockCore(world, {
     x: viewportW/4,
@@ -689,6 +701,38 @@ function shake(){
 
 
 
+
+let pforce = 1;
+function shakePrison(){
+  //console.log(sekunden);
+  pcountertestzahl++;
+
+  if (pcountertestzahl >= 30) {
+    clearInterval(pinterval1);
+    pcountertestzahl = 0;
+    ps = new ParticleSystem(prison.body.position.x-(prison.attrs.w / 2), prison.body.position.y-(prison.attrs.h / 2), prisonSize);
+    boom = true;
+    ps.shatter();
+  }
+  let pdirection = 1;
+  if (palternate == 0) {
+    pdirection = -1; // ball runs right to left <-
+    palternate = 1; // ball runs left to right ->
+  }else {
+    pdirection = 1;
+    palternate = 0;
+  }
+  Matter.Body.applyForce(
+    prison.body,
+    {x: prison.body.position.x, y: prison.body.position.y},
+    {x: (pforce * pdirection) /*+ marblin.body.velocity.x */, y: 0.0}
+  );
+  pforce += 0.5;
+  console.log(pforce);
+}
+
+
+
 function branch2(len2) {
   // Each branch will be 2/3rds the size of the previous one
   //float sw = map(len,2,120,1,10);
@@ -750,10 +794,12 @@ function draw() {
 
   // shatter system/prison
 
-  prison.draw();
-  ps.display();
-  ps.update();
-
+  if(boom){
+    ps.display();
+    ps.update();
+  }else {
+    prison.draw();
+  }
   // //balls.draw();
   // seperator_1.draw();
   // seperator_2.draw();
@@ -763,7 +809,7 @@ function draw() {
   // seperator_6.draw();
   // seperator_7.draw();
   marblin.draw();
- 
+
 
   // übergang 5
 
@@ -1081,9 +1127,9 @@ function keyPressed() {
       toggleInLove();
       break;
 
-      case 66: //b
-      ps.shatter();
-        break;
+    case 66: //b
+      pinterval1 = setInterval(shakePrison, 100);
+      break;
 
     default:
   }
