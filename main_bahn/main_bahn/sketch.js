@@ -23,8 +23,6 @@ let ramp;
 let number = 0;
 let spiel = [];
 let blocks = [];
-let theta;
-let theta2;
 
 //leon treppen
 let stair1;
@@ -55,71 +53,7 @@ let firstRamp;
 let secondPlain;
 let secondRamp;
 
-//Color Fade Variables
-let intervalmarblin;
-let marblinactualR = 255;
-let marblinactualG = 255;
-let marblinactualB = 255;
-let marblinnewR = 255;
-let marblinnewG = 255;
-let marblinnewB = 255;
-
-let intervalTERRAIN;
-let actualR = 0;
-let actualG = 0;
-let actualB = 139;
-let newR = 255;
-let newG = 255;
-let newB = 255;
-
-let intervalBG;
-let bgactualR = 0;
-let bgactualG = 0;
-let bgactualB = 255;
-let bgnewR = 255;
-let bgnewG = 255;
-let bgnewB = 255;
-
-let intervalSUN;
-let sunactualR = 235;
-let sunactualG = 224;
-let sunactualB = 197;
-let sunnewR = 255;
-let sunnewG = 255;
-let sunnewB = 255;
-
-//Shake
-let interval1;
-let sekunden = 0;
-let dauer = 3; //Zeit Sekunden
-let countertestzahl = 0;
-let alternate = 0;
-
-//ShakePrison
-let pinterval1;
-let psekunden = 0;
-let pdauer = 3; //Zeit Sekunden
-let pcountertestzahl = 0;
-let palternate = 0;
-
-//in love animation
-let inLove = false;
-let lovelyLoop = 100;
-let lovelyBoundry = 60;
-let lovelyPosition = 0;
-let lovelyPositions; //Array welches für die einzelnen Positionen verwendet wird
-let lovelyCount = 10;
-let lovelySize = 20;
-
 let house;
-
-//sleepy animation
-let sleepy = false;
-let sleepyLoop = 100;
-let sleepyPosition = 0;
-let sleepyOffsetX = 30;
-let sleepyOffsetY = 40;
-
 
 let backgroundColor;
 let terrainColor;
@@ -147,6 +81,13 @@ let prisonSize;
 
 // übergang 5, fountain
 let particles = [];
+
+
+
+
+
+
+
 
 
 function preload() {
@@ -597,7 +538,7 @@ function setup() {
   // create übergang 5 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 let transition5position = viewportH * 9.5;
 
-  
+
   // loveballs = new Stack(world, {
   //   x: 0, y: transition5position-500, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
   //   create: (x, y) => Matter.Bodies.circle(x, y, 15, { restitution: 0.1, friction: -0.1})
@@ -650,14 +591,14 @@ let transition5position = viewportH * 9.5;
 
   //create lampe level
   marblinTest = new Ball(
-    world, 
-    { x: 1320, y: 5000, r: 40, color: 'white'}, 
+    world,
+    { x: 1320, y: 5000, r: 40, color: 'white'},
     { friction: -0.2 }
   );
 
   marblinTest2 = new Ball(
-    world, 
-    { x: 600, y: 5000, r: 40, color: 'white'}, 
+    world,
+    { x: 600, y: 5000, r: 40, color: 'white'},
     { restitution: 0, friction: 0 }
   );
 
@@ -737,128 +678,23 @@ let transition5position = viewportH * 9.5;
 
 
 
-
+  //MAIN ENGINE////////////////////////////////////////////////////////////////
   // run the engine
   Matter.Engine.run(engine);
   // setup mouse
   mouse = new Mouse(engine, canvas);
   frameRate(frameR);
 
-
-}
-
-
-
-// Create the tree function
-function branch(len) {
-  // Each branch will be 2/3rds the size of the previous one
-  //float sw = map(len,2,120,1,10);
-  //strokeWeight(sw);
-  strokeWeight(8);
-  line(0, 0, 0, -len);
-  // Move to the end of that line
-  translate(0, -len);
-  len *= 0.6;
-  // All recursive functions must have an exit condition!!!!
-  // Here, ours is when the length of the branch is 2 pixels or less
-  if (len > 2) {
-    push(); // Save the current state of transformation (i.e. where are we now)
-    rotate(theta); // Rotate by theta
-    branch(len); // Ok, now call myself to draw two new branches!!
-    pop(); // Whenever we get back here, we "pop" in order to restore the previous matrix state
-    // Repeat the same thing, only branch off to the "left" this time!
-    push();
-    rotate(-theta);
-    branch(len);
-    pop();
-  }
-}
-
-
-
-function shake(){
-  //console.log(sekunden);
-  countertestzahl++;
-  if (countertestzahl >= 30) {
-    clearInterval(interval1);
-    countertestzahl = 0;
-  }
-  let direction = 1;
-  if (alternate == 0) {
-    direction = -1; // ball runs right to left <-
-    alternate = 1; // ball runs left to right ->
-  }else {
-    direction = 1;
-    alternate = 0;
-  }
-  Matter.Body.applyForce(
-    marblin.body,
-    {x: marblin.body.position.x, y: marblin.body.position.y},
-    {x: (0.05 * direction) /*+ marblin.body.velocity.x */, y: 0.01}
-  );
+  //END MAIN ENGINE////////////////////////////////////////////////////////////
 }
 
 
 
 
-let pforce = 1;
-function shakePrison(){
-  //console.log(sekunden);
-  pcountertestzahl++;
-
-  if (pcountertestzahl >= 30) {
-    clearInterval(pinterval1);
-    pcountertestzahl = 0;
-    ps = new ParticleSystem(prison.body.position.x-(prison.attrs.w / 2), prison.body.position.y-(prison.attrs.h / 2), prisonSize);
-    boom = true;
-    ps.shatter();
-  }
-  let pdirection = 1;
-  if (palternate == 0) {
-    pdirection = -1; // ball runs right to left <-
-    palternate = 1; // ball runs left to right ->
-  }else {
-    pdirection = 1;
-    palternate = 0;
-  }
-  Matter.Body.applyForce(
-    prison.body,
-    {x: prison.body.position.x, y: prison.body.position.y},
-    {x: (pforce * pdirection) /*+ marblin.body.velocity.x */, y: 0.0}
-  );
-  pforce += 0.5;
-  console.log(pforce);
-}
 
 
 
-function branch2(len2) {
-  // Each branch will be 2/3rds the size of the previous one
-  //float sw = map(len,2,120,1,10);
-  //strokeWeight(sw);
-  strokeWeight(10);
-  line(0, 0, 0, -len2);
-  // Move to the end of that line
-  translate(0, -len2);
-  len2 *= 0.6;
-  // All recursive functions must have an exit condition!!!!
-  // Here, ours is when the length of the branch is 2 pixels or less
-  if (len2 > 2) {
-    push(); // Save the current state of transformation (i.e. where are we now)
-    rotate(theta2); // Rotate by theta
-    branch2(len2); // Ok, now call myself to draw two new branches!!
-    pop(); // Whenever we get back here, we "pop" in order to restore the previous matrix state
-    // Repeat the same thing, only branch off to the "left" this time!
-    push();
-    rotate(-theta2);
-    branch2(len2);
-    pop();
-  }
-}
 
-    //  //collisionen aussschalten
-    //  marblin.body.collisionFilter.group = -1
-    //  house.body.collisionFilter.group = -1
 
 function draw() {
   background(backgroundColor);
@@ -883,7 +719,7 @@ function draw() {
   firstRamp.draw();
   secondPlain.draw();
   secondRamp.draw();
-  
+
   marblinLover.draw();
   sun_moon.draw();
   terrain_1.draw();
@@ -928,7 +764,7 @@ function draw() {
 
   //Bäume Mappen
   theta = map(marblin.body.position.x, 300, 740, 0, PI / 4);
- 
+
   //draw the stairs
 
   if (drawStair1) {
@@ -992,201 +828,24 @@ function draw() {
     inLove = true;
   }
 
+
+
   //SLEEPY
   if (sleepy) {
-    let sleepyTransparency1 = map(sleepyPosition, 0, sleepyLoop, 0, 1255);
-    let sleepyTransparency2 = map((sleepyPosition + sleepyLoop / 3) % sleepyLoop, 0, sleepyLoop, 0, 1255);
-    let sleepyTransparency3 = map((sleepyPosition + sleepyLoop / 3 * 2) % sleepyLoop, 0, sleepyLoop, 0, 1255);
-    let sleepyPosition2 = (sleepyPosition + sleepyLoop / 3) % sleepyLoop;
-    let sleepyPosition3 = (sleepyPosition + sleepyLoop / 3 * 2) % sleepyLoop;
-
-    fill(125, sleepyTransparency1);
-    textSize((sleepyLoop - sleepyPosition) / 2);
-    text("Z", marblin.body.position.x + sleepyOffsetX + sleepyPosition, marblin.body.position.y - sleepyOffsetY - sleepyPosition);
-
-    fill(125, sleepyTransparency2);
-    textSize((sleepyLoop - sleepyPosition2) / 2);
-    text("Z", marblin.body.position.x + sleepyOffsetX + sleepyPosition2, marblin.body.position.y - sleepyOffsetY - sleepyPosition2);
-
-    fill(125, sleepyTransparency3);
-    textSize((sleepyLoop - sleepyPosition3) / 2);
-    text("Z", marblin.body.position.x + sleepyOffsetX + sleepyPosition3, marblin.body.position.y - sleepyOffsetY - sleepyPosition3);
-
-    sleepyPosition = (sleepyPosition + 0.5) % sleepyLoop;
-    // console.log(sleepyPosition);
-
+    marblinSleep();
   }
-
-
   //LIEBEN
   if (inLove) {
-    for (var i = 0; i < lovelyCount; i++) {
-      let lovelyTransparency = map(lovelyPositions[i][0], 0, lovelyLoop, 0, 1255)
-      let lovelyTransparencyInverted = map(lovelyPositions[i][0], 0, lovelyLoop, 1255, 0)
-      if (lovelyPositions[i][0] < (lovelyLoop/2)) {
-        fill(255,192,203, lovelyTransparency);
-      } else {
-        fill(255,192,203, lovelyTransparencyInverted);
-      }
-      lovelyPositions[i][0] = (lovelyPositions[i][0] + 1) % lovelyLoop;
-
-      if (lovelyPositions[i][0] == 0) {
-        //lovelyOffsets
-        lovelyPositions[i][1] = floor(random(lovelyBoundry, -1*lovelyBoundry));
-      }
-      if (lovelyPositions[i][0] > 0) {
-        textSize(lovelySize);
-        let wackeln = map(noise(lovelyPositions[i][0]/30)*10,0,10,-5,5);
-        text("❤", marblin.body.position.x + lovelyPositions[i][1]+wackeln, marblin.body.position.y-20-lovelyPositions[i][0]);
-      }
-    }
-    //console.log("draw: ");
-    //console.log(lovelyPositions);
-  }
-
-}
-
-
-
-function colorFade(){
-  //console.log("marblinnewR: " + marblinnewR + "marblinnewG: " + marblinnewG + "marblinnewB: " + marblinnewB);
-  //console.log("marblinactualR: " + marblinactualR + "marblinactualG: " + marblinactualG + "marblinactualB: " + marblinactualB);
-  if (marblinnewR-marblinactualR > 0) {
-    marblinactualR++;
-  } else if (marblinnewR-marblinactualR < 0) {
-    marblinactualR--;
-  }
-
-  if (marblinnewG-marblinactualG > 0) {
-    marblinactualG++;
-  }else if (marblinnewG-marblinactualG < 0) {
-    marblinactualG--;
-  }
-
-  if (marblinnewB-marblinactualB > 0) {
-    marblinactualB++;
-  }else if (marblinnewB-marblinactualB < 0) {
-    marblinactualB--;
-  }
-  //console.log("new values: marblinactualR: " + marblinactualR + "marblinactualG: " + marblinactualG + "marblinactualB: " + marblinactualB);
-  marblin.attrs.color = color(marblinactualR,marblinactualG,marblinactualB);
-  if (marblinnewB-marblinactualB+marblinnewG-marblinactualG+marblinnewR-marblinactualR == 0){
-    clearInterval(intervalmarblin);
-    console.log("clearing interval2");
+    inLoveAni();
   }
 }
 
 
 
-function colorFadeTERRAIN(){
-  //console.log("newR: " + newR + "newG: " + newG + "newB: " + newB);
-  //console.log("actualR: " + actualR + "actualG: " + actualG + "actualB: " + actualB);
-  if (newR-actualR > 0) {
-    actualR++;
-  } else if (newR-actualR < 0) {
-    actualR--;
-  }
-
-  if (newG-actualG > 0) {
-    actualG++;
-  }else if (newG-actualG < 0) {
-    actualG--;
-  }
-
-  if (newB-actualB > 0) {
-    actualB++;
-  }else if (newB-actualB < 0) {
-    actualB--;
-  }
-  //console.log("new values: actualR: " + actualR + "actualG: " + actualG + "actualB: " + actualB);
-  terrain_1.attrs.color = color(actualR,actualG,actualB);
-  terrain_1edge.attrs.color = color(actualR,actualG,actualB);
-  terrain_2.attrs.color = color(actualR,actualG,actualB);
-
-  if (newB-actualB+newG-actualG+newR-actualR == 0){
-    clearInterval(intervalTERRAIN);
-    console.log("clearing intervalTERRAIN");
-  }
-}
-
-
-function colorFadeBG(){
-  //console.log("bgnewR: " + bgnewR + "bgnewG: " + bgnewG + "bgnewB: " + bgnewB);
-  //console.log("bgactualR: " + bgactualR + "bgactualG: " + bgactualG + "bgactualB: " + bgactualB);
-  if (bgnewR-bgactualR > 0) {
-    bgactualR++;
-  } else if (bgnewR-bgactualR < 0) {
-    bgactualR--;
-  }
-
-  if (bgnewG-bgactualG > 0) {
-    bgactualG++;
-  }else if (bgnewG-bgactualG < 0) {
-    bgactualG--;
-  }
-
-  if (bgnewB-bgactualB > 0) {
-    bgactualB++;
-  }else if (bgnewB-bgactualB < 0) {
-    bgactualB--;
-  }
-  //console.log("new values: bgactualR: " + bgactualR + "bgactualG: " + bgactualG + "bgactualB: " + bgactualB);
-  backgroundColor = color(bgactualR,bgactualG,bgactualB);
-
-  if (bgnewB-bgactualB+bgnewG-bgactualG+bgnewR-bgactualR == 0){
-    clearInterval(intervalBG);
-    console.log("clearing intervalBG");
-    collisionSleepOff();
-  }
-}
-
-
-function colorFadeSUN(){
-  //console.log("newR: " + newR + "newG: " + newG + "newB: " + newB);
-  //console.log("actualR: " + actualR + "actualG: " + actualG + "actualB: " + actualB);
-  if (sunnewR-sunactualR > 0) {
-    sunactualR++;
-  } else if (sunnewR-sunactualR < 0) {
-    sunactualR--;
-  }
-
-  if (sunnewG-sunactualG > 0) {
-    sunactualG++;
-  }else if (sunnewG-sunactualG < 0) {
-    sunactualG--;
-  }
-
-  if (sunnewB-sunactualB > 0) {
-    sunactualB++;
-  }else if (sunnewB-sunactualB < 0) {
-    sunactualB--;
-  }
-  //console.log("new values: actualR: " + actualR + "actualG: " + actualG + "actualB: " + actualB);
-  sun_moon.attrs.color = color(sunactualR,sunactualG,sunactualB);
-
-  if (sunnewB-sunactualB+sunnewG-sunactualG+sunnewR-sunactualR == 0){
-    clearInterval(intervalSUN);
-    console.log("clearing intervalSUN");
-  }
-}
 
 
 
-function changeColorSonnenaufgang(){
-  newR = 101;
-  newG = 67;
-  newB = 33;
-  intervalTERRAIN = setInterval(colorFadeTERRAIN, 5);
-  bgnewR = 205;
-  bgnewG = 105;
-  bgnewB = 255;
-  intervalBG = setInterval(colorFadeBG, 1);
 
-  sunnewR = 255;
-  sunnewG = 255;
-  sunnewB = 0;
-  intervalSUN = setInterval(colorFadeSUN,200);
-}
 
 
 
@@ -1200,13 +859,6 @@ function collisionSleepOff(){
 
 
 
-function toggleInLove(){
-  if (inLove) {
-    inLove = false;
-  } else {
-    inLove = true;
-  }
-}
 
 
 
