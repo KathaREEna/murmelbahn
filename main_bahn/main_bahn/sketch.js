@@ -841,14 +841,12 @@ function draw() {
   if (inLove) {
     inLoveAni();
   }
+  //marblinGrows
   if(marblinGrows){
-
     let scaleStart = 4977;
     let scaleEnd = 11200;
     let localtarget = map(marblin.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1)
 
-    //mappen auf fläche
-    //vergrößern bis fläche erreicht ist. startfläche4977 endfläche11200
     while(marblin.body.area < localtarget){
     Matter.Body.scale(marblin.body, 1.01, 1.01);
     }
@@ -913,7 +911,6 @@ function keyPressed() {
       pinterval1 = setInterval(shakePrison, 100);
       break;
     case 81: //Q = Murmel wächst
-
       groesserAnfang = marblin.body.position.y;
       groesserYEnd = marblin.body.position.y+100;
       marblinGrows = true;
