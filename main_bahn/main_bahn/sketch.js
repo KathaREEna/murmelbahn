@@ -26,6 +26,7 @@ let blocks = [];
 let theta;
 let theta2;
 
+//leon treppen
 let stair1;
 let stair2;
 let stair3;
@@ -40,6 +41,19 @@ let drawStair4 = false;
 let drawStair5 = false;
 let drawStair6 = false;
 let drawStair7 = false;
+
+//spotlight lampe
+let loverRamp;
+let loverSlow;
+let marblinTest2;
+let marblinTest;
+let lampePlain;
+let plainRamp;
+let bluePain;
+let firstPlain;
+let firstRamp;
+let secondPlain;
+let secondRamp;
 
 //Color Fade Variables
 let intervalmarblin;
@@ -625,6 +639,94 @@ let transition5position = viewportH * 9.5;
     density: 100
   });
 
+  //create lampe level
+  marblinTest = new Ball(
+    world, 
+    { x: 1320, y: 5000, r: 40, color: 'white'}, 
+    { friction: -0.2 }
+  );
+
+  marblinTest2 = new Ball(
+    world, 
+    { x: 600, y: 5000, r: 40, color: 'white'}, 
+    { restitution: 0, friction: 0 }
+  );
+
+  loverRamp = new Block(
+    world,
+    { x: 1200, y : 5550, w: 600, h: 20, color: 'red' },
+    { isStatic: true, label: 'loverRamp', angle: radians(-52) }
+  );
+
+  loverSlow = new Block(
+    world,
+    { x: 870, y : 5780, w: 300, h: 20, color: 'red' },
+    { isStatic: true, label: 'loverSlow' }
+  );
+
+  firstPlain = new Block(
+    world,
+    { x: 580, y : 5620, w: 100, h: 20, color: 'red' },
+    { isStatic: true, label: 'firstPlain' }
+  );
+
+  firstRamp = new Block(
+    world,
+    { x: 740, y : 5665, w: 250, h: 20, color: 'red' },
+    { isStatic: true, label: 'firstRamp', angle: radians(20) }
+  );
+
+  secondPlain = new Block(
+    world,
+    { x: 400, y : 5780, w: 450, h: 20, color: 'red' },
+    { isStatic: true, label: 'secondPlain' }
+  );
+
+  secondRamp = new Block(
+    world,
+    { x: 400, y : 5780, w: 450, h: 20, color: 'red' },
+    { isStatic: true, label: 'secondRamp' }
+  );
+
+  lampePlain = new Block(
+    world,
+    { x: 400, y : 5780, w: 450, h: 20, color: 'red' },
+    { isStatic: true, label: 'lampePlain' }
+  );
+
+  plainRamp = new Block(
+    world,
+    { x: 530, y : 5790, w: 300, h: 20, color: 'red' },
+    { isStatic: true, label: 'plainRamp', angle: radians(-10) }
+  );
+
+  bluePlain = new Block(
+    world,
+    { x: 80, y : 5780, w: 200, h: 20, color: 'red' },
+    { isStatic: true, label: 'bluePlain', friction: 1 }
+  );
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "loverSlow" || bodyB.label === "loverSlow") {
+     marblinTest.body.friction = 1;
+    }
+
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "lampePlain" || bodyB.label === "lampePlain") {
+      marblinTest2.body.friction = 0.033;
+    }
+
+  });
+
+
 
 
   // run the engine
@@ -727,6 +829,20 @@ function draw() {
         // marblin.body.collisionFilter.group = -1;
         // house.body.collisionFilter.group = -1;
 
+  //lampe
+  lamp.draw();
+  loverRamp.draw();
+  loverSlow.draw();
+  marblinTest.draw();
+  marblinTest2.draw();
+  lampePlain.draw();
+  plainRamp.draw();
+  bluePlain.draw();
+  firstPlain.draw();
+  firstRamp.draw();
+  secondPlain.draw();
+  secondRamp.draw();
+  
   marblinLover.draw();
   sun_moon.draw();
   terrain_1.draw();
@@ -773,6 +889,7 @@ function draw() {
 
   //Bäume Mappen
   theta = map(marblin.body.position.x, 300, 740, 0, PI / 4);
+ 
   //draw the stairs
 
   if (drawStair1) {
@@ -1079,6 +1196,10 @@ function keyPressed() {
       break;
     case 76: //L inLove
       toggleInLove();
+      break;
+    case 70:
+      marblinTest2.body.friction = -0.03
+
       break;
 
       case 66: //b
