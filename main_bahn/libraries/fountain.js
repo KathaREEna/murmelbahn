@@ -4,15 +4,15 @@
 
 // Simple Particle System
 
+// A simple Particle class
+
 class Fountain {
 
-  constructor(x, y, r) {
-    this.acceleration = createVector();
-    this.velocity = createVector()
-    this.velocity.mult(0.5);
-    this.position = createVector(x, y);
+  constructor(position) {
+    this.acceleration = createVector(0, 0.05);
+    this.velocity = createVector(random(-1, 1), random(-1, 0));
+    this.position = position.copy();
     this.lifespan = 255.0;
-    this.r = r;
   }
 
   run() {
@@ -20,25 +20,19 @@ class Fountain {
     this.display();
   }
 
-  applyForce(force) {
-    this.acceleration.add(force);
-  }
-
   // Method to update position
   update() {
     this.velocity.add(this.acceleration);
     this.position.add(this.velocity);
-    this.acceleration.mult(0);
-    this.velocity.mult(0.95);
-    this.lifespan -= 2.0;
+    this.lifespan -= 2;
   }
 
   // Method to display
   display() {
-    noStroke();
-    fill(prisonColor);
-    rectMode(CENTER);
-    rect(this.position.x, this.position.y, this.r, this.r);
+    stroke("red");
+    strokeWeight(2);
+    fill("red");
+    ellipse(this.position.x, this.position.y, 12, 12);
   }
 
   // Is the particle still useful?

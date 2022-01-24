@@ -145,6 +145,9 @@ let boom = false;
 let level3position;
 let prisonSize;
 
+// übergang 5, fountain
+let particles = [];
+
 
 function preload() {
   const engine = Matter.Engine.create();
@@ -594,20 +597,14 @@ function setup() {
   // create übergang 5 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 let transition5position = viewportH * 9.5;
 
+  
+  // loveballs = new Stack(world, {
+  //   x: 0, y: transition5position-500, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
+  //   create: (x, y) => Matter.Bodies.circle(x, y, 15, { restitution: 0.1, friction: -0.1})
+  // });
 
-  loveball1  = new Ball(world, {
-    x: 500,
-    y: transition5position,
-    r: 40,
-    color: 'white'
-  });
 
-  loveball2  = new Ball(world, {
-    x: 500,
-    y: transition5position,
-    r: 40,
-    color: 'RED'
-  });
+
 
   // create level 5 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   let level7position = viewportH * 10.5;
@@ -927,11 +924,7 @@ function draw() {
   marblin.draw();
 
 
-  // übergang 5
-
-  loveball1.draw();
-  loveball2.draw();
-  ove.draw();
+   // ove.draw();
 
   //Bäume Mappen
   theta = map(marblin.body.position.x, 300, 740, 0, PI / 4);
