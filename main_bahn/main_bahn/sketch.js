@@ -115,6 +115,10 @@ let attractor;
 let boxes;
 let engine;
 
+// prison
+let ps
+let prisonColor = "white"
+
 
 function preload() {
   const engine = Matter.Engine.create();
@@ -143,6 +147,7 @@ function preload() {
 function setup() {
   rectMode(CORNER);
   const canvas = createCanvas(canvasW, canvasH);
+
 
   // create an engine
   const engine = Matter.Engine.create();
@@ -190,7 +195,6 @@ function setup() {
       wrap: wrap
     },
   });
-
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
@@ -200,6 +204,7 @@ function setup() {
      marblin.body.friction = 0.05;
      ramp4.body.collisionFilter.group = -1;
      marblinLover.body.collisionFilter.group = -1;
+     prison.body.collisionFilter.group = -1;
      terrain_9.body.collisionFilter.group = -1;
     }
 
@@ -506,7 +511,19 @@ function setup() {
   // create level 3 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   let level3position = viewportH * 6.5;
 
+  // variablen: ParticleSystem(x, y, r)
+  // r ist höhe und breite eines particles
+  // ParticleSystem besteht aus 15 reihen und 15 columns, zu ändern in particlesystem.js
+  let prisonSize = 25;
+  ps = new ParticleSystem(viewportW/2, level3position-184, prisonSize);
 
+  prison = new BlockCore(world, {
+    x: viewportW/4,
+    y: level3position,
+    w: 15*prisonSize,
+    h: 15*prisonSize,
+    color: prisonColor
+  },{ isStatic: false });
 
  terrain_12 = new BlockCore(world, {
     x: viewportW/2,
@@ -548,10 +565,27 @@ function setup() {
   });
   */
 
+  // create übergang 5 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+let transition5position = viewportH * 9.5;
 
+
+  loveball1  = new Ball(world, {
+    x: 500,
+    y: transition5position,
+    r: 40,
+    color: 'white'
+  });
+
+  loveball2  = new Ball(world, {
+    x: 500,
+    y: transition5position,
+    r: 40,
+    color: 'RED'
+  });
 
   // create level 5 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   let level7position = viewportH * 10.5;
+
   terrain_6 = new BlockCore(world, {
     x: 273,
     y: level7position - 44,
@@ -687,7 +721,7 @@ function draw() {
   background(backgroundColor);
 
   blocks.forEach(block => block.draw());
-
+  lamp.draw();
   house.draw();
         // //collisionen aussschalten
         // marblin.body.collisionFilter.group = -1;
@@ -714,6 +748,11 @@ function draw() {
   terrain_11.draw();
   terrain_12.draw();
 
+  // shatter system/prison
+
+  prison.draw();
+  ps.display();
+  ps.update();
 
   // //balls.draw();
   // seperator_1.draw();
@@ -724,7 +763,12 @@ function draw() {
   // seperator_6.draw();
   // seperator_7.draw();
   marblin.draw();
-  //prison.draw();
+ 
+
+  // übergang 5
+
+  loveball1.draw();
+  loveball2.draw();
   ove.draw();
 
   //Bäume Mappen
@@ -1036,6 +1080,10 @@ function keyPressed() {
     case 76: //L inLove
       toggleInLove();
       break;
+
+      case 66: //b
+      ps.shatter();
+        break;
 
     default:
   }

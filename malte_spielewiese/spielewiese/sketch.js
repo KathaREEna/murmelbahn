@@ -33,7 +33,7 @@ let ps;
 
 function setup() {
   const canvas = createCanvas(800, 600);
-  ps = new ParticleSystem(210, 400, 10);
+  ps = new ParticleSystem(0, 400, 10);
 
   
   
