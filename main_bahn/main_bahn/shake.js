@@ -18,7 +18,7 @@ let pforce = 1;
 function shake(){
   //console.log(sekunden);
   countertestzahl++;
-  if (countertestzahl >= 30) {
+  if (countertestzahl >= 10) {
     clearInterval(interval1);
     countertestzahl = 0;
   }

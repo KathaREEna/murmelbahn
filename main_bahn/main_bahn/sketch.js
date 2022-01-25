@@ -841,10 +841,10 @@ function draw() {
   }
 
   //inLoveTrigger
-  if (marblinLover.body.position.x > 1100 && marblinLover.body.position.x < 1150 && marblinLover.body.position.y > 480 && marblinLover.body.position.y < 500) {
+  // if (marblinLover.body.position.x > 1100 && marblinLover.body.position.x < 1150 && marblinLover.body.position.y > 480 && marblinLover.body.position.y < 500) {
 
-    inLove = true;
-  }
+  //   inLove = true;
+  // }
 
 
 
@@ -911,7 +911,7 @@ function keyPressed() {
       break;
     case 83:
       console.log("pressed s --> shaking ball");
-      interval1 = setInterval(shake, 100);
+      interval1 = setInterval(shake, 120);
 
 
       break;
@@ -952,6 +952,20 @@ function keyPressed() {
       groesserYEnd = marblinTest2.body.position.y+100;
       marblinGrows = true;
     break;
+
+         // make marblin jump at the beginning
+         case 85: // u 
+         console.log("jump");
+         sleepy = false;
+         direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
+         Matter.Body.applyForce(
+           marblin.body,
+           {x: marblin.body.position.x, y: marblin.body.position.y},
+           {x: (0.05) + marblin.body.velocity.x / 100, y: -0.2}
+         );
+         
+     
+           break;
 
 
     case 86: //v

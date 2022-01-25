@@ -908,6 +908,20 @@ function keyPressed() {
 
       break;
 
+      // make marblin jump at the beginning
+      case 85: // u 
+      console.log("jump");
+      sleepy = false;
+      direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
+      Matter.Body.applyForce(
+        marblin.body,
+        {x: marblin.body.position.x, y: marblin.body.position.y},
+        {x: (0.05 * 1) + marblin.body.velocity.x / 100, y: -0.2}
+      );
+      
+  
+        break;
+
     case 66: //b
       pinterval1 = setInterval(shakePrison, 100);
       break;
