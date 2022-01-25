@@ -1003,12 +1003,18 @@ function draw() {
     sleepy = false;
   }
 
-  //inLoveTrigger
-  // if (marblinLover.body.position.x > 1100 && marblinLover.body.position.x < 1150 && marblinLover.body.position.y > 480 && marblinLover.body.position.y < 500) {
-
-  //   inLove = true;
-  // }
-
+  //controlFunction1trigger
+  if (marblinLover.body.position.x > 1100 && marblinLover.body.position.x < 1150 && marblinLover.body.position.y > 480 && marblinLover.body.position.y < 500) {
+    if (controlStarter1){
+      controlFunction1();
+      controlStarter1 = false;
+    }
+    //inLove = true;
+  }
+  if (count) {
+    controlFunction1();
+    count = false;
+  }
 
 
   //SLEEPY
@@ -1121,7 +1127,7 @@ function keyPressed() {
       groesserAnfang = marblinTest2.body.position.y;
       groesserYEnd = marblinTest2.body.position.y+100;
       marblinGrows = true;
-      
+
       marblinTest2.body.collisionFilter.group = -1;
       firstPlain.body.collisionFilter.group = -1;
 
@@ -1142,7 +1148,7 @@ function keyPressed() {
       shrinkEnd = marblinTest2.body.position.y+100;
       marblinShrinks = true;
     break;
-    
+
     case 79: //o
       levelMarblin.body.collisionFilter.group = -1;
       terrain_9.body.collisionFilter.group = -1;

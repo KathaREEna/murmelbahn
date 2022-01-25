@@ -76,7 +76,9 @@ function colorFade(){
   marblin.attrs.color = color(marblinactualR,marblinactualG,marblinactualB);
   if (marblinnewB-marblinactualB+marblinnewG-marblinactualG+marblinnewR-marblinactualR == 0){
     clearInterval(intervalmarblin);
-    console.log("clearing interval2");
+
+      count = true;
+    console.log("clearing intervalmarblin");
   }
 }
 
