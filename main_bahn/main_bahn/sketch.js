@@ -55,6 +55,19 @@ let terrain_10_left;
 let terrain_10_right;
 let terrain_11_left;
 let terrain_11_right;
+let terrainX = 640;
+let terrain_9_leftWall;
+let terrain_9_rightWall;
+let terrain_10_leftWall;
+let terrain_10_rightWall;
+let terrain_11_leftWall;
+let terrain_11_rightWall;
+let trennung;
+let terrain_11_l;
+let terrain_11_middle;
+let terrain_11_r;
+
+
 
 
 let house;
@@ -399,7 +412,7 @@ function setup() {
 
 
   terrain_9 = new BlockCore(world, {
-    x: 300,
+    x: 640,
     y: level2position-viewportH/3,
     w: viewportW,
     h: viewportH/3,
@@ -407,23 +420,23 @@ function setup() {
   },{ isStatic: true });
 
   terrain_9_left = new BlockCore(world, {
-    x: 300,
-    y: level2position-viewportH/3,
-    w: 100,
+    x: -110,
+    y: 3130,
+    w: 220,
     h: 20,
     color: "darkblue"
   },{ isStatic: true });
 
   terrain_9_right = new BlockCore(world, {
-    x: 980,
-    y: level2position-viewportH/3,
-    w: 100,
+    x: terrainX + 750,
+    y: 3130,
+    w: 220,
     h: 20,
     color: "darkblue"
   },{ isStatic: true });
 
   terrain_10 = new BlockCore(world, {
-    x: 300,
+    x: 640,
     y: level2position,
     w: viewportW,
     h: viewportH/3,
@@ -431,44 +444,124 @@ function setup() {
   },{ isStatic: true });
 
   terrain_10_left = new BlockCore(world, {
-    x: 300,
-    y: level2position-viewportH/3,
-    w: 100,
+    x: -110,
+    y: 3370,
+    w: 220,
     h: 20,
     color: "darkblue"
   },{ isStatic: true });
 
   terrain_10_right = new BlockCore(world, {
-    x: 980,
-    y: level2position-viewportH/3,
-    w: 100,
+    x: terrainX + 750,
+    y: 3370,
+    w: 220,
     h: 20,
     color: "darkblue"
   },{ isStatic: true });
 
   terrain_11 = new BlockCore(world, {
-    x: 300,
+    x: 640,
     y: level2position+viewportH/3,
     w: viewportW,
     h: viewportH/3,
     color: "black"
   },{ isStatic: true });
 
+  terrain_11_r = new BlockCore(world, {
+    x: 960,
+    y: 3610,
+    w: viewportW/2,
+    h: 20,
+    color: "red"
+  },{ isStatic: true });
+
+  terrain_11_middle = new BlockCore(world, {
+    x: 480,
+    y: 3610,
+    w: viewportW/4,
+    h: 20,
+    color: "orange"
+  },{ isStatic: true });
+
+  terrain_11_l = new BlockCore(world, {
+    x: 160,
+    y: 3610,
+    w: viewportW/4,
+    h: 20,
+    color: "yellow"
+  },{ isStatic: true });
+
   terrain_11_left = new BlockCore(world, {
-    x: 300,
-    y: level2position-viewportH/3,
-    w: 100,
+    x: -110,
+    y: 3610,
+    w: 220,
     h: 20,
     color: "darkblue"
   },{ isStatic: true });
 
   terrain_11_right = new BlockCore(world, {
-    x: 980,
-    y: level2position-viewportH/3,
-    w: 100,
+    x: terrainX + 750,
+    y: 3610,
+    w: 220,
     h: 20,
     color: "darkblue"
   },{ isStatic: true });
+
+  terrain_9_leftWall = new BlockCore(world, {
+    x: -210,
+    y: 3030,
+    w: 220,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true, angle: radians(90) });
+
+  terrain_9_rightWall = new BlockCore(world, {
+    x: terrainX + 850,
+    y: 3050,
+    w: 150,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true, angle: radians(90) });
+
+  terrain_10_leftWall = new BlockCore(world, {
+    x: -200,
+    y: 3280,
+    w: 220,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true, angle: radians(45) });
+
+  terrain_10_rightWall = new BlockCore(world, {
+    x: terrainX + 850,
+    y: 3300,
+    w: 150,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true, angle: radians(90) });
+
+  terrain_11_leftWall = new BlockCore(world, {
+    x: -200,
+    y: 3520,
+    w: 220,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true, angle: radians(45) });
+
+  terrain_11_rightWall = new BlockCore(world, {
+    x: terrainX + 850,
+    y: 3540,
+    w: 150,
+    h: 20,
+    color: "darkblue"
+  }, { isStatic: true, angle: radians(90) } );
+
+  trennung = new BlockCore(world, {
+    x: 640,
+    y: 3525,
+    w: 150,
+    h: 20,
+    color: "pink"
+  }, { isStatic: true, angle: radians(90) } );
 
   levelMarblin = new Ball(world, {
     x: 1100,
@@ -478,9 +571,7 @@ function setup() {
   }, {
     friction: 0,
     restitution: 0,
-    plugin: {
-      wrap: wrap
-    },
+
   });
 
 
@@ -720,6 +811,19 @@ let transition5position = viewportH * 9.5;
 
   });
 
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "secondRamp" || bodyB.label === "secondRamp") {
+      firstRamp.body.collisionFilter.group = -1;
+      console.log('test');
+    }
+
+  });
+
+
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
@@ -804,6 +908,17 @@ loveballs.draw();
   terrain_10_right.draw();
   terrain_11_left.draw();
   terrain_11_right.draw();
+  terrain_9_leftWall.draw();
+  terrain_9_rightWall.draw();
+  terrain_10_leftWall.draw();
+  terrain_10_rightWall.draw();
+  terrain_11_leftWall.draw();
+  terrain_11_rightWall.draw();
+  terrain_11_l.draw();
+  terrain_11_middle.draw();
+  trennung.draw();
+  terrain_11_r.draw();
+
 
 
 
