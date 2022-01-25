@@ -927,7 +927,7 @@ function keyPressed() {
 }
 
 
-let scroller = true;
+let scroller = false;
 
 function scrollFollow(matterObj) {
 
