@@ -49,10 +49,17 @@ function setup() {
       y: 200,
       r: 30,
       color: 'white',
-      attraction: 0.45e-5
+      attraction: 0.45e-5,
+      shadowColor: "black",
+      // Set the shadow blur radius to 12:
+      shadowBlur: 1,
+      // Offset the shadow by { x: 5, y: 5 }
+      shadowOffset: { x: 40, y: 20 }
     }, { isStatic: true }
   );
   blocks.push(magnet);
+
+  
 
   // create a group of identical bodies
   let stack = new Stack(
@@ -81,7 +88,7 @@ function setup() {
 }
 
 function draw() {
-  background("blue");
+  background("white");
   magnet.draw();
   blocks.forEach(block => block.draw());
   magnet.attract();

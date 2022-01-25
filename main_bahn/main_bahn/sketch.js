@@ -155,11 +155,12 @@ function setup() {
   }
 
   // create Main Character MURMEL
-  marblin = new Ball(world, {
+  marblin = new Magnet(world, {
     x: 250,
     y: 50,
     r: 40,
-    color: 'white'
+    color: 'white',
+    attraction: 0.45e-5
   },
   {
     restitution: 0,
@@ -195,6 +196,14 @@ function setup() {
     friction: 0.004,
     restitution: 0
   });
+// attrackt lover to marblin
+// marblin.addAttracted(marblinLover.body)
+
+
+
+
+
+
 
   // create the world <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   // create level 1 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -654,10 +663,10 @@ function setup() {
 let transition5position = viewportH * 9.5;
 
 
-  loveballs = new Stack(world, {
-    x: 0, y: transition5position-500, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
-    create: (x, y) => Matter.Bodies.circle(x, y, 15, { restitution: 0.1, friction: -0.1})
-  });
+  // loveballs = new Stack(world, {
+  //   x: 0, y: transition5position-500, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
+  //   create: (x, y) => Matter.Bodies.circle(x, y, 15, { restitution: 0.1, friction: -0.1})
+  // });
 
 
 
@@ -864,7 +873,7 @@ function draw() {
         // marblin.body.collisionFilter.group = -1;
         // house.body.collisionFilter.group = -1;
 
-loveballs.draw();
+// loveballs.draw();
 
   //lampe
   lamp.draw();
@@ -933,6 +942,7 @@ loveballs.draw();
   }
   // //balls.draw();
   marblin.draw();
+  marblin.attract();
 
 
    // ove.draw();
