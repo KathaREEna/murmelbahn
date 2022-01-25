@@ -1190,12 +1190,10 @@ function keyPressed() {
       }
       break;
     case 69:
-      let vekktor = marblin.body.velocity;
-      marblin.body.position.x += 300;
-      for (var i = 0; i < 10000; i++) {
-        marblin.body.speed = 0;
-        marblin.body.velocity = vekktor;
-      }
+      Matter.Body.setPosition(
+      marblin.body,
+      {x: marblin.body.position.x, y: marblin.body.position.y-100}
+      );
     break;
 
     default:

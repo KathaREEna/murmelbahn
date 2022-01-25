@@ -28,3 +28,10 @@ function controlFunction1(){
 
   }
 }
+
+/*
+Matter.Body.setPosition(
+elevator.body,
+{x: elevator.body.position.x, y: swingY}
+);
+*/
