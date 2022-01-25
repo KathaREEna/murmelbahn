@@ -576,37 +576,37 @@ let transition5position = viewportH * 9.5;
 
   loverPlain = new Block(
     world,
-    { x: 1330, y : 5200, w: 100, h: 10, color: 'yellow' },
+    { x: 1330, y : 5200, w: 100, h: 10, color: 'red' },
     { isStatic: true, label: 'loverPlain' }
   );
 
   firstPlain = new Block(
     world,
-    { x: 680, y : 5600, w: 100, h: 10, color: 'yellow' },
+    { x: 680, y : 5600, w: 100, h: 10, color: 'red' },
     { isStatic: true, label: 'firstPlain' }
   );
 
   firstRamp = new Block(
     world,
-    { x: 720, y : 5655, w: 180, h: 10, color: 'yellow' },
+    { x: 720, y : 5655, w: 180, h: 10, color: 'red' },
     { isStatic: true, label: 'firstRamp', angle: radians(22) }
   );
 
   secondRamp = new Block(
     world,
-    { x: 910, y : 5730, w: 100, h: 10, color: 'yellow' },
+    { x: 910, y : 5730, w: 100, h: 10, color: 'red' },
     { isStatic: true, label: 'secondRamp', angle: radians(-45) }
   );
 
   secondPlain = new Block(
     world,
-    { x: 690, y : 5780, w: 450, h: 10, color: 'yellow' },
+    { x: 690, y : 5780, w: 450, h: 10, color: 'red' },
     { isStatic: true, label: 'secondPlain', angle: radians(-3), }
   );
 
   thirdPlain = new Block(
     world,
-    { x: 310, y : 5795, w: 310, h: 10, color: 'yellow' },
+    { x: 310, y : 5795, w: 310, h: 10, color: 'red' },
     { isStatic: true, label: 'thirdPlain' }
   );
 
@@ -658,16 +658,6 @@ let transition5position = viewportH * 9.5;
     if (bodyA.label === "bluePlain" || bodyB.label === "bluePlain") {
       marblinTest.body.collisionFilter.group = -1;
       loverPlain.body.collisionFilter.group = -1;
-    }
-
-  });
-
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    const pairs = event.pairs[0];
-    const bodyA = pairs.bodyA;
-    const bodyB = pairs.bodyB;
-    if (bodyA.label === "secondRamp" || bodyB.label === "secondRamp") {
-      console.log('test');
     }
 
   });
