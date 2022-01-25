@@ -419,7 +419,7 @@ function setup() {
 //attractor code ENDE
 
 
-
+//First Level
   terrain_9 = new BlockCore(world, {
     x: 640,
     y: level2position-viewportH/3,
@@ -428,6 +428,7 @@ function setup() {
     color: "darkblue"
   },{ isStatic: true });
 
+//First Level Auserhalb Plains
   terrain_9_left = new BlockCore(world, {
     x: -110,
     y: 3130,
@@ -444,6 +445,7 @@ function setup() {
     color: "darkblue"
   },{ isStatic: true });
 
+//Second Level
   terrain_10 = new BlockCore(world, {
     x: 640,
     y: level2position,
@@ -452,6 +454,7 @@ function setup() {
     color: "#050B4E"
   },{ isStatic: true });
 
+//Second Level Auserhalb Plains
   terrain_10_left = new BlockCore(world, {
     x: -110,
     y: 3370,
@@ -468,6 +471,7 @@ function setup() {
     color: "darkblue"
   },{ isStatic: true });
 
+//Third Level Auserhalb Plains
   terrain_11 = new BlockCore(world, {
     x: 640,
     y: level2position+viewportH/3,
@@ -476,6 +480,7 @@ function setup() {
     color: "black"
   },{ isStatic: true });
 
+//Trigger Rechts unter Third Level
   terrain_11_r = new BlockCore(world, {
     x: 960,
     y: 3610,
@@ -484,6 +489,7 @@ function setup() {
     color: "red"
   },{ isStatic: true });
 
+//Trigger Mitte unter Third Level
   terrain_11_middle = new BlockCore(world, {
     x: 480,
     y: 3610,
@@ -492,6 +498,7 @@ function setup() {
     color: "orange"
   },{ isStatic: true });
 
+//Trigger Links unter Third Level
   terrain_11_l = new BlockCore(world, {
     x: 160,
     y: 3610,
@@ -500,6 +507,7 @@ function setup() {
     color: "yellow"
   },{ isStatic: true });
 
+//Third Level Auserhalb Plains
   terrain_11_left = new BlockCore(world, {
     x: -110,
     y: 3610,
@@ -516,6 +524,7 @@ function setup() {
     color: "darkblue"
   },{ isStatic: true });
 
+//First Level Auserhalb Walls
   terrain_9_leftWall = new BlockCore(world, {
     x: -210,
     y: 3030,
@@ -532,6 +541,7 @@ function setup() {
     color: "darkblue"
   },{ isStatic: true, angle: radians(90) });
 
+//Second Level Auserhalb Walls
   terrain_10_leftWall = new BlockCore(world, {
     x: -200,
     y: 3280,
@@ -548,6 +558,7 @@ function setup() {
     color: "darkblue"
   },{ isStatic: true, angle: radians(90) });
 
+//Third Level Auserhalb Walls
   terrain_11_leftWall = new BlockCore(world, {
     x: -200,
     y: 3520,
@@ -564,6 +575,7 @@ function setup() {
     color: "darkblue"
   }, { isStatic: true, angle: radians(90) } );
 
+//Wall zwischen Third Level
   trennung = new BlockCore(world, {
     x: 640,
     y: 3525,
@@ -572,6 +584,7 @@ function setup() {
     color: "pink"
   }, { isStatic: true, angle: radians(90) } );
 
+//Test Ball, mit "o" bedienbar
   levelMarblin = new Ball(world, {
     x: 1100,
     y: 2300,
