@@ -68,6 +68,7 @@ let trennung;
 let terrain_11_l;
 let terrain_11_middle;
 let terrain_11_r;
+let terrain_11_links;
 
 
 
@@ -441,16 +442,6 @@ function setup() {
  // create level 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
  let level2position = viewportH * 4.5;
 
-
-
- //attractor code BEGINN
-
-
-
-
-//attractor code ENDE
-
-
 //First Level
   terrain_9 = new BlockCore(world, {
     x: 640,
@@ -458,7 +449,7 @@ function setup() {
     w: viewportW,
     h: viewportH/3,
     color: "darkblue"
-  },{ isStatic: true });
+  }, { isStatic: true });
 
 //First Level Auserhalb Plains
   terrain_9_left = new BlockCore(world, {
@@ -467,7 +458,7 @@ function setup() {
     w: 220,
     h: 20,
     color: "darkblue"
-  },{ isStatic: true });
+  }, { isStatic: true });
 
   terrain_9_right = new BlockCore(world, {
     x: terrainX + 750,
@@ -475,7 +466,7 @@ function setup() {
     w: 220,
     h: 20,
     color: "darkblue"
-  },{ isStatic: true });
+  }, { isStatic: true, label: terrain_9_right });
 
 //Second Level
   terrain_10 = new BlockCore(world, {
@@ -484,7 +475,7 @@ function setup() {
     w: viewportW,
     h: viewportH/3,
     color: "#050B4E"
-  },{ isStatic: true });
+  }, { isStatic: true });
 
 //Second Level Auserhalb Plains
   terrain_10_left = new BlockCore(world, {
@@ -501,34 +492,42 @@ function setup() {
     w: 220,
     h: 20,
     color: "darkblue"
-  },{ isStatic: true });
+  }, { isStatic: true, label: "terrain_10_right" });
 
 //Third Level Auserhalb Plains
   terrain_11 = new BlockCore(world, {
-    x: 640,
+    x: 960,
     y: level2position+viewportH/3,
-    w: viewportW,
+    w: viewportW/2,
     h: viewportH/3,
     color: "black"
-  },{ isStatic: true });
+  }, { isStatic: true });
+
+  terrain_11_links = new BlockCore(world, {
+    x: 320,
+    y: level2position+viewportH/3,
+    w: viewportW/2,
+    h: viewportH/3,
+    color: "grey"
+  }, { isStatic: true });
 
 //Trigger Rechts unter Third Level
   terrain_11_r = new BlockCore(world, {
-    x: 960,
+    x: 1270,
     y: 3610,
     w: viewportW/2,
     h: 20,
     color: "red"
-  },{ isStatic: true });
+  }, { isStatic: true });
 
 //Trigger Mitte unter Third Level
   terrain_11_middle = new BlockCore(world, {
-    x: 480,
+    x: 640,
     y: 3610,
-    w: viewportW/4,
+    w: viewportW/2,
     h: 20,
     color: "orange"
-  },{ isStatic: true });
+  }, { isStatic: true });
 
 //Trigger Links unter Third Level
   terrain_11_l = new BlockCore(world, {
@@ -537,7 +536,7 @@ function setup() {
     w: viewportW/4,
     h: 20,
     color: "yellow"
-  },{ isStatic: true });
+  }, { isStatic: true });
 
 //Third Level Auserhalb Plains
   terrain_11_left = new BlockCore(world, {
@@ -546,7 +545,7 @@ function setup() {
     w: 220,
     h: 20,
     color: "darkblue"
-  },{ isStatic: true });
+  }, { isStatic: true });
 
   terrain_11_right = new BlockCore(world, {
     x: terrainX + 750,
@@ -554,7 +553,7 @@ function setup() {
     w: 220,
     h: 20,
     color: "darkblue"
-  },{ isStatic: true });
+  }, { isStatic: true });
 
 //First Level Auserhalb Walls
   terrain_9_leftWall = new BlockCore(world, {
@@ -563,7 +562,7 @@ function setup() {
     w: 220,
     h: 20,
     color: "darkblue"
-  },{ isStatic: true, angle: radians(90) });
+  }, { isStatic: true, angle: radians(90) });
 
   terrain_9_rightWall = new BlockCore(world, {
     x: terrainX + 850,
@@ -571,7 +570,7 @@ function setup() {
     w: 150,
     h: 20,
     color: "darkblue"
-  },{ isStatic: true, angle: radians(90) });
+  }, { isStatic: true, angle: radians(90) });
 
 //Second Level Auserhalb Walls
   terrain_10_leftWall = new BlockCore(world, {
@@ -580,7 +579,7 @@ function setup() {
     w: 220,
     h: 20,
     color: "darkblue"
-  },{ isStatic: true, angle: radians(45) });
+  }, { isStatic: true, angle: radians(45) });
 
   terrain_10_rightWall = new BlockCore(world, {
     x: terrainX + 850,
@@ -588,7 +587,7 @@ function setup() {
     w: 150,
     h: 20,
     color: "darkblue"
-  },{ isStatic: true, angle: radians(90) });
+  }, { isStatic: true, angle: radians(90) });
 
 //Third Level Auserhalb Walls
   terrain_11_leftWall = new BlockCore(world, {
@@ -597,7 +596,7 @@ function setup() {
     w: 220,
     h: 20,
     color: "darkblue"
-  },{ isStatic: true, angle: radians(45) });
+  }, { isStatic: true, angle: radians(45) });
 
   terrain_11_rightWall = new BlockCore(world, {
     x: terrainX + 850,
@@ -625,13 +624,30 @@ function setup() {
   }, {
     label: "labelMarblin",
     friction: 0,
-    restitution: 0,
+    restitution: 1,
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "terrain_9_right" || bodyB.label === "terrain_9_right") {
+      terrain_10.body.collisionFilter.group = -1;
+      //teleport
+    }
 
   });
 
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "terrain_10_right" || bodyB.label === "terrain_10_right") {
+      terrain_11.body.collisionFilter.group = -1;
+      //teleport
+    }
 
-
-
+  });
 
 
   // create zwischensequenz 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -993,6 +1009,7 @@ function draw() {
   terrain_11_middle.draw();
   trennung.draw();
   terrain_11_r.draw();
+  terrain_11_links.draw();
 
 
 
