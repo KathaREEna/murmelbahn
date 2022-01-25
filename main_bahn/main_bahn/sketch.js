@@ -715,7 +715,7 @@ let transition5position = viewportH * 9.5;
 
 function draw() {
   background(backgroundColor);
-
+  scrollFollow(marblin);
   blocks.forEach(block => block.draw());
   lamp.draw();
   house.draw();
@@ -952,6 +952,43 @@ function keyPressed() {
       groesserYEnd = marblinTest2.body.position.y+100;
       marblinGrows = true;
     break;
+
+
+    case 86: //v
+    if (scroller) {
+        scroller = false;
+      } else {
+        scroller = true;
+      }
+
+      
     default:
   }
 }
+
+
+let scroller = false;
+
+function scrollFollow(matterObj) {
+
+      const $element = $('html, body');
+        if (scroller){ $element.animate({
+            scrollLeft: marblin.body.position.x,
+            scrollTop: marblin.body.position.y-500
+          }, 10);
+        }
+  }
+  
+  function insideViewport(matterObj) {
+    const x = matterObj.body.position.x;
+    const y = matterObj.body.position.y;
+    const pageXOffset = window.pageXOffset || document.documentElement.scrollLeft;
+    const pageYOffset  = window.pageYOffset || document.documentElement.scrollTop;
+    if (/*x >= pageXOffset && x <= pageXOffset + windowWidth &&*/
+        y >= pageYOffset && y <= pageYOffset + windowHeight) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
