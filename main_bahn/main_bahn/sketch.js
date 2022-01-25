@@ -48,24 +48,21 @@ let thirdPlain;
 let blueWall;
 let bluePlain;
 
+//gradient steps
+let terrain_9_left;
+let terrain_9_right;
+let terrain_10_left;
+let terrain_10_right;
+let terrain_11_left;
+let terrain_11_right;
+
+
 let house;
 
 let backgroundColor;
 let terrainColor;
 let sun_moonColor;
 
-
-// attractor configs
-const World = Matter.World;
-const Bodies = Matter.Bodies;
-const Body = Matter.Body;
-const MouseConstraint = Matter.MouseConstraint;
-const Composites = Matter.Composites;
-const drawBody = Helpers.drawBody;
-const drawBodies = Helpers.drawBodies;
-let attractor;
-let boxes;
-let engine;
 
 // prison
 let ps
@@ -395,36 +392,97 @@ function setup() {
  //attractor code BEGINN
 
 
-  boxes = Composites.stack(viewportW/2, level2position-viewportH, 3, 20, 3, 3, function(x, y) {
-    return Bodies.circle(x, y, 10);
-  });
-  World.add(engine.world, boxes);
+
 
 //attractor code ENDE
 
 
 
   terrain_9 = new BlockCore(world, {
-    x: viewportW/2,
+    x: 300,
     y: level2position-viewportH/3,
     w: viewportW,
     h: viewportH/3,
     color: "darkblue"
   },{ isStatic: true });
+
+  terrain_9_left = new BlockCore(world, {
+    x: 300,
+    y: level2position-viewportH/3,
+    w: 100,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true });
+
+  terrain_9_right = new BlockCore(world, {
+    x: 980,
+    y: level2position-viewportH/3,
+    w: 100,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true });
+
   terrain_10 = new BlockCore(world, {
-    x: viewportW/2,
+    x: 300,
     y: level2position,
     w: viewportW,
     h: viewportH/3,
     color: "#050B4E"
   },{ isStatic: true });
+
+  terrain_10_left = new BlockCore(world, {
+    x: 300,
+    y: level2position-viewportH/3,
+    w: 100,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true });
+
+  terrain_10_right = new BlockCore(world, {
+    x: 980,
+    y: level2position-viewportH/3,
+    w: 100,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true });
+
   terrain_11 = new BlockCore(world, {
-    x: viewportW/2,
+    x: 300,
     y: level2position+viewportH/3,
     w: viewportW,
     h: viewportH/3,
     color: "black"
   },{ isStatic: true });
+
+  terrain_11_left = new BlockCore(world, {
+    x: 300,
+    y: level2position-viewportH/3,
+    w: 100,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true });
+
+  terrain_11_right = new BlockCore(world, {
+    x: 980,
+    y: level2position-viewportH/3,
+    w: 100,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true });
+
+  levelMarblin = new Ball(world, {
+    x: 1100,
+    y: 2300,
+    r: 40,
+    color: 'white'
+  }, {
+    friction: 0,
+    restitution: 0,
+    plugin: {
+      wrap: wrap
+    },
+  });
+
 
 
 
@@ -736,6 +794,18 @@ function draw() {
   terrain_11.draw();
   terrain_12.draw();
 
+  //level 2
+  levelMarblin.draw();
+  terrain_9_left.draw();
+  terrain_9_left.draw();
+  terrain_9_left.draw();
+  terrain_9_left.draw();
+  terrain_9_left.draw();
+  terrain_9_left.draw();
+
+
+
+
   // shatter system/prison
 
   if(boom){
@@ -783,11 +853,6 @@ function draw() {
     stair7.draw();
   }
 
-
-// attractors config
-  noStroke();
-  fill(255);
-  drawBodies(boxes.bodies);
 
 
   // ove.draw();
@@ -949,6 +1014,11 @@ function keyPressed() {
       shrinkAnfang = marblinTest2.body.position.y;
       shrinkEnd = marblinTest2.body.position.y+100;
       marblinShrinks = true;
+    break;
+    
+    case 79: //o
+      levelMarblin.body.collisionFilter.group = -1;
+      terrain_9.body.collisionFilter.group = -1;
     break;
 
          // make marblin jump at the beginning
