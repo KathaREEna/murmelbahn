@@ -858,12 +858,12 @@ function draw() {
   }
   //marblinGrows
   if(marblinGrows){
-    let scaleStart = 4977;
-    let scaleEnd = 11200;
-    let localtarget = map(marblin.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1)
+    let scaleStart = 5400;
+    let scaleEnd = 6000;
+    let localtarget = map(marblinTest2.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1)
 
-    while(marblin.body.area < localtarget){
-    Matter.Body.scale(marblin.body, 1.01, 1.01);
+    while(marblinTest2.body.area < localtarget){
+    Matter.Body.scale(marblinTest2.body, 1.01, 1.01);
     }
   }
 }
@@ -940,11 +940,7 @@ function keyPressed() {
 
 
     case 70:
-<<<<<<< Updated upstream
       marblinTest2.body.friction = -0.03;
-=======
-      marblinTest2.body.friction = -0.04
->>>>>>> Stashed changes
 
       break;
 
@@ -952,8 +948,8 @@ function keyPressed() {
       pinterval1 = setInterval(shakePrison, 100);
       break;
     case 81: //Q = Murmel wächst
-      groesserAnfang = marblin.body.position.y;
-      groesserYEnd = marblin.body.position.y+100;
+      groesserAnfang = marblinTest2.body.position.y;
+      groesserYEnd = marblinTest2.body.position.y+100;
       marblinGrows = true;
     break;
     default:
