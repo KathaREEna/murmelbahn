@@ -1,7 +1,5 @@
 Matter.use('matter-wrap');
 
-//marblinGrows
-let marblinGrows = false;
 
 Matter.use('matter-attractors');
 
@@ -490,7 +488,7 @@ function setup() {
       let level4position = viewportH * 7.5;
 
 
-  
+
 
 
 
@@ -822,10 +820,19 @@ function draw() {
   if(marblinGrows){
     let scaleStart = 5400;
     let scaleEnd = 6000;
-    let localtarget = map(marblinTest2.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1)
+    let localtarget = map(marblinTest2.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1);
 
     while(marblinTest2.body.area < localtarget){
     Matter.Body.scale(marblinTest2.body, 1.01, 1.01);
+    }
+  }
+  //marblinShrinks
+  if(marblinShrinks){
+
+    let localtarget = map(marblinTest2.body.position.y,groesserAnfang,groesserYEnd,shrinkScaleStart,shrinkScaleEnd,1);
+
+    while(marblinTest2.body.area > localtarget){
+    Matter.Body.scale(marblinTest2.body, 0.99, 0.99);
     }
   }
 }
@@ -835,6 +842,12 @@ function draw() {
 let groesserAnfang;
 let groesserYEnd;
 
+let shrinkScaleStart = 0;
+let shrinkScaleEnd = 0;
+
+//marblinGrows
+let marblinGrows = false;
+let marblinShrinks = false;
 
 
 
@@ -913,6 +926,13 @@ function keyPressed() {
       groesserAnfang = marblinTest2.body.position.y;
       groesserYEnd = marblinTest2.body.position.y+100;
       marblinGrows = true;
+    break;
+    case 80:
+      shrinkScaleStart = marblinTest2.body.area;
+      shrinkScaleEnd = marblinTest2.body.area/3;
+      shrinkAnfang = marblinTest2.body.position.y;
+      shrinkEnd = marblinTest2.body.position.y+100;
+      marblinShrinks = true;
     break;
     default:
   }
