@@ -563,10 +563,10 @@ function setup() {
 let transition5position = viewportH * 9.5;
 
 
-  // loveballs = new Stack(world, {
-  //   x: 0, y: transition5position-500, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
-  //   create: (x, y) => Matter.Bodies.circle(x, y, 15, { restitution: 0.1, friction: -0.1})
-  // });
+  loveballs = new Stack(world, {
+    x: 0, y: transition5position-500, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
+    create: (x, y) => Matter.Bodies.circle(x, y, 15, { restitution: 0.1, friction: -0.1})
+  });
 
 
 
@@ -759,6 +759,8 @@ function draw() {
         // //collisionen aussschalten
         // marblin.body.collisionFilter.group = -1;
         // house.body.collisionFilter.group = -1;
+
+loveballs.draw();
 
   //lampe
   lamp.draw();
