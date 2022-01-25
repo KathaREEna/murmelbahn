@@ -466,7 +466,7 @@ function setup() {
     w: 220,
     h: 20,
     color: "darkblue"
-  }, { isStatic: true, label: terrain_9_right });
+  }, { isStatic: true, label: "terrain_9_right" });
 
 //Second Level
   terrain_10 = new BlockCore(world, {
@@ -632,7 +632,14 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "terrain_9_right" || bodyB.label === "terrain_9_right") {
-      terrain_10.body.collisionFilter.group = -1;
+      console.log("trigger!");
+      Matter.World.remove(engine.world, terrain_10.body);
+      removeStack1();
+      Matter.Body.setPosition(
+        levelMarblin.body,
+        {x: -180, y: level2position-300}
+        );
+
       //teleport
     }
 
