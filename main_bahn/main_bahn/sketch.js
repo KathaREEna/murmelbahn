@@ -1,4 +1,8 @@
 Matter.use('matter-wrap');
+
+//marblinGrows
+let marblinGrows = false;
+
 Matter.use('matter-attractors');
 
 let marblin;
@@ -42,7 +46,6 @@ let drawStair7 = false;
 
 //spotlight lampe
 let loverRamp;
-let loverSlow;
 let marblinTest2;
 let marblinTest;
 let lampePlain;
@@ -52,6 +55,7 @@ let firstPlain;
 let firstRamp;
 let secondPlain;
 let secondRamp;
+let loverPlain;
 
 let house;
 
@@ -586,8 +590,8 @@ let transition5position = viewportH * 9.5;
   //create lampe level
   marblinTest = new Ball(
     world,
-    { x: 1320, y: 5000, r: 40, color: 'white'},
-    { friction: -0.2 }
+    { x: 1400, y: 5050, r: 40, color: 'white'},
+    { isStatic: false, friction: 0 }
   );
 
   marblinTest2 = new Ball(
@@ -598,55 +602,55 @@ let transition5position = viewportH * 9.5;
 
   loverRamp = new Block(
     world,
-    { x: 1200, y : 5550, w: 600, h: 20, color: 'red' },
-    { isStatic: true, label: 'loverRamp', angle: radians(-52) }
+    { x: 1160, y : 5480, w: 600, h: 5, color: 'yellow' },
+    { isStatic: true, label: 'loverRamp', angle: radians(-45) }
   );
 
-  loverSlow = new Block(
+  loverPlain = new Block(
     world,
-    { x: 870, y : 5780, w: 300, h: 20, color: 'red' },
-    { isStatic: true, label: 'loverSlow' }
+    { x: 1430, y : 5200, w: 100, h: 5, color: 'yellow' },
+    { isStatic: true, label: 'loverPlain' }
   );
 
   firstPlain = new Block(
     world,
-    { x: 580, y : 5620, w: 100, h: 20, color: 'red' },
+    { x: 580, y : 5620, w: 100, h: 5, color: 'yellow' },
     { isStatic: true, label: 'firstPlain' }
   );
 
   firstRamp = new Block(
     world,
-    { x: 740, y : 5665, w: 250, h: 20, color: 'red' },
-    { isStatic: true, label: 'firstRamp', angle: radians(20) }
+    { x: 720, y : 5655, w: 180, h: 5, color: 'yellow' },
+    { isStatic: true, label: 'firstRamp', angle: radians(22) }
   );
 
   secondPlain = new Block(
     world,
-    { x: 400, y : 5780, w: 450, h: 20, color: 'red' },
-    { isStatic: true, label: 'secondPlain' }
+    { x: 910, y : 5730, w: 100, h: 5, color: 'yellow' },
+    { isStatic: true, label: 'secondPlain', angle: radians(-45) }
   );
 
   secondRamp = new Block(
     world,
-    { x: 400, y : 5780, w: 450, h: 20, color: 'red' },
-    { isStatic: true, label: 'secondRamp' }
+    { x: 690, y : 5780, w: 450, h: 5, color: 'yellow' },
+    { isStatic: true, label: 'secondRamp', angle: radians(-3), }
   );
 
   lampePlain = new Block(
     world,
-    { x: 400, y : 5780, w: 450, h: 20, color: 'red' },
+    { x: 310, y : 5795, w: 310, h: 5, color: 'yellow' },
     { isStatic: true, label: 'lampePlain' }
   );
 
   plainRamp = new Block(
     world,
-    { x: 530, y : 5790, w: 300, h: 20, color: 'red' },
-    { isStatic: true, label: 'plainRamp', angle: radians(-10) }
+    { x: 10, y : 5700, w: 300, h: 5, color: 'blue' },
+    { isStatic: true, label: 'plainRamp', angle: radians(90) }
   );
 
   bluePlain = new Block(
     world,
-    { x: 80, y : 5780, w: 200, h: 20, color: 'red' },
+    { x: 60, y : 5795, w: 180, h: 5, color: 'blue' },
     { isStatic: true, label: 'bluePlain', friction: 1 }
   );
 
@@ -654,8 +658,8 @@ let transition5position = viewportH * 9.5;
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
-    if (bodyA.label === "loverSlow" || bodyB.label === "loverSlow") {
-     marblinTest.body.friction = 1;
+    if (bodyA.label === "secondRamp" || bodyB.label === "secondRamp") {
+      marblinTest2.body.friction = -0.3;
     }
 
   });
@@ -665,11 +669,30 @@ let transition5position = viewportH * 9.5;
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "lampePlain" || bodyB.label === "lampePlain") {
-      marblinTest2.body.friction = 0.033;
+      marblinTest2.body.friction = 0.4;
     }
 
   });
 
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "secondPlain" || bodyB.label === "secondPlain") {
+      marblinTest2.body.friction = 0.4;
+    }
+
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "bluePlain" || bodyB.label === "bluePlain") {
+      marblinTest.body.friction = -0.2;
+    }
+
+  });
 
 
   //MAIN ENGINE////////////////////////////////////////////////////////////////
@@ -703,7 +726,6 @@ function draw() {
   //lampe
   lamp.draw();
   loverRamp.draw();
-  loverSlow.draw();
   marblinTest.draw();
   marblinTest2.draw();
   lampePlain.draw();
@@ -713,6 +735,7 @@ function draw() {
   firstRamp.draw();
   secondPlain.draw();
   secondRamp.draw();
+  loverPlain.draw();
 
   marblinLover.draw();
   sun_moon.draw();
@@ -789,6 +812,7 @@ function draw() {
     stair7.draw();
   }
 
+
 // attractors config
   noStroke();
   fill(255);
@@ -832,10 +856,22 @@ function draw() {
   if (inLove) {
     inLoveAni();
   }
+  //marblinGrows
+  if(marblinGrows){
+    let scaleStart = 5400;
+    let scaleEnd = 6000;
+    let localtarget = map(marblinTest2.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1)
+
+    while(marblinTest2.body.area < localtarget){
+    Matter.Body.scale(marblinTest2.body, 1.01, 1.01);
+    }
+  }
 }
 
 
 
+let groesserAnfang;
+let groesserYEnd;
 
 
 
@@ -893,13 +929,13 @@ function keyPressed() {
           };
         }
       ];
-      
+
         break;
 
 
         case 72: // H gravity attractor off
         marblin.body.plugin.attractors = "";
-  
+
         break;
 
 
@@ -911,7 +947,11 @@ function keyPressed() {
     case 66: //b
       pinterval1 = setInterval(shakePrison, 100);
       break;
-
+    case 81: //Q = Murmel wächst
+      groesserAnfang = marblinTest2.body.position.y;
+      groesserYEnd = marblinTest2.body.position.y+100;
+      marblinGrows = true;
+    break;
     default:
   }
 }
