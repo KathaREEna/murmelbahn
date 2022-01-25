@@ -48,18 +48,35 @@ function setup() {
       x: 400,
       y: 200,
       r: 30,
-      color: 'white',
+      color: 'yellow',
       attraction: 0.45e-5,
-      shadowColor: "black",
-      // Set the shadow blur radius to 12:
-      shadowBlur: 1,
-      // Offset the shadow by { x: 5, y: 5 }
-      shadowOffset: { x: 40, y: 20 }
+    // Set the shadow color of the circle to RGB black:
+    shadowColor: "black",
+    // Set the shadow blur radius to 12:
+    shadowBlur: 12,
+    shadowOffset: { x: 100, y: 100},
+    penis: 1
     }, { isStatic: true }
   );
   blocks.push(magnet);
 
+
+
+
+//   var circle = new Path.Circle({
+//     center: [80, 50],
+//     radius: 35,
+//     fillColor: 'white',
+//     // Set the shadow color of the circle to RGB black:
+//     shadowColor: new Color(0, 0, 0),
+//     // Set the shadow blur radius to 12:
+//     shadowBlur: 12,
+//     // Offset the shadow by { x: 5, y: 5 }
+//     shadowOffset: new Point(5, 5)
+// });
   
+
+
 
   // create a group of identical bodies
   let stack = new Stack(
@@ -98,3 +115,4 @@ function draw() {
 }
 
 
+console.log("ende")
