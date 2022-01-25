@@ -48,14 +48,14 @@ let drawStair7 = false;
 let loverRamp;
 let marblinTest2;
 let marblinTest;
-let lampePlain;
-let plainRamp;
-let bluePain;
+let loverPlain;
 let firstPlain;
 let firstRamp;
-let secondPlain;
 let secondRamp;
-let loverPlain;
+let secondPlain;
+let thirdPlain;
+let blueWall;
+let bluePlain;
 
 let house;
 
@@ -590,68 +590,68 @@ let transition5position = viewportH * 9.5;
   //create lampe level
   marblinTest = new Ball(
     world,
-    { x: 1400, y: 5050, r: 40, color: 'white'},
+    { x: 1320, y: 5050, r: 40, color: 'white'},
     { isStatic: false, friction: 0 }
   );
 
   marblinTest2 = new Ball(
     world,
-    { x: 600, y: 5000, r: 40, color: 'white'},
+    { x: 680, y: 5000, r: 40, color: 'white'},
     { restitution: 0, friction: 0 }
   );
 
   loverRamp = new Block(
     world,
-    { x: 1160, y : 5480, w: 600, h: 5, color: 'yellow' },
+    { x: 1160, y : 5480, w: 600, h: 10, color: 'yellow' },
     { isStatic: true, label: 'loverRamp', angle: radians(-45) }
   );
 
   loverPlain = new Block(
     world,
-    { x: 1430, y : 5200, w: 100, h: 5, color: 'yellow' },
+    { x: 1330, y : 5200, w: 100, h: 10, color: 'yellow' },
     { isStatic: true, label: 'loverPlain' }
   );
 
   firstPlain = new Block(
     world,
-    { x: 580, y : 5620, w: 100, h: 5, color: 'yellow' },
+    { x: 680, y : 5600, w: 100, h: 10, color: 'yellow' },
     { isStatic: true, label: 'firstPlain' }
   );
 
   firstRamp = new Block(
     world,
-    { x: 720, y : 5655, w: 180, h: 5, color: 'yellow' },
+    { x: 720, y : 5655, w: 180, h: 10, color: 'yellow' },
     { isStatic: true, label: 'firstRamp', angle: radians(22) }
-  );
-
-  secondPlain = new Block(
-    world,
-    { x: 910, y : 5730, w: 100, h: 5, color: 'yellow' },
-    { isStatic: true, label: 'secondPlain', angle: radians(-45) }
   );
 
   secondRamp = new Block(
     world,
-    { x: 690, y : 5780, w: 450, h: 5, color: 'yellow' },
-    { isStatic: true, label: 'secondRamp', angle: radians(-3), }
+    { x: 910, y : 5730, w: 100, h: 10, color: 'yellow' },
+    { isStatic: true, label: 'secondRamp', angle: radians(-45) }
   );
 
-  lampePlain = new Block(
+  secondPlain = new Block(
     world,
-    { x: 310, y : 5795, w: 310, h: 5, color: 'yellow' },
-    { isStatic: true, label: 'lampePlain' }
+    { x: 690, y : 5780, w: 450, h: 10, color: 'yellow' },
+    { isStatic: true, label: 'secondPlain', angle: radians(-3), }
   );
 
-  plainRamp = new Block(
+  thirdPlain = new Block(
     world,
-    { x: 10, y : 5700, w: 300, h: 5, color: 'blue' },
-    { isStatic: true, label: 'plainRamp', angle: radians(90) }
+    { x: 310, y : 5795, w: 310, h: 10, color: 'yellow' },
+    { isStatic: true, label: 'thirdPlain' }
+  );
+
+  blueWall = new Block(
+    world,
+    { x: 10, y : 5700, w: 300, h: 10, color: 'blue' },
+    { isStatic: true, label: 'blueWall', angle: radians(90) }
   );
 
   bluePlain = new Block(
     world,
-    { x: 60, y : 5795, w: 180, h: 5, color: 'blue' },
-    { isStatic: true, label: 'bluePlain', friction: 1 }
+    { x: 60, y : 5795, w: 180, h: 10, color: 'blue' },
+    { isStatic: true, label: 'bluePlain' }
   );
 
   Matter.Events.on(engine, 'collisionStart', function(event) {
@@ -659,7 +659,6 @@ let transition5position = viewportH * 9.5;
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "secondRamp" || bodyB.label === "secondRamp") {
-      marblinTest2.body.friction = -0.3;
     }
 
   });
@@ -668,8 +667,8 @@ let transition5position = viewportH * 9.5;
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
-    if (bodyA.label === "lampePlain" || bodyB.label === "lampePlain") {
-      marblinTest2.body.friction = 0.4;
+    if (bodyA.label === "thirdPlain" || bodyB.label === "thirdPlain") {
+      marblinTest2.body.friction = 0.2;
     }
 
   });
@@ -679,7 +678,7 @@ let transition5position = viewportH * 9.5;
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "secondPlain" || bodyB.label === "secondPlain") {
-      marblinTest2.body.friction = 0.4;
+      marblinTest2.body.friction = -0.2;
     }
 
   });
@@ -689,7 +688,29 @@ let transition5position = viewportH * 9.5;
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "bluePlain" || bodyB.label === "bluePlain") {
-      marblinTest.body.friction = -0.2;
+      marblinTest.body.collisionFilter.group = -1;
+      loverPlain.body.collisionFilter.group = -1;
+    }
+
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "secondRamp" || bodyB.label === "secondRamp") {
+      console.log('test');
+    }
+
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "secondRamp" || bodyB.label === "secondRamp") {
+      firstRamp.body.collisionFilter.group = -1;
+      console.log('test');
     }
 
   });
@@ -728,13 +749,13 @@ function draw() {
   loverRamp.draw();
   marblinTest.draw();
   marblinTest2.draw();
-  lampePlain.draw();
-  plainRamp.draw();
-  bluePlain.draw();
   firstPlain.draw();
   firstRamp.draw();
-  secondPlain.draw();
   secondRamp.draw();
+  secondPlain.draw();
+  thirdPlain.draw();
+  bluePlain.draw();
+  blueWall.draw();
   loverPlain.draw();
 
   marblinLover.draw();
@@ -858,12 +879,12 @@ function draw() {
   }
   //marblinGrows
   if(marblinGrows){
-    let scaleStart = 5400;
-    let scaleEnd = 6000;
+    let scaleStart = 5977;
+    let scaleEnd = 8000;
     let localtarget = map(marblinTest2.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1)
 
     while(marblinTest2.body.area < localtarget){
-    Matter.Body.scale(marblinTest2.body, 1.01, 1.01);
+    Matter.Body.scale(marblinTest2.body, 1.03, 1.03);
     }
   }
 }
@@ -939,8 +960,13 @@ function keyPressed() {
         break;
 
 
-    case 70:
-      marblinTest2.body.friction = -0.03;
+    case 70: //F: Marblin Jumps into spotlight and gets bigger
+      groesserAnfang = marblinTest2.body.position.y;
+      groesserYEnd = marblinTest2.body.position.y+100;
+      marblinGrows = true;
+      
+      marblinTest2.body.collisionFilter.group = -1;
+      firstPlain.body.collisionFilter.group = -1;
 
       break;
 
