@@ -808,11 +808,11 @@ function draw() {
   //level 2
   levelMarblin.draw();
   terrain_9_left.draw();
-  terrain_9_left.draw();
-  terrain_9_left.draw();
-  terrain_9_left.draw();
-  terrain_9_left.draw();
-  terrain_9_left.draw();
+  terrain_9_right.draw();
+  terrain_10_left.draw();
+  terrain_10_right.draw();
+  terrain_11_left.draw();
+  terrain_11_right.draw();
 
 
 
