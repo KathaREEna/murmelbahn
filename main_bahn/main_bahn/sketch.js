@@ -451,7 +451,7 @@ function setup() {
 //attractor code ENDE
 
 
-
+//First Level
   terrain_9 = new BlockCore(world, {
     x: 640,
     y: level2position-viewportH/3,
@@ -460,6 +460,7 @@ function setup() {
     color: "darkblue"
   },{ isStatic: true });
 
+//First Level Auserhalb Plains
   terrain_9_left = new BlockCore(world, {
     x: -110,
     y: 3130,
@@ -476,6 +477,7 @@ function setup() {
     color: "darkblue"
   },{ isStatic: true });
 
+//Second Level
   terrain_10 = new BlockCore(world, {
     x: 640,
     y: level2position,
@@ -484,6 +486,7 @@ function setup() {
     color: "#050B4E"
   },{ isStatic: true });
 
+//Second Level Auserhalb Plains
   terrain_10_left = new BlockCore(world, {
     x: -110,
     y: 3370,
@@ -500,6 +503,7 @@ function setup() {
     color: "darkblue"
   },{ isStatic: true });
 
+//Third Level Auserhalb Plains
   terrain_11 = new BlockCore(world, {
     x: 640,
     y: level2position+viewportH/3,
@@ -508,6 +512,7 @@ function setup() {
     color: "black"
   },{ isStatic: true });
 
+//Trigger Rechts unter Third Level
   terrain_11_r = new BlockCore(world, {
     x: 960,
     y: 3610,
@@ -516,6 +521,7 @@ function setup() {
     color: "red"
   },{ isStatic: true });
 
+//Trigger Mitte unter Third Level
   terrain_11_middle = new BlockCore(world, {
     x: 480,
     y: 3610,
@@ -524,6 +530,7 @@ function setup() {
     color: "orange"
   },{ isStatic: true });
 
+//Trigger Links unter Third Level
   terrain_11_l = new BlockCore(world, {
     x: 160,
     y: 3610,
@@ -532,6 +539,7 @@ function setup() {
     color: "yellow"
   },{ isStatic: true });
 
+//Third Level Auserhalb Plains
   terrain_11_left = new BlockCore(world, {
     x: -110,
     y: 3610,
@@ -548,6 +556,7 @@ function setup() {
     color: "darkblue"
   },{ isStatic: true });
 
+//First Level Auserhalb Walls
   terrain_9_leftWall = new BlockCore(world, {
     x: -210,
     y: 3030,
@@ -564,6 +573,7 @@ function setup() {
     color: "darkblue"
   },{ isStatic: true, angle: radians(90) });
 
+//Second Level Auserhalb Walls
   terrain_10_leftWall = new BlockCore(world, {
     x: -200,
     y: 3280,
@@ -580,6 +590,7 @@ function setup() {
     color: "darkblue"
   },{ isStatic: true, angle: radians(90) });
 
+//Third Level Auserhalb Walls
   terrain_11_leftWall = new BlockCore(world, {
     x: -200,
     y: 3520,
@@ -596,8 +607,7 @@ function setup() {
     color: "darkblue"
   }, { isStatic: true, angle: radians(90) } );
 
-
-  // trennwand
+//Wall zwischen Third Level
   trennung = new BlockCore(world, {
     x: 840,
     y: 3525,
@@ -1060,12 +1070,18 @@ function draw() {
     sleepy = false;
   }
 
-  //inLoveTrigger
-  // if (marblinLover.body.position.x > 1100 && marblinLover.body.position.x < 1150 && marblinLover.body.position.y > 480 && marblinLover.body.position.y < 500) {
-
-  //   inLove = true;
-  // }
-
+  //controlFunction1trigger
+  if (marblinLover.body.position.x > 1100 && marblinLover.body.position.x < 1150 && marblinLover.body.position.y > 480 && marblinLover.body.position.y < 500) {
+    if (controlStarter1){
+      controlFunction1();
+      controlStarter1 = false;
+    }
+    //inLove = true;
+  }
+  if (count) {
+    controlFunction1();
+    count = false;
+  }
 
 
   //SLEEPY
@@ -1198,7 +1214,7 @@ function keyPressed() {
       groesserAnfang = marblinTest2.body.position.y;
       groesserYEnd = marblinTest2.body.position.y+100;
       marblinGrows = true;
-      
+
       marblinTest2.body.collisionFilter.group = -1;
       firstPlain.body.collisionFilter.group = -1;
 
@@ -1219,7 +1235,7 @@ function keyPressed() {
       shrinkEnd = marblinTest2.body.position.y+100;
       marblinShrinks = true;
     break;
-    
+
     case 79: //o
       levelMarblin.body.collisionFilter.group = -1;
       terrain_9.body.collisionFilter.group = -1;
@@ -1248,12 +1264,10 @@ function keyPressed() {
       }
       break;
     case 69:
-      let vekktor = marblin.body.velocity;
-      marblin.body.position.x += 300;
-      for (var i = 0; i < 10000; i++) {
-        marblin.body.speed = 0;
-        marblin.body.velocity = vekktor;
-      }
+      Matter.Body.setPosition(
+      marblin.body,
+      {x: marblin.body.position.x, y: marblin.body.position.y-100}
+      );
     break;
 
     default:
