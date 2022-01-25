@@ -13,13 +13,6 @@ let viewportW = 1280;
 let viewportH = 720;
 let frameR = 60;
 let sun_moon;
-let seperator_1;
-let seperator_2;
-let seperator_3;
-let seperator_4;
-let seperator_5;
-let seperator_6;
-let seperator_7;
 let terrain_1;
 let terrain_2;
 let terrain_1edge;
@@ -436,18 +429,6 @@ function setup() {
   },{ isStatic: true });
 
 
-  // terrain_3 = new BlockCore(world,
-  //   { x: viewportW*1/2, y: 2*viewportH*(6/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: "#003EF7"},
-  //   { isStatic: true }
-  // );
-  // terrain_4 = new BlockCore(world,
-  //   { x: viewportW*1/2, y: 2*viewportH*(7/3)*viewportH, w: viewportW, h: viewportH/3, color: "#002BAB"},
-  //   { isStatic: true }
-  // );
-  // terrain_5 = new BlockCore(world,
-  //   { x: viewportW*1/2, y: viewportH*(8/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: terrainColor},
-  //   { isStatic: true }
-  // );
 
 
 
@@ -509,18 +490,7 @@ function setup() {
       let level4position = viewportH * 7.5;
 
 
-  // terrain_3 = new BlockCore(world,
-  //   { x: viewportW*1/2, y: 2*viewportH*(6/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: "#003EF7"},
-  //   { isStatic: true }
-  // );
-  // terrain_4 = new BlockCore(world,
-  //   { x: viewportW*1/2, y: 2*viewportH*(7/3)*viewportH, w: viewportW, h: viewportH/3, color: "#002BAB"},
-  //   { isStatic: true }
-  // );
-  // terrain_5 = new BlockCore(world,
-  //   { x: viewportW*1/2, y: viewportH*(8/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: terrainColor},
-  //   { isStatic: true }
-  // );
+  
 
 
 
@@ -747,7 +717,6 @@ function draw() {
     ramp4.draw();
   terrain_2.draw();
   // house.draw();
-  // terrain_3.draw();
   // terrain_4.draw();
   // terrain_5.draw();
   // terrain_6.draw();
@@ -767,13 +736,6 @@ function draw() {
     prison.draw();
   }
   // //balls.draw();
-  // seperator_1.draw();
-  // seperator_2.draw();
-  // seperator_3.draw();
-  // seperator_4.draw();
-  // seperator_5.draw();
-  // seperator_6.draw();
-  // seperator_7.draw();
   marblin.draw();
 
 
