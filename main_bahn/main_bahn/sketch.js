@@ -1,7 +1,5 @@
 Matter.use('matter-wrap');
 
-//marblinGrows
-let marblinGrows = false;
 
 Matter.use('matter-attractors');
 
@@ -13,13 +11,6 @@ let viewportW = 1280;
 let viewportH = 720;
 let frameR = 60;
 let sun_moon;
-let seperator_1;
-let seperator_2;
-let seperator_3;
-let seperator_4;
-let seperator_5;
-let seperator_6;
-let seperator_7;
 let terrain_1;
 let terrain_2;
 let terrain_1edge;
@@ -436,18 +427,6 @@ function setup() {
   },{ isStatic: true });
 
 
-  // terrain_3 = new BlockCore(world,
-  //   { x: viewportW*1/2, y: 2*viewportH*(6/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: "#003EF7"},
-  //   { isStatic: true }
-  // );
-  // terrain_4 = new BlockCore(world,
-  //   { x: viewportW*1/2, y: 2*viewportH*(7/3)*viewportH, w: viewportW, h: viewportH/3, color: "#002BAB"},
-  //   { isStatic: true }
-  // );
-  // terrain_5 = new BlockCore(world,
-  //   { x: viewportW*1/2, y: viewportH*(8/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: terrainColor},
-  //   { isStatic: true }
-  // );
 
 
 
@@ -509,18 +488,7 @@ function setup() {
       let level4position = viewportH * 7.5;
 
 
-  // terrain_3 = new BlockCore(world,
-  //   { x: viewportW*1/2, y: 2*viewportH*(6/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: "#003EF7"},
-  //   { isStatic: true }
-  // );
-  // terrain_4 = new BlockCore(world,
-  //   { x: viewportW*1/2, y: 2*viewportH*(7/3)*viewportH, w: viewportW, h: viewportH/3, color: "#002BAB"},
-  //   { isStatic: true }
-  // );
-  // terrain_5 = new BlockCore(world,
-  //   { x: viewportW*1/2, y: viewportH*(8/3)+1/6*viewportH, w: viewportW, h: viewportH/3, color: terrainColor},
-  //   { isStatic: true }
-  // );
+
 
 
 
@@ -736,7 +704,7 @@ let transition5position = viewportH * 9.5;
 
 function draw() {
   background(backgroundColor);
-
+  scrollFollow(marblin);
   blocks.forEach(block => block.draw());
   lamp.draw();
   house.draw();
@@ -768,7 +736,6 @@ function draw() {
     ramp4.draw();
   terrain_2.draw();
   // house.draw();
-  // terrain_3.draw();
   // terrain_4.draw();
   // terrain_5.draw();
   // terrain_6.draw();
@@ -788,13 +755,6 @@ function draw() {
     prison.draw();
   }
   // //balls.draw();
-  // seperator_1.draw();
-  // seperator_2.draw();
-  // seperator_3.draw();
-  // seperator_4.draw();
-  // seperator_5.draw();
-  // seperator_6.draw();
-  // seperator_7.draw();
   marblin.draw();
 
 
@@ -862,10 +822,10 @@ function draw() {
   }
 
   //inLoveTrigger
-  if (marblinLover.body.position.x > 1100 && marblinLover.body.position.x < 1150 && marblinLover.body.position.y > 480 && marblinLover.body.position.y < 500) {
+  // if (marblinLover.body.position.x > 1100 && marblinLover.body.position.x < 1150 && marblinLover.body.position.y > 480 && marblinLover.body.position.y < 500) {
 
-    inLove = true;
-  }
+  //   inLove = true;
+  // }
 
 
 
@@ -887,6 +847,15 @@ function draw() {
     Matter.Body.scale(marblinTest2.body, 1.03, 1.03);
     }
   }
+  //marblinShrinks
+  if(marblinShrinks){
+
+    let localtarget = map(marblinTest2.body.position.y,groesserAnfang,groesserYEnd,shrinkScaleStart,shrinkScaleEnd,1);
+
+    while(marblinTest2.body.area > localtarget){
+    Matter.Body.scale(marblinTest2.body, 0.99, 0.99);
+    }
+  }
 }
 
 
@@ -894,6 +863,12 @@ function draw() {
 let groesserAnfang;
 let groesserYEnd;
 
+let shrinkScaleStart = 0;
+let shrinkScaleEnd = 0;
+
+//marblinGrows
+let marblinGrows = false;
+let marblinShrinks = false;
 
 
 
@@ -932,7 +907,7 @@ function keyPressed() {
       break;
     case 83:
       console.log("pressed s --> shaking ball");
-      interval1 = setInterval(shake, 100);
+      interval1 = setInterval(shake, 120);
 
 
       break;
@@ -978,6 +953,63 @@ function keyPressed() {
       groesserYEnd = marblinTest2.body.position.y+100;
       marblinGrows = true;
     break;
+    case 80:
+      shrinkScaleStart = marblinTest2.body.area;
+      shrinkScaleEnd = marblinTest2.body.area/3;
+      shrinkAnfang = marblinTest2.body.position.y;
+      shrinkEnd = marblinTest2.body.position.y+100;
+      marblinShrinks = true;
+    break;
+
+         // make marblin jump at the beginning
+         case 85: // u
+         console.log("jump");
+         sleepy = false;
+         direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
+         Matter.Body.applyForce(
+           marblin.body,
+           {x: marblin.body.position.x, y: marblin.body.position.y},
+           {x: (0.05) + marblin.body.velocity.x / 100, y: -0.2}
+         );
+
+     
+           break;
+
+
+    case 86: //v
+    if (scroller) {
+        scroller = false;
+      } else {
+        scroller = true;
+      }
+
+
     default:
   }
 }
+
+
+let scroller = false;
+
+function scrollFollow(matterObj) {
+
+      const $element = $('html, body');
+        if (scroller){ $element.animate({
+            scrollLeft: marblin.body.position.x,
+            scrollTop: marblin.body.position.y-500
+          }, 10);
+        }
+  }
+
+  function insideViewport(matterObj) {
+    const x = matterObj.body.position.x;
+    const y = matterObj.body.position.y;
+    const pageXOffset = window.pageXOffset || document.documentElement.scrollLeft;
+    const pageYOffset  = window.pageYOffset || document.documentElement.scrollTop;
+    if (/*x >= pageXOffset && x <= pageXOffset + windowWidth &&*/
+        y >= pageYOffset && y <= pageYOffset + windowHeight) {
+      return true;
+    } else {
+      return false;
+    }
+  }
