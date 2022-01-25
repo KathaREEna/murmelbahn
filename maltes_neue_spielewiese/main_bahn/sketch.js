@@ -150,11 +150,12 @@ function setup() {
   }
 
   // create Main Character MURMEL
-  marblin = new Ball(world, {
+  marblin = new Magnet(world, {
     x: 250,
     y: 50,
     r: 40,
-    color: 'white'
+    color: 'white',
+    attraction: 0.45e-5
   },
   {
     restitution: 0,
@@ -164,6 +165,7 @@ function setup() {
       wrap: wrap
     },
   });
+
 
 
   Matter.Events.on(engine, 'collisionStart', function(event) {
@@ -190,7 +192,7 @@ function setup() {
     friction: 0.004,
     restitution: 0
   });
-
+  marblin.addAttracted(marblinLover.body)
   // create the world <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   // create level 1 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   let level1position;
@@ -752,7 +754,7 @@ function draw() {
   // seperator_6.draw();
   // seperator_7.draw();
   marblin.draw();
-
+  marblin.attract();
 
    // ove.draw();
 

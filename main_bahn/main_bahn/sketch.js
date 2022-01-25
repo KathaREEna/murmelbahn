@@ -39,14 +39,36 @@ let drawStair7 = false;
 let loverRamp;
 let marblinTest2;
 let marblinTest;
-let lampePlain;
-let plainRamp;
-let bluePain;
+let loverPlain;
 let firstPlain;
 let firstRamp;
-let secondPlain;
 let secondRamp;
-let loverPlain;
+let secondPlain;
+let thirdPlain;
+let blueWall;
+let bluePlain;
+
+//gradient steps
+let terrain_9_left;
+let terrain_9_right;
+let terrain_10_left;
+let terrain_10_right;
+let terrain_11_left;
+let terrain_11_right;
+let terrainX = 640;
+let terrain_9_leftWall;
+let terrain_9_rightWall;
+let terrain_10_leftWall;
+let terrain_10_rightWall;
+let terrain_11_leftWall;
+let terrain_11_rightWall;
+let trennung;
+let terrain_11_l;
+let terrain_11_middle;
+let terrain_11_r;
+
+
+
 
 let house;
 
@@ -54,18 +76,6 @@ let backgroundColor;
 let terrainColor;
 let sun_moonColor;
 
-
-// attractor configs
-const World = Matter.World;
-const Bodies = Matter.Bodies;
-const Body = Matter.Body;
-const MouseConstraint = Matter.MouseConstraint;
-const Composites = Matter.Composites;
-const drawBody = Helpers.drawBody;
-const drawBodies = Helpers.drawBodies;
-let attractor;
-let boxes;
-let engine;
 
 // prison
 let ps
@@ -145,11 +155,12 @@ function setup() {
   }
 
   // create Main Character MURMEL
-  marblin = new Ball(world, {
+  marblin = new Magnet(world, {
     x: 250,
     y: 50,
     r: 40,
-    color: 'white'
+    color: 'white',
+    attraction: 0.45e-5
   },
   {
     restitution: 0,
@@ -185,6 +196,14 @@ function setup() {
     friction: 0.004,
     restitution: 0
   });
+// attrackt lover to marblin
+// marblin.addAttracted(marblinLover.body)
+
+
+
+
+
+
 
   // create the world <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   // create level 1 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -395,36 +414,175 @@ function setup() {
  //attractor code BEGINN
 
 
-  boxes = Composites.stack(viewportW/2, level2position-viewportH, 3, 20, 3, 3, function(x, y) {
-    return Bodies.circle(x, y, 10);
-  });
-  World.add(engine.world, boxes);
+
 
 //attractor code ENDE
 
 
 
   terrain_9 = new BlockCore(world, {
-    x: viewportW/2,
+    x: 640,
     y: level2position-viewportH/3,
     w: viewportW,
     h: viewportH/3,
     color: "darkblue"
   },{ isStatic: true });
+
+  terrain_9_left = new BlockCore(world, {
+    x: -110,
+    y: 3130,
+    w: 220,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true });
+
+  terrain_9_right = new BlockCore(world, {
+    x: terrainX + 750,
+    y: 3130,
+    w: 220,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true });
+
   terrain_10 = new BlockCore(world, {
-    x: viewportW/2,
+    x: 640,
     y: level2position,
     w: viewportW,
     h: viewportH/3,
     color: "#050B4E"
   },{ isStatic: true });
+
+  terrain_10_left = new BlockCore(world, {
+    x: -110,
+    y: 3370,
+    w: 220,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true });
+
+  terrain_10_right = new BlockCore(world, {
+    x: terrainX + 750,
+    y: 3370,
+    w: 220,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true });
+
   terrain_11 = new BlockCore(world, {
-    x: viewportW/2,
+    x: 640,
     y: level2position+viewportH/3,
     w: viewportW,
     h: viewportH/3,
     color: "black"
   },{ isStatic: true });
+
+  terrain_11_r = new BlockCore(world, {
+    x: 960,
+    y: 3610,
+    w: viewportW/2,
+    h: 20,
+    color: "red"
+  },{ isStatic: true });
+
+  terrain_11_middle = new BlockCore(world, {
+    x: 480,
+    y: 3610,
+    w: viewportW/4,
+    h: 20,
+    color: "orange"
+  },{ isStatic: true });
+
+  terrain_11_l = new BlockCore(world, {
+    x: 160,
+    y: 3610,
+    w: viewportW/4,
+    h: 20,
+    color: "yellow"
+  },{ isStatic: true });
+
+  terrain_11_left = new BlockCore(world, {
+    x: -110,
+    y: 3610,
+    w: 220,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true });
+
+  terrain_11_right = new BlockCore(world, {
+    x: terrainX + 750,
+    y: 3610,
+    w: 220,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true });
+
+  terrain_9_leftWall = new BlockCore(world, {
+    x: -210,
+    y: 3030,
+    w: 220,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true, angle: radians(90) });
+
+  terrain_9_rightWall = new BlockCore(world, {
+    x: terrainX + 850,
+    y: 3050,
+    w: 150,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true, angle: radians(90) });
+
+  terrain_10_leftWall = new BlockCore(world, {
+    x: -200,
+    y: 3280,
+    w: 220,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true, angle: radians(45) });
+
+  terrain_10_rightWall = new BlockCore(world, {
+    x: terrainX + 850,
+    y: 3300,
+    w: 150,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true, angle: radians(90) });
+
+  terrain_11_leftWall = new BlockCore(world, {
+    x: -200,
+    y: 3520,
+    w: 220,
+    h: 20,
+    color: "darkblue"
+  },{ isStatic: true, angle: radians(45) });
+
+  terrain_11_rightWall = new BlockCore(world, {
+    x: terrainX + 850,
+    y: 3540,
+    w: 150,
+    h: 20,
+    color: "darkblue"
+  }, { isStatic: true, angle: radians(90) } );
+
+  trennung = new BlockCore(world, {
+    x: 640,
+    y: 3525,
+    w: 150,
+    h: 20,
+    color: "pink"
+  }, { isStatic: true, angle: radians(90) } );
+
+  levelMarblin = new Ball(world, {
+    x: 1100,
+    y: 2300,
+    r: 40,
+    color: 'white'
+  }, {
+    friction: 0,
+    restitution: 0,
+
+  });
+
 
 
 
@@ -558,68 +716,68 @@ let transition5position = viewportH * 9.5;
   //create lampe level
   marblinTest = new Ball(
     world,
-    { x: 1400, y: 5050, r: 40, color: 'white'},
+    { x: 1320, y: 5050, r: 40, color: 'white'},
     { isStatic: false, friction: 0 }
   );
 
   marblinTest2 = new Ball(
     world,
-    { x: 600, y: 5000, r: 40, color: 'white'},
+    { x: 680, y: 5000, r: 40, color: 'white'},
     { restitution: 0, friction: 0 }
   );
 
   loverRamp = new Block(
     world,
-    { x: 1160, y : 5480, w: 600, h: 5, color: 'yellow' },
+    { x: 1160, y : 5480, w: 600, h: 10, color: 'yellow' },
     { isStatic: true, label: 'loverRamp', angle: radians(-45) }
   );
 
   loverPlain = new Block(
     world,
-    { x: 1430, y : 5200, w: 100, h: 5, color: 'yellow' },
+    { x: 1330, y : 5200, w: 100, h: 10, color: 'red' },
     { isStatic: true, label: 'loverPlain' }
   );
 
   firstPlain = new Block(
     world,
-    { x: 580, y : 5620, w: 100, h: 5, color: 'yellow' },
+    { x: 680, y : 5600, w: 100, h: 10, color: 'red' },
     { isStatic: true, label: 'firstPlain' }
   );
 
   firstRamp = new Block(
     world,
-    { x: 720, y : 5655, w: 180, h: 5, color: 'yellow' },
+    { x: 720, y : 5655, w: 180, h: 10, color: 'red' },
     { isStatic: true, label: 'firstRamp', angle: radians(22) }
-  );
-
-  secondPlain = new Block(
-    world,
-    { x: 910, y : 5730, w: 100, h: 5, color: 'yellow' },
-    { isStatic: true, label: 'secondPlain', angle: radians(-45) }
   );
 
   secondRamp = new Block(
     world,
-    { x: 690, y : 5780, w: 450, h: 5, color: 'yellow' },
-    { isStatic: true, label: 'secondRamp', angle: radians(-3), }
+    { x: 910, y : 5730, w: 100, h: 10, color: 'red' },
+    { isStatic: true, label: 'secondRamp', angle: radians(-45) }
   );
 
-  lampePlain = new Block(
+  secondPlain = new Block(
     world,
-    { x: 310, y : 5795, w: 310, h: 5, color: 'yellow' },
-    { isStatic: true, label: 'lampePlain' }
+    { x: 690, y : 5780, w: 450, h: 10, color: 'red' },
+    { isStatic: true, label: 'secondPlain', angle: radians(-3), }
   );
 
-  plainRamp = new Block(
+  thirdPlain = new Block(
     world,
-    { x: 10, y : 5700, w: 300, h: 5, color: 'blue' },
-    { isStatic: true, label: 'plainRamp', angle: radians(90) }
+    { x: 310, y : 5795, w: 310, h: 10, color: 'red' },
+    { isStatic: true, label: 'thirdPlain' }
+  );
+
+  blueWall = new Block(
+    world,
+    { x: 10, y : 5700, w: 300, h: 10, color: 'blue' },
+    { isStatic: true, label: 'blueWall', angle: radians(90) }
   );
 
   bluePlain = new Block(
     world,
-    { x: 60, y : 5795, w: 180, h: 5, color: 'blue' },
-    { isStatic: true, label: 'bluePlain', friction: 1 }
+    { x: 60, y : 5795, w: 180, h: 10, color: 'blue' },
+    { isStatic: true, label: 'bluePlain' }
   );
 
   Matter.Events.on(engine, 'collisionStart', function(event) {
@@ -627,7 +785,6 @@ let transition5position = viewportH * 9.5;
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "secondRamp" || bodyB.label === "secondRamp") {
-      marblinTest2.body.friction = -0.3;
     }
 
   });
@@ -636,8 +793,8 @@ let transition5position = viewportH * 9.5;
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
-    if (bodyA.label === "lampePlain" || bodyB.label === "lampePlain") {
-      marblinTest2.body.friction = 0.4;
+    if (bodyA.label === "thirdPlain" || bodyB.label === "thirdPlain") {
+      marblinTest2.body.friction = 0.2;
     }
 
   });
@@ -647,7 +804,7 @@ let transition5position = viewportH * 9.5;
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "secondPlain" || bodyB.label === "secondPlain") {
-      marblinTest2.body.friction = 0.4;
+      marblinTest2.body.friction = -0.2;
     }
 
   });
@@ -657,7 +814,32 @@ let transition5position = viewportH * 9.5;
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "bluePlain" || bodyB.label === "bluePlain") {
-      marblinTest.body.friction = -0.2;
+      marblinTest.body.collisionFilter.group = -1;
+      loverPlain.body.collisionFilter.group = -1;
+    }
+
+  });
+
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "secondRamp" || bodyB.label === "secondRamp") {
+      firstRamp.body.collisionFilter.group = -1;
+      console.log('test');
+    }
+
+  });
+
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "secondRamp" || bodyB.label === "secondRamp") {
+      firstRamp.body.collisionFilter.group = -1;
+      console.log('test');
     }
 
   });
@@ -691,18 +873,20 @@ function draw() {
         // marblin.body.collisionFilter.group = -1;
         // house.body.collisionFilter.group = -1;
 
+// loveballs.draw();
+
   //lampe
   lamp.draw();
   loverRamp.draw();
   marblinTest.draw();
   marblinTest2.draw();
-  lampePlain.draw();
-  plainRamp.draw();
-  bluePlain.draw();
   firstPlain.draw();
   firstRamp.draw();
-  secondPlain.draw();
   secondRamp.draw();
+  secondPlain.draw();
+  thirdPlain.draw();
+  bluePlain.draw();
+  blueWall.draw();
   loverPlain.draw();
 
   marblinLover.draw();
@@ -725,6 +909,29 @@ function draw() {
   terrain_11.draw();
   terrain_12.draw();
 
+  //level 2
+  levelMarblin.draw();
+  terrain_9_left.draw();
+  terrain_9_right.draw();
+  terrain_10_left.draw();
+  terrain_10_right.draw();
+  terrain_11_left.draw();
+  terrain_11_right.draw();
+  terrain_9_leftWall.draw();
+  terrain_9_rightWall.draw();
+  terrain_10_leftWall.draw();
+  terrain_10_rightWall.draw();
+  terrain_11_leftWall.draw();
+  terrain_11_rightWall.draw();
+  terrain_11_l.draw();
+  terrain_11_middle.draw();
+  trennung.draw();
+  terrain_11_r.draw();
+
+
+
+
+
   // shatter system/prison
 
   if(boom){
@@ -735,6 +942,7 @@ function draw() {
   }
   // //balls.draw();
   marblin.draw();
+  marblin.attract();
 
 
    // ove.draw();
@@ -772,11 +980,6 @@ function draw() {
     stair7.draw();
   }
 
-
-// attractors config
-  noStroke();
-  fill(255);
-  drawBodies(boxes.bodies);
 
 
   // ove.draw();
@@ -818,12 +1021,12 @@ function draw() {
   }
   //marblinGrows
   if(marblinGrows){
-    let scaleStart = 5400;
-    let scaleEnd = 6000;
-    let localtarget = map(marblinTest2.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1);
+    let scaleStart = 5977;
+    let scaleEnd = 8000;
+    let localtarget = map(marblinTest2.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1)
 
     while(marblinTest2.body.area < localtarget){
-    Matter.Body.scale(marblinTest2.body, 1.01, 1.01);
+    Matter.Body.scale(marblinTest2.body, 1.03, 1.03);
     }
   }
   //marblinShrinks
@@ -914,8 +1117,13 @@ function keyPressed() {
         break;
 
 
-    case 70:
-      marblinTest2.body.friction = -0.03;
+    case 70: //F: Marblin Jumps into spotlight and gets bigger
+      groesserAnfang = marblinTest2.body.position.y;
+      groesserYEnd = marblinTest2.body.position.y+100;
+      marblinGrows = true;
+      
+      marblinTest2.body.collisionFilter.group = -1;
+      firstPlain.body.collisionFilter.group = -1;
 
       break;
 
@@ -933,6 +1141,11 @@ function keyPressed() {
       shrinkAnfang = marblinTest2.body.position.y;
       shrinkEnd = marblinTest2.body.position.y+100;
       marblinShrinks = true;
+    break;
+    
+    case 79: //o
+      levelMarblin.body.collisionFilter.group = -1;
+      terrain_9.body.collisionFilter.group = -1;
     break;
 
          // make marblin jump at the beginning
