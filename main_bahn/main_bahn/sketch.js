@@ -102,7 +102,7 @@ let stack2
 let stack3
 function addStack1(){
   stack1 = new Stack(world, {
-    x: 400, y: level2position-600 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
+    x: -350, y: level2position-600 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
     create: (x, y) => Matter.Bodies.circle(x, y, 20, { restitution: 1.1, friction: -0.03})
   });
   levelMarblin.addAttracted(stack1.body.bodies);
@@ -171,7 +171,7 @@ function preload() {
 function setup() {
   rectMode(CORNER);
   const canvas = createCanvas(canvasW, canvasH);
-
+  
   
 
  
