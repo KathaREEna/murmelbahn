@@ -102,7 +102,7 @@ let stack2
 let stack3
 function addStack1(){
   stack1 = new Stack(world, {
-    x: -350, y: level2position-600 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
+    x: -400, y: level2position-450 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
     create: (x, y) => Matter.Bodies.circle(x, y, 20, { restitution: 1.1, friction: -0.03})
   });
   levelMarblin.addAttracted(stack1.body.bodies);
@@ -116,7 +116,7 @@ function removeStack1() {
 
 function addStack2(){
   stack2 = new Stack(world, {
-    x: 400, y: level2position-600 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
+    x: -400, y: level2position-300 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
     create: (x, y) => Matter.Bodies.circle(x, y, 20, { restitution: 1.1, friction: -0.03})
   });
   levelMarblin.addAttracted(stack2.body.bodies);
@@ -130,7 +130,7 @@ function removeStack2() {
 
 function addStack3(){
   stack3 = new Stack(world, {
-    x: 400, y: level2position-600 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
+    x: 1680, y: level2position , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
     create: (x, y) => Matter.Bodies.circle(x, y, 20, { restitution: 1.1, friction: -0.03})
   });
   levelMarblin.addAttracted(stack3.body.bodies);
