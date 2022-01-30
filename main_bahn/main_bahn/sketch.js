@@ -51,6 +51,7 @@ let blueWall;
 let bluePlain;
 
 //gradient steps
+let levelMarblin;
 let terrain_9_left;
 let terrain_9_right;
 let terrain_10_left;
@@ -68,7 +69,6 @@ let trennung;
 let terrain_11_l;
 let terrain_11_middle;
 let terrain_11_r;
-let terrain_11_links;
 
 
 
@@ -453,20 +453,37 @@ function setup() {
 
 //First Level Auserhalb Plains
   terrain_9_left = new BlockCore(world, {
-    x: -110,
+    x: -350,
     y: 3130,
-    w: 220,
+    w: 700,
     h: 20,
     color: "darkblue"
   }, { isStatic: true });
 
   terrain_9_right = new BlockCore(world, {
-    x: terrainX + 750,
+    x: 1630,
     y: 3130,
+    w: 700,
+    h: 20,
+    color: "darkblue"
+  }, { isStatic: true, label: 'terrain_9_right' });
+
+  //First Level Auserhalb Walls
+  terrain_9_leftWall = new BlockCore(world, {
+    x: -710,
+    y: 3030,
     w: 220,
     h: 20,
     color: "darkblue"
-  }, { isStatic: true, label: "terrain_9_right" });
+  }, { isStatic: true, angle: radians(90) });
+
+  terrain_9_rightWall = new BlockCore(world, {
+    x: 1990,
+    y: 3040,
+    w: 200,
+    h: 20,
+    color: "darkblue"
+  }, { isStatic: true, angle: radians(90) });
 
 //Second Level
   terrain_10 = new BlockCore(world, {
@@ -475,24 +492,41 @@ function setup() {
     w: viewportW,
     h: viewportH/3,
     color: "#050B4E"
-  }, { isStatic: true });
+  }, { isStatic: true, label: 'terrain_10' });
 
 //Second Level Auserhalb Plains
   terrain_10_left = new BlockCore(world, {
-    x: -110,
+    x: -350,
     y: 3370,
-    w: 220,
+    w: 700,
     h: 20,
     color: "darkblue"
   },{ isStatic: true });
 
   terrain_10_right = new BlockCore(world, {
-    x: terrainX + 750,
+    x: 1630,
     y: 3370,
+    w: 700,
+    h: 20,
+    color: "darkblue"
+  }, { isStatic: true, label: 'terrain_10_right' });
+
+  //Second Level Auserhalb Walls
+  terrain_10_leftWall = new BlockCore(world, {
+    x: -760,
+    y: 3280,
     w: 220,
     h: 20,
     color: "darkblue"
-  }, { isStatic: true, label: "terrain_10_right" });
+  }, { isStatic: true, angle: radians(45) });
+
+  terrain_10_rightWall = new BlockCore(world, {
+    x: 1990,
+    y: 3280,
+    w: 200,
+    h: 20,
+    color: "darkblue"
+  }, { isStatic: true, angle: radians(90) });
 
 //Third Level Auserhalb Plains
   terrain_11 = new BlockCore(world, {
@@ -501,7 +535,7 @@ function setup() {
     w: viewportW/2,
     h: viewportH/3,
     color: "black"
-  }, { isStatic: true });
+  }, { isStatic: true, label: 'terrain_11'});
 
   terrain_11_links = new BlockCore(world, {
     x: 320,
@@ -509,6 +543,14 @@ function setup() {
     w: viewportW/2,
     h: viewportH/3,
     color: "grey"
+  }, { isStatic: true, label: 'terrain_11_links' });
+
+  terrain_11_right = new BlockCore(world, {
+    x: 1630,
+    y: 3610,
+    w: 700,
+    h: 20,
+    color: "darkblue"
   }, { isStatic: true });
 
 //Trigger Rechts unter Third Level
@@ -527,7 +569,7 @@ function setup() {
     w: viewportW/2,
     h: 20,
     color: "orange"
-  }, { isStatic: true });
+  }, { isStatic: true, label: "terrain_11_middle" });
 
 //Trigger Links unter Third Level
   terrain_11_l = new BlockCore(world, {
@@ -540,58 +582,16 @@ function setup() {
 
 //Third Level Auserhalb Plains
   terrain_11_left = new BlockCore(world, {
-    x: -110,
+    x: -350,
     y: 3610,
-    w: 220,
+    w: 700,
     h: 20,
     color: "darkblue"
   }, { isStatic: true });
-
-  terrain_11_right = new BlockCore(world, {
-    x: terrainX + 750,
-    y: 3610,
-    w: 220,
-    h: 20,
-    color: "darkblue"
-  }, { isStatic: true });
-
-//First Level Auserhalb Walls
-  terrain_9_leftWall = new BlockCore(world, {
-    x: -210,
-    y: 3030,
-    w: 220,
-    h: 20,
-    color: "darkblue"
-  }, { isStatic: true, angle: radians(90) });
-
-  terrain_9_rightWall = new BlockCore(world, {
-    x: terrainX + 850,
-    y: 3050,
-    w: 150,
-    h: 20,
-    color: "darkblue"
-  }, { isStatic: true, angle: radians(90) });
-
-//Second Level Auserhalb Walls
-  terrain_10_leftWall = new BlockCore(world, {
-    x: -200,
-    y: 3280,
-    w: 220,
-    h: 20,
-    color: "darkblue"
-  }, { isStatic: true, angle: radians(45) });
-
-  terrain_10_rightWall = new BlockCore(world, {
-    x: terrainX + 850,
-    y: 3300,
-    w: 150,
-    h: 20,
-    color: "darkblue"
-  }, { isStatic: true, angle: radians(90) });
 
 //Third Level Auserhalb Walls
   terrain_11_leftWall = new BlockCore(world, {
-    x: -200,
+    x: -760,
     y: 3520,
     w: 220,
     h: 20,
@@ -599,9 +599,9 @@ function setup() {
   }, { isStatic: true, angle: radians(45) });
 
   terrain_11_rightWall = new BlockCore(world, {
-    x: terrainX + 850,
-    y: 3540,
-    w: 150,
+    x: 1990,
+    y: 3520,
+    w: 200,
     h: 20,
     color: "darkblue"
   }, { isStatic: true, angle: radians(90) } );
@@ -624,38 +624,75 @@ function setup() {
   }, {
     label: "labelMarblin",
     friction: 0,
-    restitution: 1,
+    restitution: 0,
+  });
+  
+//Ball gains friction and starts rolling
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "terrain_10" || bodyB.label === "terrain_10") {
+        levelMarblin.body.friction = -0.4;
+    }
+
   });
 
+//Ball rolls right and ends up lower
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "terrain_9_right" || bodyB.label === "terrain_9_right") {
-      console.log("trigger!");
-      Matter.World.remove(engine.world, terrain_10.body);
-      removeStack1();
+      console.log('test');
       Matter.Body.setPosition(
         levelMarblin.body,
-        {x: -180, y: level2position-300}
+        {x: -740, y: 3270}
         );
-
-      //teleport
+        //teleport
+        terrain_10.body.collisionFilter.group = -1;
     }
 
   });
 
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    const pairs = event.pairs[0];
-    const bodyA = pairs.bodyA;
-    const bodyB = pairs.bodyB;
-    if (bodyA.label === "terrain_10_right" || bodyB.label === "terrain_10_right") {
+//Ball rolls right again and ends up on lowest level
+
+Matter.Events.on(engine, 'collisionStart', function(event) {
+  const pairs = event.pairs[0];
+  const bodyA = pairs.bodyA;
+  const bodyB = pairs.bodyB;
+  if (bodyA.label === "terrain_10_right" || bodyB.label === "terrain_10_right") {
+    console.log('test');
+    Matter.Body.setPosition(
+      levelMarblin.body,
+      {x: -740, y: 3510}
+      );
+      //teleport
       terrain_11.body.collisionFilter.group = -1;
-      //teleport
-    }
+      terrain_11_links.body.collisionFilter.group = -1;
+  }
 
-  });
+});
 
+Matter.Events.on(engine, 'collisionStart', function(event) {
+  const pairs = event.pairs[0];
+  const bodyA = pairs.bodyA;
+  const bodyB = pairs.bodyB;
+  if (bodyA.label === "terrain_11_middle" || bodyB.label === "terrain_11_middle") {
+      levelMarblin.body.friction = 1;
+  }
+
+});
+
+Matter.Events.on(engine, 'collisionStart', function(event) {
+  const pairs = event.pairs[0];
+  const bodyA = pairs.bodyA;
+  const bodyB = pairs.bodyB;
+  if (bodyA.label === "trennung" || bodyB.label === "trennung") {
+      levelMarblin.body.friction = 1;
+  }
+
+});
 
   // create zwischensequenz 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   for (let i = 0; i < 30; i++) {
@@ -961,17 +998,17 @@ function draw() {
 
   //lampe
   lamp.draw();
-  loverRamp.draw();
+  //loverRamp.draw();
   marblinTest.draw();
   marblinTest2.draw();
-  firstPlain.draw();
+  /*firstPlain.draw();
   firstRamp.draw();
   secondRamp.draw();
   secondPlain.draw();
   thirdPlain.draw();
   bluePlain.draw();
   blueWall.draw();
-  loverPlain.draw();
+  loverPlain.draw();*/
 
   marblinLover.draw();
   sun_moon.draw();
@@ -991,6 +1028,7 @@ function draw() {
   terrain_9.draw();
   terrain_10.draw();
   terrain_11.draw();
+  terrain_11_links.draw();
   terrain_12.draw();
 
   if (stack1) { 
@@ -998,8 +1036,10 @@ function draw() {
     
   }
 
+
   //level 2
   levelMarblin.draw();
+  levelMarblin.attract();
   terrain_9_left.draw();
   terrain_9_right.draw();
   terrain_10_left.draw();
@@ -1016,7 +1056,6 @@ function draw() {
   terrain_11_middle.draw();
   trennung.draw();
   terrain_11_r.draw();
-  terrain_11_links.draw();
 
 
 
@@ -1033,7 +1072,6 @@ function draw() {
   // //balls.draw();
   marblin.draw();
   marblin.attract();
-  levelMarblin.attract();
 
 
    // ove.draw();
