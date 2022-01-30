@@ -19,6 +19,8 @@ let number = 0;
 let spiel = [];
 let blocks = [];
 
+let loveballs = [];
+
 //leon treppen
 let stair1;
 let stair2;
@@ -49,6 +51,7 @@ let blueWall;
 let bluePlain;
 
 //gradient steps
+let levelMarblin;
 let terrain_9_left;
 let terrain_9_right;
 let terrain_10_left;
@@ -87,10 +90,57 @@ let prisonSize;
 // übergang 5, fountain
 let particles = [];
 
+const engine = Matter.Engine.create();
+let world = engine.world;
+
+/////////////////////////////// setup level 2
+
+let level2position = viewportH * 4.5;
+
+let stack1
+let stack2
+let stack3
+function addStack1(){
+  stack1 = new Stack(world, {
+    x: 400, y: level2position-600 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
+    create: (x, y) => Matter.Bodies.circle(x, y, 20, { restitution: 1.1, friction: -0.03})
+  });
+  levelMarblin.addAttracted(stack1.body.bodies);
+};
 
 
+function removeStack1() {
+  Matter.World.remove(engine.world, stack1.body);
+  stack1 = undefined;
+};
+
+function addStack2(){
+  stack2 = new Stack(world, {
+    x: 400, y: level2position-600 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
+    create: (x, y) => Matter.Bodies.circle(x, y, 20, { restitution: 1.1, friction: -0.03})
+  });
+  levelMarblin.addAttracted(stack2.body.bodies);
+};
 
 
+function removeStack2() {
+  Matter.World.remove(engine.world, stack2.body);
+  stack2 = undefined;
+};
+
+function addStack3(){
+  stack3 = new Stack(world, {
+    x: 400, y: level2position-600 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
+    create: (x, y) => Matter.Bodies.circle(x, y, 20, { restitution: 1.1, friction: -0.03})
+  });
+  levelMarblin.addAttracted(stack3.body.bodies);
+};
+
+
+function removeStack3() {
+  Matter.World.remove(engine.world, stack3.body);
+  stack3 = undefined;
+};
 
 
 
@@ -116,17 +166,15 @@ function preload() {
     color: 'yellow'
   });
 
-
 }
 
 function setup() {
   rectMode(CORNER);
   const canvas = createCanvas(canvasW, canvasH);
 
+  
 
-  // create an engine
-  const engine = Matter.Engine.create();
-  let world = engine.world;
+ 
   // config wrap area
   const wrap = {
     min: {
@@ -143,6 +191,22 @@ function setup() {
   backgroundColor = color(bgactualR, bgactualG, bgactualB);//"blue";
   terrainColor = color(actualR, actualG, actualB);//"darkblue";
   sun_moonColor = color(sunactualR, sunactualG, sunactualB);//"#EBE0C5";
+
+
+
+
+  // let transition5position = viewportH * 9.5;
+
+  // loveballs = new Stack(world, {
+  //   x: 0, y: transition5position-500, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
+  //   create: (x, y) => Matter.Bodies.circle(x, y, 15, { restitution: 0.1, friction: -0.1})
+  // });
+
+
+
+
+
+
 
   //variablen für inLove initialisieren
   lovelyPositions = new Array(lovelyCount);
@@ -409,16 +473,6 @@ function setup() {
  // create level 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
  let level2position = viewportH * 4.5;
 
-
-
- //attractor code BEGINN
-
-
-
-
-//attractor code ENDE
-
-
 //First Level
   terrain_9 = new BlockCore(world, {
     x: 640,
@@ -426,24 +480,41 @@ function setup() {
     w: viewportW,
     h: viewportH/3,
     color: "darkblue"
-  },{ isStatic: true });
+  }, { isStatic: true });
 
 //First Level Auserhalb Plains
   terrain_9_left = new BlockCore(world, {
-    x: -110,
+    x: -350,
     y: 3130,
-    w: 220,
+    w: 700,
     h: 20,
     color: "darkblue"
-  },{ isStatic: true });
+  }, { isStatic: true });
 
   terrain_9_right = new BlockCore(world, {
-    x: terrainX + 750,
+    x: 1630,
     y: 3130,
+    w: 700,
+    h: 20,
+    color: "darkblue"
+  }, { isStatic: true, label: 'terrain_9_right' });
+
+  //First Level Auserhalb Walls
+  terrain_9_leftWall = new BlockCore(world, {
+    x: -710,
+    y: 3030,
     w: 220,
     h: 20,
     color: "darkblue"
-  },{ isStatic: true });
+  }, { isStatic: true, angle: radians(90) });
+
+  terrain_9_rightWall = new BlockCore(world, {
+    x: 1990,
+    y: 3040,
+    w: 200,
+    h: 20,
+    color: "darkblue"
+  }, { isStatic: true, angle: radians(90) });
 
 //Second Level
   terrain_10 = new BlockCore(world, {
@@ -452,51 +523,84 @@ function setup() {
     w: viewportW,
     h: viewportH/3,
     color: "#050B4E"
-  },{ isStatic: true });
+  }, { isStatic: true, label: 'terrain_10' });
 
 //Second Level Auserhalb Plains
   terrain_10_left = new BlockCore(world, {
-    x: -110,
+    x: -350,
     y: 3370,
-    w: 220,
+    w: 700,
     h: 20,
     color: "darkblue"
   },{ isStatic: true });
 
   terrain_10_right = new BlockCore(world, {
-    x: terrainX + 750,
+    x: 1630,
     y: 3370,
+    w: 700,
+    h: 20,
+    color: "darkblue"
+  }, { isStatic: true, label: 'terrain_10_right' });
+
+  //Second Level Auserhalb Walls
+  terrain_10_leftWall = new BlockCore(world, {
+    x: -760,
+    y: 3280,
     w: 220,
     h: 20,
     color: "darkblue"
-  },{ isStatic: true });
+  }, { isStatic: true, angle: radians(45) });
+
+  terrain_10_rightWall = new BlockCore(world, {
+    x: 1990,
+    y: 3280,
+    w: 200,
+    h: 20,
+    color: "darkblue"
+  }, { isStatic: true, angle: radians(90) });
 
 //Third Level Auserhalb Plains
   terrain_11 = new BlockCore(world, {
-    x: 640,
+    x: 960,
     y: level2position+viewportH/3,
-    w: viewportW,
+    w: viewportW/2,
     h: viewportH/3,
     color: "black"
-  },{ isStatic: true });
+  }, { isStatic: true, label: 'terrain_11'});
+
+  terrain_11_links = new BlockCore(world, {
+    x: 320,
+    y: level2position+viewportH/3,
+    w: viewportW/2,
+    h: viewportH/3,
+    color: "grey"
+  }, { isStatic: true, label: 'terrain_11_links' });
+
+  terrain_11_right = new BlockCore(world, {
+    x: 1630,
+    y: 3610,
+    w: 700,
+    h: 20,
+    color: "darkblue"
+  }, { isStatic: true });
 
 //Trigger Rechts unter Third Level
   terrain_11_r = new BlockCore(world, {
-    x: 960,
+    x: 1270,
     y: 3610,
     w: viewportW/2,
     h: 20,
     color: "red"
-  },{ isStatic: true });
+  }, { isStatic: true });
 
 //Trigger Mitte unter Third Level
   terrain_11_middle = new BlockCore(world, {
-    x: 480,
+    x: 640,
     y: 3610,
-    w: viewportW/4,
+    w: viewportW/2,
     h: 20,
     color: "orange"
-  },{ isStatic: true });
+  }, { isStatic: true, label: "terrain_11_middle" });
 
 //Trigger Links unter Third Level
   terrain_11_l = new BlockCore(world, {
@@ -505,101 +609,121 @@ function setup() {
     w: viewportW/4,
     h: 20,
     color: "yellow"
-  },{ isStatic: true });
+  }, { isStatic: true });
 
 //Third Level Auserhalb Plains
   terrain_11_left = new BlockCore(world, {
-    x: -110,
+    x: -350,
     y: 3610,
-    w: 220,
+    w: 700,
     h: 20,
     color: "darkblue"
-  },{ isStatic: true });
-
-  terrain_11_right = new BlockCore(world, {
-    x: terrainX + 750,
-    y: 3610,
-    w: 220,
-    h: 20,
-    color: "darkblue"
-  },{ isStatic: true });
-
-//First Level Auserhalb Walls
-  terrain_9_leftWall = new BlockCore(world, {
-    x: -210,
-    y: 3030,
-    w: 220,
-    h: 20,
-    color: "darkblue"
-  },{ isStatic: true, angle: radians(90) });
-
-  terrain_9_rightWall = new BlockCore(world, {
-    x: terrainX + 850,
-    y: 3050,
-    w: 150,
-    h: 20,
-    color: "darkblue"
-  },{ isStatic: true, angle: radians(90) });
-
-//Second Level Auserhalb Walls
-  terrain_10_leftWall = new BlockCore(world, {
-    x: -200,
-    y: 3280,
-    w: 220,
-    h: 20,
-    color: "darkblue"
-  },{ isStatic: true, angle: radians(45) });
-
-  terrain_10_rightWall = new BlockCore(world, {
-    x: terrainX + 850,
-    y: 3300,
-    w: 150,
-    h: 20,
-    color: "darkblue"
-  },{ isStatic: true, angle: radians(90) });
+  }, { isStatic: true });
 
 //Third Level Auserhalb Walls
   terrain_11_leftWall = new BlockCore(world, {
-    x: -200,
+    x: -760,
     y: 3520,
     w: 220,
     h: 20,
     color: "darkblue"
-  },{ isStatic: true, angle: radians(45) });
+  }, { isStatic: true, angle: radians(45) });
 
   terrain_11_rightWall = new BlockCore(world, {
-    x: terrainX + 850,
-    y: 3540,
-    w: 150,
+    x: 1990,
+    y: 3520,
+    w: 200,
     h: 20,
     color: "darkblue"
   }, { isStatic: true, angle: radians(90) } );
 
 //Wall zwischen Third Level
   trennung = new BlockCore(world, {
-    x: 640,
+    x: 840,
     y: 3525,
     w: 150,
     h: 20,
     color: "pink"
   }, { isStatic: true, angle: radians(90) } );
 
-//Test Ball, mit "o" bedienbar
-  levelMarblin = new Ball(world, {
+  levelMarblin = new Magnet(world, {
     x: 1100,
     y: 2300,
     r: 40,
-    color: 'white'
+    color: 'white',
+    attraction: 0.015e-5
   }, {
+    label: "labelMarblin",
     friction: 0,
     restitution: 0,
+  });
+  
+//Ball gains friction and starts rolling
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "terrain_10" || bodyB.label === "terrain_10") {
+        levelMarblin.body.friction = -0.4;
+    }
 
   });
 
+//Ball rolls right and ends up lower
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "terrain_9_right" || bodyB.label === "terrain_9_right") {
+      console.log('test');
+      Matter.Body.setPosition(
+        levelMarblin.body,
+        {x: -740, y: 3270}
+        );
+        //teleport
+        terrain_10.body.collisionFilter.group = -1;
+    }
 
+  });
 
+//Ball rolls right again and ends up on lowest level
 
+Matter.Events.on(engine, 'collisionStart', function(event) {
+  const pairs = event.pairs[0];
+  const bodyA = pairs.bodyA;
+  const bodyB = pairs.bodyB;
+  if (bodyA.label === "terrain_10_right" || bodyB.label === "terrain_10_right") {
+    console.log('test');
+    Matter.Body.setPosition(
+      levelMarblin.body,
+      {x: -740, y: 3510}
+      );
+      //teleport
+      terrain_11.body.collisionFilter.group = -1;
+      terrain_11_links.body.collisionFilter.group = -1;
+  }
 
+});
+
+Matter.Events.on(engine, 'collisionStart', function(event) {
+  const pairs = event.pairs[0];
+  const bodyA = pairs.bodyA;
+  const bodyB = pairs.bodyB;
+  if (bodyA.label === "terrain_11_middle" || bodyB.label === "terrain_11_middle") {
+      levelMarblin.body.friction = 1;
+  }
+
+});
+
+Matter.Events.on(engine, 'collisionStart', function(event) {
+  const pairs = event.pairs[0];
+  const bodyA = pairs.bodyA;
+  const bodyB = pairs.bodyB;
+  if (bodyA.label === "trennung" || bodyB.label === "trennung") {
+      levelMarblin.body.friction = 1;
+  }
+
+});
 
   // create zwischensequenz 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   for (let i = 0; i < 30; i++) {
@@ -673,13 +797,10 @@ function setup() {
   */
 
   // create übergang 5 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-let transition5position = viewportH * 9.5;
 
 
-  // loveballs = new Stack(world, {
-  //   x: 0, y: transition5position-500, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
-  //   create: (x, y) => Matter.Bodies.circle(x, y, 15, { restitution: 0.1, friction: -0.1})
-  // });
+
+ 
 
 
 
@@ -888,19 +1009,37 @@ function draw() {
 
 //loveballs.draw();
 
+
+  // level 2 setup
+  // let transition5position = viewportH * 9.5;
+  // const engine = Matter.Engine.create();
+  // let world = engine.world;
+  // if (stack1) {
+  //   loveballs = new Stack(world, {
+  //   x: 0, y: transition5position-500, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
+  //   create: (x, y) => Matter.Bodies.circle(x, y, 15, { restitution: 0.1, friction: -0.1})
+  // });
+  // Matter.Engine.run(engine);
+  // stack1 = false;
+  // stack1draw = true;
+  // };
+
+  // if (stack1draw){
+  // loveballs.draw();}
+
   //lampe
   lamp.draw();
-  loverRamp.draw();
+  //loverRamp.draw();
   marblinTest.draw();
   marblinTest2.draw();
-  firstPlain.draw();
+  /*firstPlain.draw();
   firstRamp.draw();
   secondRamp.draw();
   secondPlain.draw();
   thirdPlain.draw();
   bluePlain.draw();
   blueWall.draw();
-  loverPlain.draw();
+  loverPlain.draw();*/
 
   marblinLover.draw();
   sun_moon.draw();
@@ -920,10 +1059,23 @@ function draw() {
   terrain_9.draw();
   terrain_10.draw();
   terrain_11.draw();
+  terrain_11_links.draw();
   terrain_12.draw();
+
+  if (stack1) { 
+    stack1.draw();
+  }
+  if (stack2) { 
+    stack2.draw();
+  }
+  if (stack3) { 
+    stack3.draw();
+  }
+
 
   //level 2
   levelMarblin.draw();
+  levelMarblin.attract();
   terrain_9_left.draw();
   terrain_9_right.draw();
   terrain_10_left.draw();
@@ -1089,9 +1241,54 @@ function collisionSleepOff(){
 
 
 
+
+  // for (let cols = 0; cols < 60; cols++) {
+  //   for (let rows = 0; rows < 10; rows++) {
+  //     ball = new Ball
+      
+  //   }    
+  // }
+
+
+
+
 function keyPressed() {
   let direction = 1;
   switch (keyCode) {
+
+
+    case 49: // 1 addStack1
+    console.log("adding stack");
+    addStack1();
+    console.log("stack added");
+    break;
+
+    case 50: // 2 addStack2
+    console.log("adding stack");
+    addStack2();
+    console.log("stack added");
+    break;
+
+    case 51: // 3 addStack3
+    console.log("adding stack");
+    addStack3();
+    console.log("stack added");
+    break;
+
+    case 52: // 4 removeStack1
+    removeStack1();
+    break;
+
+    case 53: // 5 removeStack2
+    removeStack2();
+    break;
+
+    case 54: // 6 removeStack3
+    removeStack3();
+
+    break;
+
+
     case 90: //z
       console.log("collisions aus");
               //collisionen aussschalten
