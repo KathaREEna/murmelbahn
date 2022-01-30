@@ -69,6 +69,7 @@ let trennung;
 let terrain_11_l;
 let terrain_11_middle;
 let terrain_11_r;
+let terrain_10_links;
 
 
 
@@ -517,12 +518,21 @@ function setup() {
 
 //Second Level
   terrain_10 = new BlockCore(world, {
-    x: 640,
+    x: 800,
     y: level2position,
-    w: viewportW,
+    w: 960,
     h: viewportH/3,
     color: "#050B4E"
   }, { isStatic: true, label: 'terrain_10' });
+
+  //Second Level
+  terrain_10_links = new BlockCore(world, {
+    x: 160,
+    y: level2position,
+    w: 320,
+    h: viewportH/3,
+    color: "yellow"
+  }, { isStatic: true, label: 'terrain_10_links' });
 
 //Second Level Auserhalb Plains
   terrain_10_left = new BlockCore(world, {
@@ -681,6 +691,8 @@ function setup() {
         );
         //teleport
         Matter.World.remove(engine.world, terrain_10.body);
+        Matter.World.remove(engine.world, terrain_10_links.body);
+        Matter.World.add(engine.world, terrain_9.body);
     }
 
   });
@@ -700,6 +712,8 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
       //teleport
       Matter.World.remove(engine.world, terrain_11.body);
       Matter.World.remove(engine.world, terrain_11_links.body);
+      Matter.World.add(engine.world, terrain_10.body);
+        Matter.World.add(engine.world, terrain_10_links.body);
   }
 
 });
@@ -1026,6 +1040,7 @@ function draw() {
   // if (stack1draw){
   // loveballs.draw();}
 
+
   //lampe
   lamp.draw();
   //loverRamp.draw();
@@ -1073,6 +1088,7 @@ function draw() {
 
 
   //level 2
+  terrain_10_links.draw();
   levelMarblin.draw();
   levelMarblin.attract();
   terrain_9_left.draw();
@@ -1091,6 +1107,8 @@ function draw() {
   terrain_11_middle.draw();
   trennung.draw();
   terrain_11_r.draw();
+
+
 
 
 
@@ -1143,8 +1161,6 @@ function draw() {
   if (drawStair7) {
     stair7.draw();
   }
-
-
 
   // ove.draw();
   theta = map(marblin.body.position.x, 0, width, 0, PI / 4);
@@ -1222,6 +1238,7 @@ let shrinkScaleEnd = 0;
 let marblinGrows = false;
 let marblinShrinks = false;
 
+let jumpalternator = true;
 
 
 
@@ -1364,15 +1381,15 @@ function keyPressed() {
 
    // make marblin jump at the beginning
    case 85: // u
-     console.log("jump");
-     sleepy = false;
-     direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
-     Matter.Body.applyForce(
-       marblin.body,
-       {x: marblin.body.position.x, y: marblin.body.position.y},
-       {x: (0.05) + marblin.body.velocity.x / 100, y: -0.2}
-     );
-
+     //first jump
+     if (jumpalternator){
+       jumpalternator = false;
+       jumpIntoAbyss();
+     } else {
+       smallJump();
+       jumpalternator = true;
+     }
+     //second Jump
 
      break;
 
