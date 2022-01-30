@@ -171,10 +171,9 @@ function preload() {
 function setup() {
   rectMode(CORNER);
   const canvas = createCanvas(canvasW, canvasH);
-  
-  
 
- 
+
+
   // config wrap area
   const wrap = {
     min: {
@@ -657,14 +656,14 @@ function setup() {
     friction: 0,
     restitution: 0,
   });
-  
+
 //Ball gains friction and starts rolling
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "terrain_10" || bodyB.label === "terrain_10") {
-        levelMarblin.body.friction = -0.4;
+        levelMarblin.body.friction = -0.2;
     }
 
   });
@@ -681,7 +680,7 @@ function setup() {
         {x: -740, y: 3270}
         );
         //teleport
-        terrain_10.body.collisionFilter.group = -1;
+        Matter.World.remove(engine.world, terrain_10.body);
     }
 
   });
@@ -699,8 +698,8 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
       {x: -740, y: 3510}
       );
       //teleport
-      terrain_11.body.collisionFilter.group = -1;
-      terrain_11_links.body.collisionFilter.group = -1;
+      Matter.World.remove(engine.world, terrain_11.body);
+      Matter.World.remove(engine.world, terrain_11_links.body);
   }
 
 });
@@ -800,7 +799,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
 
 
- 
+
 
 
 
@@ -1007,7 +1006,7 @@ function draw() {
         // marblin.body.collisionFilter.group = -1;
         // house.body.collisionFilter.group = -1;
 
-// loveballs.draw();
+//loveballs.draw();
 
 
   // level 2 setup
@@ -1062,13 +1061,13 @@ function draw() {
   terrain_11_links.draw();
   terrain_12.draw();
 
-  if (stack1) { 
+  if (stack1) {
     stack1.draw();
   }
-  if (stack2) { 
+  if (stack2) {
     stack2.draw();
   }
-  if (stack3) { 
+  if (stack3) {
     stack3.draw();
   }
 
@@ -1245,8 +1244,8 @@ function collisionSleepOff(){
   // for (let cols = 0; cols < 60; cols++) {
   //   for (let rows = 0; rows < 10; rows++) {
   //     ball = new Ball
-      
-  //   }    
+
+  //   }
   // }
 
 
@@ -1360,23 +1359,22 @@ function keyPressed() {
     break;
 
     case 79: //o
-      levelMarblin.body.collisionFilter.group = -1;
-      terrain_9.body.collisionFilter.group = -1;
+      Matter.World.remove(engine.world, terrain_9.body);
     break;
 
-         // make marblin jump at the beginning
-         case 85: // u
-         console.log("jump");
-         sleepy = false;
-         direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
-         Matter.Body.applyForce(
-           marblin.body,
-           {x: marblin.body.position.x, y: marblin.body.position.y},
-           {x: (0.05) + marblin.body.velocity.x / 100, y: -0.2}
-         );
+   // make marblin jump at the beginning
+   case 85: // u
+     console.log("jump");
+     sleepy = false;
+     direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
+     Matter.Body.applyForce(
+       marblin.body,
+       {x: marblin.body.position.x, y: marblin.body.position.y},
+       {x: (0.05) + marblin.body.velocity.x / 100, y: -0.2}
+     );
 
 
-           break;
+     break;
 
 
     case 86: //v
@@ -1386,7 +1384,7 @@ function keyPressed() {
         scroller = true;
       }
       break;
-    case 69:
+    case 69: //e
       Matter.Body.setPosition(
       marblin.body,
       {x: marblin.body.position.x, y: marblin.body.position.y-100}
