@@ -41,6 +41,7 @@ elevator.body,
 */
 
 
+
 function jumpIntoAbyss() {
   console.log("jump");
   sleepy = false;
@@ -49,5 +50,18 @@ function jumpIntoAbyss() {
     marblin.body,
     {x: marblin.body.position.x, y: marblin.body.position.y},
     {x: (0.05) + marblin.body.velocity.x / 100, y: -0.2}
+  );
+}
+
+
+
+function smallJump() {
+  console.log("jump");
+  sleepy = false;
+  direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
+  Matter.Body.applyForce(
+    marblin.body,
+    {x: marblin.body.position.x, y: marblin.body.position.y},
+    {x: (0.01) + marblin.body.velocity.x / 100, y: -0.1}
   );
 }

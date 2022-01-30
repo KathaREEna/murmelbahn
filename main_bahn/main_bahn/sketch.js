@@ -1223,6 +1223,7 @@ let shrinkScaleEnd = 0;
 let marblinGrows = false;
 let marblinShrinks = false;
 
+let jumpalternator = true;
 
 
 
@@ -1365,15 +1366,15 @@ function keyPressed() {
 
    // make marblin jump at the beginning
    case 85: // u
-     console.log("jump");
-     sleepy = false;
-     direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
-     Matter.Body.applyForce(
-       marblin.body,
-       {x: marblin.body.position.x, y: marblin.body.position.y},
-       {x: (0.05) + marblin.body.velocity.x / 100, y: -0.2}
-     );
-
+     //first jump
+     if (jumpalternator){
+       jumpalternator = false;
+       jumpIntoAbyss();
+     } else {
+       smallJump();
+       jumpalternator = true;
+     }
+     //second Jump
 
      break;
 
