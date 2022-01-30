@@ -7,16 +7,16 @@ function controlFunction1(){
     case 0:
       controlCounter = 1;
       marblinnewR = 255;
-      marblinnewG = 162;
-      marblinnewB = 173;
-      intervalmarblin = setInterval(colorFade,10);
+      marblinnewG = 0;
+      marblinnewB = 0;
+      intervalmarblin = setInterval(colorFade,2);
       break;
     case 1:
       controlCounter = 2;
       marblinnewR = 255;
       marblinnewG = 255;
       marblinnewB = 255;
-      intervalmarblin = setInterval(colorFade,20);
+      intervalmarblin = setInterval(colorFade,10);
       inLove = true;
       break;
     case 2:
@@ -49,7 +49,7 @@ function jumpIntoAbyss() {
   Matter.Body.applyForce(
     marblin.body,
     {x: marblin.body.position.x, y: marblin.body.position.y},
-    {x: (0.05) + marblin.body.velocity.x / 100, y: -0.2}
+    {x: (0.07) + marblin.body.velocity.x / 100, y: -0.2}
   );
 }
 

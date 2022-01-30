@@ -64,15 +64,15 @@ function marblinSleep(){
   let sleepyPosition2 = (sleepyPosition + sleepyLoop / 3) % sleepyLoop;
   let sleepyPosition3 = (sleepyPosition + sleepyLoop / 3 * 2) % sleepyLoop;
 
-  fill(125, sleepyTransparency1);
+  fill(255, sleepyTransparency1);
   textSize((sleepyLoop - sleepyPosition) / 2);
   text("Z", marblin.body.position.x + sleepyOffsetX + sleepyPosition, marblin.body.position.y - sleepyOffsetY - sleepyPosition);
 
-  fill(125, sleepyTransparency2);
+  fill(255, sleepyTransparency2);
   textSize((sleepyLoop - sleepyPosition2) / 2);
   text("Z", marblin.body.position.x + sleepyOffsetX + sleepyPosition2, marblin.body.position.y - sleepyOffsetY - sleepyPosition2);
 
-  fill(125, sleepyTransparency3);
+  fill(255, sleepyTransparency3);
   textSize((sleepyLoop - sleepyPosition3) / 2);
   text("Z", marblin.body.position.x + sleepyOffsetX + sleepyPosition3, marblin.body.position.y - sleepyOffsetY - sleepyPosition3);
 

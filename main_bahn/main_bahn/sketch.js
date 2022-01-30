@@ -151,7 +151,7 @@ function preload() {
   let world = engine.world;
   //create house
   house = new PolygonFromSVG(world, {
-    x: 250,
+    x: 350,
     y: 417,
     fromFile: './house.svg',
     scale: 3,
@@ -220,7 +220,7 @@ function setup() {
 
   // create Main Character MURMEL
   marblin = new Magnet(world, {
-    x: 250,
+    x: 350,
     y: 50,
     r: 40,
     color: 'white',
@@ -245,6 +245,7 @@ function setup() {
      marblin.body.friction = 0.05;
      ramp4.body.collisionFilter.group = -1;
      marblinLover.body.collisionFilter.group = -1;
+     marblinLover.body.friction = 0.0001;
      prison.body.collisionFilter.group = -1;
      terrain_9.body.collisionFilter.group = -1;
     }
@@ -253,11 +254,11 @@ function setup() {
 
   marblinLover = new Ball(world, {
     x: 1350,
-    y: 50,
+    y: 250,
     r: 40,
     color: 'red'
   }, {
-    friction: 0.004,
+    friction: 0.00,
     restitution: 0
   });
 // attrackt lover to marblin
@@ -286,7 +287,7 @@ function setup() {
   );
 
   ramp = new BlockCore(world, {
-    x: viewportW * 1 / 5-15,
+    x: viewportW * 1 / 5 + 85,
     y: 500,
     w: 30,
     h: 30,
@@ -296,7 +297,7 @@ function setup() {
   });
 
   ramp2 = new BlockCore(world, {
-    x: viewportW * 1 / 5,
+    x: viewportW * 1 / 5+100,
     y: 480,
     w: 30,
     h: 30,
@@ -326,7 +327,7 @@ function setup() {
   });
 
   terrain_1 = new BlockCore(world, {
-    x: viewportW * 1 / 5,
+    x: (viewportW * 1 / 5)-50,
     y: 620,
     w: viewportW * 3 / 5,
     h: viewportH / 4,
@@ -337,7 +338,7 @@ function setup() {
   });
 
   terrain_1edge = new BlockCore(world, {
-    x: viewportW * 3 / 5,
+    x: (viewportW * 3 / 5)-50,
     y: 620,
     w: viewportW * 1 / 5,
     h: viewportH / 4,
@@ -1040,6 +1041,21 @@ function draw() {
   // if (stack1draw){
   // loveballs.draw();}
 
+  
+  //BÄUMLI
+  theta = map(marblin.body.position.x, 350, width, 0, PI / 4);
+  theta2 = map(marblinLover.body.position.x, 0, 1350, PI / 1.5, 0);
+  //theta = 0.4
+  push();
+  translate(width / 2, 526+5);
+  stroke(255);
+  branch(80);
+  translate(500, 80);
+  stroke(255);
+  branch2(80);
+  pop();
+
+
 
   //lampe
   lamp.draw();
@@ -1163,28 +1179,18 @@ function draw() {
   }
 
   // ove.draw();
-  theta = map(marblin.body.position.x, 0, width, 0, PI / 4);
-  theta2 = map(marblinLover.body.position.x, 0, width, 0, PI / 12);
-  //theta = 0.4
-  push();
-  translate(width / 2, 526);
-  stroke(255);
-  branch(80);
-  translate(500, 80);
-  stroke(255);
-  branch2(80);
-  pop();
+  
 
 
   //sleepyTrigger
-  if (marblin.body.position.x > 240 && marblin.body.position.x < 300 && marblin.body.position.y > 400 && marblin.body.position.y < 500) {
+  if (marblin.body.position.x > 340 && marblin.body.position.x < 400 && marblin.body.position.y > 400 && marblin.body.position.y < 500) {
     sleepy = true;
   } else {
     sleepy = false;
   }
 
   //controlFunction1trigger
-  if (marblinLover.body.position.x > 1100 && marblinLover.body.position.x < 1150 && marblinLover.body.position.y > 480 && marblinLover.body.position.y < 500) {
+  if (marblinLover.body.position.x > 1040 && marblinLover.body.position.x < 1100 && marblinLover.body.position.y > 480 && marblinLover.body.position.y < 500) {
     if (controlStarter1){
       controlFunction1();
       controlStarter1 = false;

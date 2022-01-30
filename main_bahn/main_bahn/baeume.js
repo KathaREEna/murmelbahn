@@ -30,7 +30,7 @@ function branch2(len2) {
   // Each branch will be 2/3rds the size of the previous one
   //float sw = map(len,2,120,1,10);
   //strokeWeight(sw);
-  strokeWeight(10);
+  strokeWeight(8);
   line(0, 0, 0, -len2);
   // Move to the end of that line
   translate(0, -len2);
