@@ -664,7 +664,7 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "terrain_10" || bodyB.label === "terrain_10") {
-        levelMarblin.body.friction = -0.4;
+        levelMarblin.body.friction = -0.2;
     }
 
   });
@@ -681,7 +681,7 @@ function setup() {
         {x: -740, y: 3270}
         );
         //teleport
-        terrain_10.body.collisionFilter.group = -1;
+        Matter.World.remove(engine.world, terrain_10.body);
     }
 
   });
@@ -699,8 +699,8 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
       {x: -740, y: 3510}
       );
       //teleport
-      terrain_11.body.collisionFilter.group = -1;
-      terrain_11_links.body.collisionFilter.group = -1;
+      Matter.World.remove(engine.world, terrain_11.body);
+      Matter.World.remove(engine.world, terrain_11_links.body);
   }
 
 });
@@ -1360,8 +1360,7 @@ function keyPressed() {
     break;
 
     case 79: //o
-      levelMarblin.body.collisionFilter.group = -1;
-      terrain_9.body.collisionFilter.group = -1;
+      Matter.World.remove(engine.world, terrain_9.body);
     break;
 
    // make marblin jump at the beginning
