@@ -22,6 +22,11 @@ function controlFunction1(){
     case 2:
       controlCounter = 3;
       inLove = false;
+      jumpIntoAbyss();
+      break;
+    case 3:
+      controlCounter = 4;
+      console.log("control Function Counter = 4");
       break;
     default:
 
@@ -34,3 +39,15 @@ elevator.body,
 {x: elevator.body.position.x, y: swingY}
 );
 */
+
+
+function jumpIntoAbyss() {
+  console.log("jump");
+  sleepy = false;
+  direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
+  Matter.Body.applyForce(
+    marblin.body,
+    {x: marblin.body.position.x, y: marblin.body.position.y},
+    {x: (0.05) + marblin.body.velocity.x / 100, y: -0.2}
+  );
+}

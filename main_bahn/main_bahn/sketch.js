@@ -172,9 +172,9 @@ function setup() {
   rectMode(CORNER);
   const canvas = createCanvas(canvasW, canvasH);
 
-  
 
- 
+
+
   // config wrap area
   const wrap = {
     min: {
@@ -657,7 +657,7 @@ function setup() {
     friction: 0,
     restitution: 0,
   });
-  
+
 //Ball gains friction and starts rolling
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
@@ -800,7 +800,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
 
 
- 
+
 
 
 
@@ -1062,13 +1062,13 @@ function draw() {
   terrain_11_links.draw();
   terrain_12.draw();
 
-  if (stack1) { 
+  if (stack1) {
     stack1.draw();
   }
-  if (stack2) { 
+  if (stack2) {
     stack2.draw();
   }
-  if (stack3) { 
+  if (stack3) {
     stack3.draw();
   }
 
@@ -1245,8 +1245,8 @@ function collisionSleepOff(){
   // for (let cols = 0; cols < 60; cols++) {
   //   for (let rows = 0; rows < 10; rows++) {
   //     ball = new Ball
-      
-  //   }    
+
+  //   }
   // }
 
 
@@ -1364,19 +1364,19 @@ function keyPressed() {
       terrain_9.body.collisionFilter.group = -1;
     break;
 
-         // make marblin jump at the beginning
-         case 85: // u
-         console.log("jump");
-         sleepy = false;
-         direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
-         Matter.Body.applyForce(
-           marblin.body,
-           {x: marblin.body.position.x, y: marblin.body.position.y},
-           {x: (0.05) + marblin.body.velocity.x / 100, y: -0.2}
-         );
+   // make marblin jump at the beginning
+   case 85: // u
+     console.log("jump");
+     sleepy = false;
+     direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
+     Matter.Body.applyForce(
+       marblin.body,
+       {x: marblin.body.position.x, y: marblin.body.position.y},
+       {x: (0.05) + marblin.body.velocity.x / 100, y: -0.2}
+     );
 
 
-           break;
+     break;
 
 
     case 86: //v
@@ -1386,7 +1386,7 @@ function keyPressed() {
         scroller = true;
       }
       break;
-    case 69:
+    case 69: //e
       Matter.Body.setPosition(
       marblin.body,
       {x: marblin.body.position.x, y: marblin.body.position.y-100}
