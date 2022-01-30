@@ -42,6 +42,12 @@ function setup() {
   engine = Engine.create();
   const world = engine.world;
 
+  var path = new Path.Circle(new Point(80, 50), 30);
+path.style = {
+    fillColor: new Color(1, 0, 0),
+    strokeColor: 'black',
+    strokeWidth: 5
+};
  
   magnet = new Magnet(
     world, {
@@ -56,7 +62,7 @@ function setup() {
     shadowBlur: 12,
     shadowOffset: { x: 100, y: 100},
     penis: 1
-    }, { isStatic: true }
+    }, { isStatic: false }
   );
   blocks.push(magnet);
 
@@ -79,20 +85,20 @@ function setup() {
 
 
   // create a group of identical bodies
-  let stack = new Stack(
-    world, {
-      x: 550,
-      y: 100,
-      cols: 10,
-      rows: 10,
-      colGap: 5,
-      rowGap: 5,
-      color: 'red',
-      create: (bx, by) => Bodies.circle(bx, by, 10, { restitution: 0.9 })
-    }, {})
-  blocks.push(stack);
+  // let stack = new Stack(
+  //   world, {
+  //     x: 550,
+  //     y: 100,
+  //     cols: 10,
+  //     rows: 10,
+  //     colGap: 5,
+  //     rowGap: 5,
+  //     color: 'red',
+  //     create: (bx, by) => Bodies.circle(bx, by, 10, { restitution: 0.9 })
+  //   }, {})
+  // blocks.push(stack);
 
-  magnet.addAttracted(stack.body.bodies)
+  // magnet.addAttracted(stack.body.bodies)
 
 
   terrain_1 = new BlockCore(world,
@@ -105,7 +111,7 @@ function setup() {
 }
 
 function draw() {
-  background("white");
+  background("blue");
   magnet.draw();
   blocks.forEach(block => block.draw());
   magnet.attract();

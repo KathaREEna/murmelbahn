@@ -98,9 +98,11 @@ let world = engine.world;
 let level2position = viewportH * 4.5;
 
 let stack1
+let stack2
+let stack3
 function addStack1(){
   stack1 = new Stack(world, {
-    x: -180, y: level2position-300 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
+    x: 400, y: level2position-600 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
     create: (x, y) => Matter.Bodies.circle(x, y, 20, { restitution: 1.1, friction: -0.03})
   });
   levelMarblin.addAttracted(stack1.body.bodies);
@@ -111,6 +113,35 @@ function removeStack1() {
   Matter.World.remove(engine.world, stack1.body);
   stack1 = undefined;
 };
+
+function addStack2(){
+  stack2 = new Stack(world, {
+    x: 400, y: level2position-600 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
+    create: (x, y) => Matter.Bodies.circle(x, y, 20, { restitution: 1.1, friction: -0.03})
+  });
+  levelMarblin.addAttracted(stack2.body.bodies);
+};
+
+
+function removeStack2() {
+  Matter.World.remove(engine.world, stack2.body);
+  stack2 = undefined;
+};
+
+function addStack3(){
+  stack3 = new Stack(world, {
+    x: 400, y: level2position-600 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
+    create: (x, y) => Matter.Bodies.circle(x, y, 20, { restitution: 1.1, friction: -0.03})
+  });
+  levelMarblin.addAttracted(stack3.body.bodies);
+};
+
+
+function removeStack3() {
+  Matter.World.remove(engine.world, stack3.body);
+  stack3 = undefined;
+};
+
 
 
 
@@ -1033,7 +1064,12 @@ function draw() {
 
   if (stack1) { 
     stack1.draw();
-    
+  }
+  if (stack2) { 
+    stack2.draw();
+  }
+  if (stack3) { 
+    stack3.draw();
   }
 
 
@@ -1221,10 +1257,35 @@ function keyPressed() {
   switch (keyCode) {
 
 
-    case 73: // i stack erschaffen
+    case 49: // 1 addStack1
     console.log("adding stack");
-    addStack();
+    addStack1();
     console.log("stack added");
+    break;
+
+    case 50: // 2 addStack2
+    console.log("adding stack");
+    addStack2();
+    console.log("stack added");
+    break;
+
+    case 51: // 3 addStack3
+    console.log("adding stack");
+    addStack3();
+    console.log("stack added");
+    break;
+
+    case 52: // 4 removeStack1
+    removeStack1();
+    break;
+
+    case 53: // 5 removeStack2
+    removeStack2();
+    break;
+
+    case 54: // 6 removeStack3
+    removeStack3();
+
     break;
 
 
