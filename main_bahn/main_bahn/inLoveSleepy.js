@@ -48,7 +48,6 @@ function inLoveAni(){
       text("❤", marblin.body.position.x + lovelyPositions[i][1]+wackeln, marblin.body.position.y-20-lovelyPositions[i][0]);
     }
   }
-
 }
 
 
