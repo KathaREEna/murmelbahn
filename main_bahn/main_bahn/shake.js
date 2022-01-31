@@ -105,7 +105,7 @@ function onStairShake(){ //0 = left, 1 = right
 }
 
 
-
+let boomtransparency = 255;
 function shakePrison(){
   pcountertestzahl++;
 

@@ -36,7 +36,7 @@ class Particle {
   // Method to display
   display() {
     noStroke();
-    fill(prisonColor);
+    fill(255,boomtransparency);
     rectMode(CENTER);
     rect(this.position.x, this.position.y, this.r, this.r);
   }
