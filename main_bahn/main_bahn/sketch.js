@@ -51,7 +51,7 @@ let blueWall;
 let bluePlain;
 
 //gradient steps
-let levelMarblin;
+// let marblin;
 let terrain_9_left;
 let terrain_9_right;
 let terrain_10_left;
@@ -87,6 +87,7 @@ let prisonColor = "white"
 let boom = false;
 let level3position;
 let prisonSize;
+let jumper3 = false;
 
 // übergang 5, fountain
 let particles = [];
@@ -103,10 +104,10 @@ let stack2
 let stack3
 function addStack1(){
   stack1 = new Stack(world, {
-    x: -400, y: level2position-450 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
-    create: (x, y) => Matter.Bodies.circle(x, y, 20, { restitution: 1.1, friction: -0.03})
+    x: -200, y: level2position-470 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
+    create: (x, y) => Matter.Bodies.circle(x, y, 20, { restitution: 0, friction: 0.3})
   });
-  levelMarblin.addAttracted(stack1.body.bodies);
+  marblin.addAttracted(stack1.body.bodies);
 };
 
 
@@ -117,10 +118,10 @@ function removeStack1() {
 
 function addStack2(){
   stack2 = new Stack(world, {
-    x: -400, y: level2position-300 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
-    create: (x, y) => Matter.Bodies.circle(x, y, 20, { restitution: 1.1, friction: -0.03})
+    x: -200, y: level2position-200 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
+    create: (x, y) => Matter.Bodies.circle(x, y, 20, { restitution: 1.0, friction: 0.1})
   });
-  levelMarblin.addAttracted(stack2.body.bodies);
+  marblin.addAttracted(stack2.body.bodies);
 };
 
 
@@ -131,10 +132,10 @@ function removeStack2() {
 
 function addStack3(){
   stack3 = new Stack(world, {
-    x: 1680, y: level2position , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
-    create: (x, y) => Matter.Bodies.circle(x, y, 20, { restitution: 1.1, friction: -0.03})
+    x: 1480, y: level2position-100 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
+    create: (x, y) => Matter.Bodies.circle(x, y, 20, { restitution: 0.8, friction: 0.2, density: 0.008})
   });
-  levelMarblin.addAttracted(stack3.body.bodies);
+  marblin.addAttracted(stack3.body.bodies);
 };
 
 
@@ -220,18 +221,17 @@ function setup() {
 
   // create Main Character MURMEL
   marblin = new Magnet(world, {
-    x: 350,
-    y: 50,
+    x: viewportW/2,
+    y: 3050,
     r: 40,
     color: 'white',
-    attraction: 0.45e-5
+    attraction: 0.25e-5
   },
   {
     restitution: 0,
     friction: 0,
     label: "marblin",
     plugin: {
-      wrap: wrap
     },
   });
 
@@ -480,8 +480,9 @@ function setup() {
     y: level2position-viewportH/3,
     w: viewportW,
     h: viewportH/3,
-    color: "darkblue"
+    color: "#0025c9"
   }, { isStatic: true });
+  Matter.World.remove(engine.world, terrain_9.body);
 
 //First Level Auserhalb Plains
   terrain_9_left = new BlockCore(world, {
@@ -489,33 +490,33 @@ function setup() {
     y: 3130,
     w: 700,
     h: 20,
-    color: "darkblue"
+    color: "red"
   }, { isStatic: true });
 
   terrain_9_right = new BlockCore(world, {
-    x: 1630,
+    x: 1730,
     y: 3130,
-    w: 700,
+    w: 900,
     h: 20,
-    color: "darkblue"
+    color: "pink"
   }, { isStatic: true, label: 'terrain_9_right' });
 
   //First Level Auserhalb Walls
   terrain_9_leftWall = new BlockCore(world, {
-    x: -710,
-    y: 3030,
+    x: -520,
+    y: 3290,
     w: 220,
     h: 20,
-    color: "darkblue"
-  }, { isStatic: true, angle: radians(90) });
+    color: "pink"
+  }, { isStatic: true, angle: radians(45) });
 
   terrain_9_rightWall = new BlockCore(world, {
-    x: 1990,
+    x: 2190,
     y: 3040,
     w: 200,
     h: 20,
     color: "darkblue"
-  }, { isStatic: true, angle: radians(90) });
+  }, { isStatic: true, angle: radians(90), label: 'terrain_9_rightWall' });
 
 //Second Level
   terrain_10 = new BlockCore(world, {
@@ -523,7 +524,7 @@ function setup() {
     y: level2position,
     w: 960,
     h: viewportH/3,
-    color: "#050B4E"
+    color: "darkblue"
   }, { isStatic: true, label: 'terrain_10' });
 
   //Second Level
@@ -532,7 +533,7 @@ function setup() {
     y: level2position,
     w: 320,
     h: viewportH/3,
-    color: "yellow"
+    color: "darkblue"
   }, { isStatic: true, label: 'terrain_10_links' });
 
 //Second Level Auserhalb Plains
@@ -567,7 +568,7 @@ function setup() {
     w: 200,
     h: 20,
     color: "darkblue"
-  }, { isStatic: true, angle: radians(90) });
+  }, { isStatic: true, angle: radians(90), label: "terrain_10_rightWall" });
 
 //Third Level Auserhalb Plains
   terrain_11 = new BlockCore(world, {
@@ -575,7 +576,7 @@ function setup() {
     y: level2position+viewportH/3,
     w: viewportW/2,
     h: viewportH/3,
-    color: "black"
+    color: "#000c42"
   }, { isStatic: true, label: 'terrain_11'});
 
   terrain_11_links = new BlockCore(world, {
@@ -583,7 +584,7 @@ function setup() {
     y: level2position+viewportH/3,
     w: viewportW/2,
     h: viewportH/3,
-    color: "grey"
+    color: "#000c42"
   }, { isStatic: true, label: 'terrain_11_links' });
 
   terrain_11_right = new BlockCore(world, {
@@ -601,7 +602,7 @@ function setup() {
     w: viewportW/2,
     h: 20,
     color: "red"
-  }, { isStatic: true });
+  }, { isStatic: true, label: "terrain_11_r"});
 
 //Trigger Mitte unter Third Level
   terrain_11_middle = new BlockCore(world, {
@@ -619,7 +620,7 @@ function setup() {
     w: viewportW/4,
     h: 20,
     color: "yellow"
-  }, { isStatic: true });
+  }, { isStatic: true, label: "terrain_11_l" });
 
 //Third Level Auserhalb Plains
   terrain_11_left = new BlockCore(world, {
@@ -648,35 +649,51 @@ function setup() {
   }, { isStatic: true, angle: radians(90) } );
 
 //Wall zwischen Third Level
-  trennung = new BlockCore(world, {
-    x: 840,
-    y: 3525,
-    w: 150,
-    h: 20,
-    color: "pink"
-  }, { isStatic: true, angle: radians(90) } );
+  // trennung = new BlockCore(world, {
+  //   x: 840,
+  //   y: 3525,
+  //   w: 150,
+  //   h: 20,
+  //   color: "#000c42"
+  // }, { isStatic: true, angle: radians(90) } );
 
-  levelMarblin = new Magnet(world, {
-    x: 1100,
-    y: 2300,
-    r: 40,
-    color: 'white',
-    attraction: 0.015e-5
-  }, {
-    label: "labelMarblin",
-    friction: 0,
-    restitution: 0,
-  });
+  // marblin = new Magnet(world, {
+  //   x: viewportW/2,
+  //   y: 2800,
+  //   r: 40,
+  //   color: 'white',
+  //   attraction: 0.015e-5
+  // }, {
+  //   label: "labelMarblin",
+  //   friction: 0,
+  //   restitution: 0,
+  // });
 
 //Ball gains friction and starts rolling
+  // Matter.Events.on(engine, 'collisionStart', function(event) {
+  //   const pairs = event.pairs[0];
+  //   const bodyA = pairs.bodyA;
+  //   const bodyB = pairs.bodyB;
+  //   if (bodyA.label === "terrain_10" || bodyB.label === "terrain_10") {
+  //       marblin.body.friction = 0;
+  //   }
+
+  // });
+
+  //red balls touch ground, marblin jumps and runs away
+  let jumpPrevent = true
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
-    if (bodyA.label === "terrain_10" || bodyB.label === "terrain_10") {
-        levelMarblin.body.friction = -0.2;
+    if (bodyA.label === "terrain_10_links" || bodyB.label === "terrain_10_links") {
+      marblin.body.friction = -0.04;
+      if (jumpPrevent){
+      jumper = true;
+      jumpPrevent = false;
     }
 
+    };
   });
 
 //Ball rolls right and ends up lower
@@ -684,13 +701,17 @@ function setup() {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
-    if (bodyA.label === "terrain_9_right" || bodyB.label === "terrain_9_right") {
+    if (bodyA.label === "terrain_9_rightWall" || bodyB.label === "terrain_9_rightWall") {
       console.log('test');
       Matter.Body.setPosition(
-        levelMarblin.body,
-        {x: -740, y: 3270}
+        marblin.body,
+        {x: -100, y: 3270}
         );
         //teleport
+        // jumper = true;
+        removeStack1();
+        Matter.World.remove(engine.world, terrain_9_leftWall.body);
+        Matter.World.remove(engine.world, terrain_9_left.body);
         Matter.World.remove(engine.world, terrain_10.body);
         Matter.World.remove(engine.world, terrain_10_links.body);
         Matter.World.add(engine.world, terrain_9.body);
@@ -704,29 +725,91 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
   const pairs = event.pairs[0];
   const bodyA = pairs.bodyA;
   const bodyB = pairs.bodyB;
-  if (bodyA.label === "terrain_10_right" || bodyB.label === "terrain_10_right") {
+  if (bodyA.label === "terrain_10_rightWall" || bodyB.label === "terrain_10_rightWall") {
     console.log('test');
     Matter.Body.setPosition(
-      levelMarblin.body,
-      {x: -740, y: 3510}
+      marblin.body,
+      {x: -40, y: 3510}
       );
       //teleport
+      removeStack2();
+      Matter.World.remove(engine.world, terrain_10_leftWall.body);
+      Matter.World.remove(engine.world, terrain_10_links.body);
       Matter.World.remove(engine.world, terrain_11.body);
       Matter.World.remove(engine.world, terrain_11_links.body);
       Matter.World.add(engine.world, terrain_10.body);
-        Matter.World.add(engine.world, terrain_10_links.body);
+      Matter.World.add(engine.world, terrain_10_links.body);
   }
 
 });
+// marblin enters 1. time from left, triggers stack2
 
+let stackPrevent = true;
+Matter.Events.on(engine, 'collisionStart', function(event) {
+  const pairs = event.pairs[0];
+  const bodyA = pairs.bodyA;
+  const bodyB = pairs.bodyB;
+  if (bodyA.label === "terrain_11_links" || bodyB.label === "terrain_11_links") {
+    if (stackPrevent){
+    marblin.body.friction = -0.08;
+    addStack2();
+    stackPrevent = false;
+    };
+  }
+});
+
+
+// marblin slows down 3. stage
+Matter.Events.on(engine, 'collisionStart', function(event) {
+  const pairs = event.pairs[0];
+  const bodyA = pairs.bodyA;
+  const bodyB = pairs.bodyB;
+  if (bodyA.label === "terrain_11_l" || bodyB.label === "terrain_11_l") {
+    stackPrevent = true;
+    if (stackPrevent){
+    marblin.body.friction = 0;
+    stackPrevent = false;
+    };
+  }
+});
+
+
+// marblin entered 3. stage and triggers stack near middle
+let stackPrevent2 = true;
 Matter.Events.on(engine, 'collisionStart', function(event) {
   const pairs = event.pairs[0];
   const bodyA = pairs.bodyA;
   const bodyB = pairs.bodyB;
   if (bodyA.label === "terrain_11_middle" || bodyB.label === "terrain_11_middle") {
-      levelMarblin.body.friction = 1;
+    if (stackPrevent2){
+      addStack3();
+    stackPrevent2 = false;
+    };
+
+    Matter.World.remove(engine.world, terrain_10_right.body);
+    Matter.World.remove(engine.world, terrain_10_rightWall.body);
   }
 
+});
+
+
+// red balls enter and trigger jump marblin stage 3
+jumper2 = false;
+jumpPrevent2 = true;
+Matter.Events.on(engine, 'collisionStart', function(event) {
+  const pairs = event.pairs[0];
+  const bodyA = pairs.bodyA;
+  const bodyB = pairs.bodyB;
+  if (bodyA.label === "terrain_11_r" || bodyB.label === "terrain_11_r") {
+    if (jumpPrevent2){
+    jumper2 = true;
+    jumpPrevent2 = false;
+    terrain_11_middle.body.collisionFilter.group = -1;
+    marblin.body.collisionFilter.group = -1;
+    prison.body.collisionFilter.group = -1;
+
+    }
+  }
 });
 
 Matter.Events.on(engine, 'collisionStart', function(event) {
@@ -734,7 +817,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
   const bodyA = pairs.bodyA;
   const bodyB = pairs.bodyB;
   if (bodyA.label === "trennung" || bodyB.label === "trennung") {
-      levelMarblin.body.friction = 1;
+      marblin.body.friction = 1;
   }
 
 });
@@ -774,20 +857,41 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
   //ps = new ParticleSystem(viewportW/2, level3position-184, prisonSize);
 
   prison = new BlockCore(world, {
-    x: viewportW/4,
+    x: viewportW/2,
     y: level3position,
     w: 15*prisonSize,
     h: 15*prisonSize,
-    color: prisonColor
+    color: prisonColor  
   },{ isStatic: false });
 
  terrain_12 = new BlockCore(world, {
     x: viewportW/2,
     y: level3position+viewportH/6*2,
     w: viewportW,
-    h: viewportH/6,
+    h: viewportH/3,
     color: "darkblue"
-  },{ isStatic: true });
+  },{ isStatic: true, label: "terrain_12"});
+
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "marblin", bodyB.label === "terrain_12") {
+      console.log('tester');
+      Matter.Body.setPosition(
+        marblin.body,
+        {x: viewportW/2, y: 4759}
+        );
+        //teleport
+        // removeStack2();
+        // Matter.World.remove(engine.world, terrain_10_leftWall.body);
+        // Matter.World.remove(engine.world, terrain_10_links.body);
+        // Matter.World.remove(engine.world, terrain_11.body);
+        // Matter.World.remove(engine.world, terrain_11_links.body);
+        // Matter.World.add(engine.world, terrain_10.body);
+        // Matter.World.add(engine.world, terrain_10_links.body);
+    }});
 
 
     // create ÜBERGANG 3 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -1041,7 +1145,27 @@ function draw() {
   // if (stack1draw){
   // loveballs.draw();}
 
-  
+  // level 2 trigger
+  if (jumper){ 
+    fleeJump();
+    console.log("jumped");
+    jumper = false;
+  }
+
+  if (jumper2){ 
+    fleeJump2();
+    console.log("jumped");
+    jumper2 = false;
+  }
+
+
+  // level 3 trigger
+
+  if (jumper3){
+    jumpUp();
+    jumper3 = false;
+  }
+
   //BÄUMLI
   theta = map(marblin.body.position.x, 350, width, 0, PI / 4);
   theta2 = map(marblinLover.body.position.x, 0, 1350, PI / 1.5, 0);
@@ -1092,21 +1216,12 @@ function draw() {
   terrain_11_links.draw();
   terrain_12.draw();
 
-  if (stack1) {
-    stack1.draw();
-  }
-  if (stack2) {
-    stack2.draw();
-  }
-  if (stack3) {
-    stack3.draw();
-  }
 
 
   //level 2
   terrain_10_links.draw();
-  levelMarblin.draw();
-  levelMarblin.attract();
+  // marblin.draw();
+  // marblin.attract();
   terrain_9_left.draw();
   terrain_9_right.draw();
   terrain_10_left.draw();
@@ -1119,11 +1234,20 @@ function draw() {
   terrain_10_rightWall.draw();
   terrain_11_leftWall.draw();
   terrain_11_rightWall.draw();
-  terrain_11_l.draw();
-  terrain_11_middle.draw();
-  trennung.draw();
-  terrain_11_r.draw();
+  // terrain_11_l.draw();
+  // terrain_11_middle.draw();
+  // trennung.draw();
+  // terrain_11_r.draw();
 
+  if (stack1) {
+    stack1.draw();
+  }
+  if (stack2) {
+    stack2.draw();
+  }
+  if (stack3) {
+    stack3.draw();
+  }
 
 
 
@@ -1232,6 +1356,10 @@ function draw() {
   }
 }
 
+// level 2 trigger
+let jumper = false
+
+
 
 
 let groesserAnfang;
@@ -1337,15 +1465,7 @@ function keyPressed() {
 
 
       case 71: // G gravity attractor on
-      marblin.body.plugin.attractors = [
-        function(bodyA, bodyB) {
-          return {
-            x: (bodyA.position.x - bodyB.position.x) * 1e-6,
-            y: (bodyA.position.y - bodyB.position.y) * 1e-6,
-          };
-        }
-      ];
-
+      fleeJump();
         break;
 
 
@@ -1387,6 +1507,19 @@ function keyPressed() {
 
    // make marblin jump at the beginning
    case 85: // u
+     //first jump
+     if (jumpalternator){
+       jumpalternator = false;
+       jumpIntoAbyss();
+     } else {
+       smallJump();
+       jumpalternator = true;
+     }
+     //second Jump
+
+     break;
+
+     case 85: // u
      //first jump
      if (jumpalternator){
        jumpalternator = false;

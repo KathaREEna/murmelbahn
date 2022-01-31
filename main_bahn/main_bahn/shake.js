@@ -50,6 +50,9 @@ function shakePrison(){
     ps = new ParticleSystem(prison.body.position.x-(prison.attrs.w / 2), prison.body.position.y-(prison.attrs.h / 2), prisonSize);
     boom = true;
     ps.shatter();
+    Matter.World.remove(engine.world, prison.body);
+    jumper3 = true;
+    terrain_12.body.collisionFilter.group = -1;
   }
   let pdirection = 1;
   if (palternate == 0) {
@@ -66,4 +69,5 @@ function shakePrison(){
   );
   pforce += 0.5;
   console.log(pforce);
+
 }

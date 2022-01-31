@@ -65,3 +65,36 @@ function smallJump() {
     {x: (0.01) + marblin.body.velocity.x / 100, y: -0.1}
   );
 }
+
+function fleeJump() {
+  console.log("jump");
+  sleepy = false;
+  direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
+  Matter.Body.applyForce(
+    marblin.body,
+    {x: marblin.body.position.x, y: marblin.body.position.y},
+    {x: (0.15) + marblin.body.velocity.x / 100, y: -0.13}
+  );
+}
+
+function fleeJump2() {
+  console.log("jump");
+  sleepy = false;
+  direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
+  Matter.Body.applyForce(
+    marblin.body,
+    {x: marblin.body.position.x, y: marblin.body.position.y},
+    {x: (0.04) + marblin.body.velocity.x / 100, y: -0.23}
+  );
+}
+
+function jumpUp() {
+  console.log("jump");
+  sleepy = false;
+  direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
+  Matter.Body.applyForce(
+    marblin.body,
+    {x: marblin.body.position.x, y: marblin.body.position.y},
+    {x: marblin.body.velocity.x / 100, y: -0.23}
+  );
+}
