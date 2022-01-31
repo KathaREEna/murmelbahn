@@ -210,8 +210,8 @@ function setup() {
 
   // create Main Character MURMEL
   marblin = new Magnet(world, {
-    x: viewportW/2,
-    y: 3050,
+    x: 350,
+    y: 50,
     r: 40,
     color: 'white',
     attraction: 0.25e-5
@@ -790,7 +790,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     y: level3position,
     w: 15*prisonSize,
     h: 15*prisonSize,
-    color: prisonColor  
+    color: prisonColor
   },{ isStatic: false });
 
  terrain_12 = new BlockCore(world, {
@@ -1091,13 +1091,13 @@ function draw() {
   // loveballs.draw();}
 
   // level 2 trigger
-  if (jumper){ 
+  if (jumper){
     fleeJump();
     console.log("jumped");
     jumper = false;
   }
 
-  if (jumper2){ 
+  if (jumper2){
     fleeJump2();
     console.log("jumped");
     jumper2 = false;
@@ -1170,8 +1170,8 @@ function draw() {
   terrain_10_links.draw();
   // marblin.draw();
   // marblin.attract();
-  levelMarblin.draw();
-  levelMarblin.attract();
+  //levelMarblin.draw();
+  //levelMarblin.attract();
 
   stair4attractor.attract();
   stair5attractor.attract();
