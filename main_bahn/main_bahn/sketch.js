@@ -799,7 +799,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
   marblinTest2 = new Ball(
     world,
-    { x: 640, y: 5000, r: 40, color: 'white'},
+    { x: 640, y: 5000, r: 40, color: 'black'},
     { restitution: 0, friction: 0 }
   );
 
@@ -817,7 +817,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
   firstPlain = new Block(
     world,
-    { x: 640, y : 5600, w: 100, h: 10, color: 'red' },
+    { x: 640, y : 5620, w: 100, h: 10, color: 'red' },
     { isStatic: true, label: 'firstPlain' }
   );
 
@@ -1007,7 +1007,7 @@ function draw() {
   //loverRamp.draw();
   marblinTest.draw();
   marblinTest2.draw();
- firstPlain.draw();
+  /*firstPlain.draw();
   firstRamp.draw();
   secondRamp.draw();
   secondPlain.draw();
@@ -1017,7 +1017,7 @@ function draw() {
   blueWall.draw();
   loverPlain.draw();
   underplain_left.draw();
-  underplain_right.draw();
+  underplain_right.draw();*/
 
   marblinLover.draw();
   sun_moon.draw();
@@ -1245,7 +1245,7 @@ function draw() {
   }
   //marblinGrows
   if(marblinGrows){
-    let scaleStart = 5977;
+    let scaleStart = 6050;
     let scaleEnd = 9000;
     let localtarget = map(marblinTest2.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1)
 
