@@ -874,7 +874,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
 
   // create level 5 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  let level7position = viewportH * 10.5;
+
 
 
   //create lampe level + 2*viewportH
