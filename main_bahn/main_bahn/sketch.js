@@ -24,6 +24,7 @@ let loveballs = [];
 
 //spotlight lampe
 let loverRamp;
+let lampStatus = false;
 let marblinTest2;
 let marblinTest;
 let loverPlain;
@@ -907,7 +908,11 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
   marblinTest2 = new Ball(
     world,
+<<<<<<< Updated upstream
     { x: 640, y: 5000+ levelmover, r: 40, color: 'black'},
+=======
+    { x: 640, y: 5000, r: 40, color: '#404040'},
+>>>>>>> Stashed changes
     { restitution: 0, friction: 0 }
   );
 
@@ -925,7 +930,11 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
   firstPlain = new Block(
     world,
+<<<<<<< Updated upstream
     { x: 640, y : 5620+ levelmover, w: 100, h: 10, color: 'red' },
+=======
+    { x: 640, y : 5610, w: 100, h: 10, color: 'red' },
+>>>>>>> Stashed changes
     { isStatic: true, label: 'firstPlain' }
   );
 
@@ -982,6 +991,16 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     { x: 690, y : 5796+ levelmover, w: 450, h: 10, color: 'green' },
     { isStatic: true, label: 'underplain_right' }
   );
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "firstPlain" || bodyB.label === "firstPlain") {
+      lampStatus = true;
+    }
+
+  });
 
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
@@ -1069,7 +1088,6 @@ function draw() {
   background(backgroundColor);
   scrollFollow(marblin);
   blocks.forEach(block => block.draw());
-  lamp.draw();
         // //collisionen aussschalten
         // marblin.body.collisionFilter.group = -1;
         // house.body.collisionFilter.group = -1;
@@ -1131,11 +1149,13 @@ function draw() {
 
 
   //lampe
-  lamp.draw();
+  if (lampStatus) {
+    lamp.draw();
+  }
   //loverRamp.draw();
   marblinTest.draw();
   marblinTest2.draw();
-  /*firstPlain.draw();
+  firstPlain.draw();
   firstRamp.draw();
   secondRamp.draw();
   secondPlain.draw();
@@ -1145,7 +1165,7 @@ function draw() {
   blueWall.draw();
   loverPlain.draw();
   underplain_left.draw();
-  underplain_right.draw();*/
+  underplain_right.draw();
 
   marblinLover.draw();
   sun_moon.draw();
@@ -1174,8 +1194,13 @@ function draw() {
   terrain_10_links.draw();
   // marblin.draw();
   // marblin.attract();
+<<<<<<< Updated upstream
   // levelMarblin.draw();
   // levelMarblin.attract();
+=======
+  //levelMarblin.draw();
+  //levelMarblin.attract();
+>>>>>>> Stashed changes
 
   stair4attractor.attract();
   stair5attractor.attract();
@@ -1375,12 +1400,12 @@ function draw() {
   }
   //marblinGrows
   if(marblinGrows){
-    let scaleStart = 6050;
+    let scaleStart = 5750;
     let scaleEnd = 9000;
     let localtarget = map(marblinTest2.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1)
 
     while(marblinTest2.body.area < localtarget){
-    Matter.Body.scale(marblinTest2.body, 1.03, 1.03);
+    Matter.Body.scale(marblinTest2.body, 1.01, 1.01);
     }
   }
   //marblinShrinks
