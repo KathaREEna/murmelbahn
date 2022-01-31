@@ -65,6 +65,41 @@ function changeColorSonnenaufgang(){
 
 
 
+function changeColorToDarkness(){
+  newR = 0;
+  newG = 0;
+  newB = 0;
+  intervalTERRAIN = setInterval(colorFadeTERRAIN, 1);
+  bgnewR = 0;
+  bgnewG = 0;
+  bgnewB = 0;
+  intervalBG = setInterval(colorFadeBG, 1);
+  marblinnewR = 10;
+  marblinnewG = 10;
+  marblinnewB = 10;
+  intervalmarblin = setInterval(colorFade, 0.2);
+}
+
+
+
+function changeColorAfterSpotlight(){
+  controlCounter = 7;
+  newR = 0;
+  newG = 0;
+  newB = 0;
+  intervalTERRAIN = setInterval(colorFadeTERRAIN, 1);
+  bgnewR = 125;
+  bgnewG = 0;
+  bgnewB = 0;
+  intervalBG = setInterval(colorFadeBG, 1);
+  marblinnewR = 255;
+  marblinnewG = 138;
+  marblinnewB = 138;
+  intervalmarblin = setInterval(colorFade, 0.2);
+}
+
+
+
 function colorFade(){
   //console.log("marblinnewR: " + marblinnewR + "marblinnewG: " + marblinnewG + "marblinnewB: " + marblinnewB);
   //console.log("marblinactualR: " + marblinactualR + "marblinactualG: " + marblinactualG + "marblinactualB: " + marblinactualB);
@@ -156,7 +191,9 @@ function colorFadeBG(){
   if (bgnewB-bgactualB+bgnewG-bgactualG+bgnewR-bgactualR == 0){
     clearInterval(intervalBG);
     console.log("clearing intervalBG");
-    collisionSleepOff();
+    if (controlCounter < 7){
+      collisionSleepOff();
+    }
   }
 }
 

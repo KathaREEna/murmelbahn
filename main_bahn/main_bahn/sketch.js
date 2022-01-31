@@ -731,7 +731,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
   const bodyA = pairs.bodyA;
   const bodyB = pairs.bodyB;
   if (bodyA.label === "terrain_11_r" || bodyB.label === "terrain_11_r") {
-    if (jumpPrevent2){
+    if (jumpPrevent2){ //nur einmal jumpen
     jumper2 = true;
     jumpPrevent2 = false;
     terrain_11_middle.body.collisionFilter.group = -1;
@@ -808,7 +808,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "marblin", bodyB.label === "terrain_12") {
-      console.log('tester');
+      console.log('setPosition x: viewportW/2, y: 4759');
       Matter.Body.setPosition(
         marblin.body,
         {x: viewportW/2, y: 4759}
@@ -1113,7 +1113,6 @@ function draw() {
 
   if (jumper2){
     fleeJump2();
-    console.log("jumped");
     jumper2 = false;
   }
 
@@ -1123,6 +1122,12 @@ function draw() {
   if (jumper3){
     jumpUp();
     jumper3 = false;
+
+    //Color Fade to DARKNESS
+    changeColorToDarkness();
+    controlCounter = 7;
+    marblin.body.friction = 0;
+    console.log("jumped and STARTED DARKNESS");
   }
 
   //BÄUMLI
@@ -1224,6 +1229,9 @@ function draw() {
   // shatter system/prison
 
   if(boom){
+    if (boomtransparency >0){
+      boomtransparency-=2;
+    }
     ps.display();
     ps.update();
   }else {
@@ -1460,7 +1468,9 @@ function keyPressed() {
   let direction = 1;
   switch (keyCode) {
 
-
+    case 48: //0 Color Fade nach spotlight
+      changeColorAfterSpotlight();
+      break;
     case 49: // 1 addStack1
       console.log("adding stack");
       addStack1();
@@ -1517,15 +1527,15 @@ function keyPressed() {
       break;
 
 
-      case 71: // G gravity attractor on
-      fleeJump();
-        break;
+    case 71: // G gravity attractor on
+    fleeJump();
+      break;
 
 
-        case 72: // H gravity attractor off
-        marblin.body.plugin.attractors = "";
+    case 72: // H gravity attractor off
+      marblin.body.plugin.attractors = "";
 
-        break;
+      break;
 
 
     case 70: //F: Marblin Jumps into spotlight and gets bigger
@@ -1538,11 +1548,13 @@ function keyPressed() {
     case 66: //b
       pinterval1 = setInterval(shakePrison, 100);
       break;
+
     case 81: //Q = Murmel wächst
       groesserAnfang = marblinTest2.body.position.y;
       groesserYEnd = marblinTest2.body.position.y+100;
       marblinGrows = true;
       break;
+
     case 80:
       shrinkScaleStart = marblinTest2.body.area;
       shrinkScaleEnd = marblinTest2.body.area/3;
@@ -1569,7 +1581,7 @@ function keyPressed() {
 
      break;
 
-     case 85: // u
+   case 85: // u
      //first jump
      if (jumpalternator){
        jumpalternator = false;
@@ -1593,7 +1605,7 @@ function keyPressed() {
     case 69: //e
       Matter.Body.setPosition(
       marblin.body,
-      {x: 50, y: 2100}
+      {x: mouseX, y: mouseY}
       );
       break;
     case 84: //t
