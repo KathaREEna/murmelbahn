@@ -34,6 +34,7 @@ let secondPlain;
 let thirdPlain;
 let blueWall;
 let bluePlain;
+let bluePLain2;
 
 //gradient steps
 let levelMarblin;
@@ -792,7 +793,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
   //create lampe level
   marblinTest = new Ball(
     world,
-    { x: 1320, y: 5050, r: 40, color: 'white'},
+    { x: 1320, y: 5050, r: 40, color: 'red'},
     { isStatic: false, friction: 0 }
   );
 
@@ -840,31 +841,37 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
   thirdPlain = new Block(
     world,
-    { x: 310, y : 5795, w: 310, h: 10, color: 'red' },
+    { x: 308, y : 5795, w: 314, h: 10, color: 'red' },
     { isStatic: true, label: 'thirdPlain' }
   );
 
   blueWall = new Block(
     world,
-    { x: 10, y : 5700, w: 300, h: 10, color: 'blue' },
+    { x: 30, y : 5700, w: 300, h: 10, color: 'blue' },
     { isStatic: true, label: 'blueWall', angle: radians(90) }
   );
 
   bluePlain = new Block(
     world,
-    { x: 60, y : 5795, w: 180, h: 10, color: 'blue' },
+    { x: 50, y : 5795, w: 100, h: 10, color: 'blue' },
     { isStatic: true, label: 'bluePlain' }
+  );
+
+  bluePlain2 = new Block(
+    world,
+    { x: 126, y : 5795, w: 50, h: 10, color: 'red' },
+    { isStatic: true, label: 'bluePlain2' }
   );
 
   underplain_left = new Block(
     world,
-    { x: 315, y : 5805, w: 300, h: 10, color: 'pink' },
+    { x: 308, y : 5796, w: 314, h: 10, color: 'pink' },
     { isStatic: true, label: 'underplain_left' }
   );
 
   underplain_right = new Block(
     world,
-    { x: 690, y : 5805, w: 450, h: 10, color: 'green' },
+    { x: 690, y : 5796, w: 450, h: 10, color: 'green' },
     { isStatic: true, label: 'underplain_right' }
   );
 
@@ -884,6 +891,18 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     const bodyB = pairs.bodyB;
     if (bodyA.label === "bluePlain" || bodyB.label === "bluePlain") {
       marblinTest2.body.friction = 1;
+      Matter.World.remove(engine.world, secondPlain.body);
+      Matter.World.remove(engine.world, loverPlain.body);
+    }
+
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "bluePlain2" || bodyB.label === "bluePlain2") {
+      marblinTest2.body.friction = 1;
     }
 
   });
@@ -898,37 +917,23 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
   });
 
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    const pairs = event.pairs[0];
-    const bodyA = pairs.bodyA;
-    const bodyB = pairs.bodyB;
-    if (bodyA.label === "bluePlain" || bodyB.label === "bluePlain") {
-      marblinTest.body.collisionFilter.group = -1;
-      loverPlain.body.collisionFilter.group = -1;
-    }
-
-  });
-
 
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "secondRamp" || bodyB.label === "secondRamp") {
-      firstRamp.body.collisionFilter.group = -1;
-      console.log('test');
+      Matter.World.remove(engine.world, firstRamp.body);
     }
 
   });
-
 
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
-    if (bodyA.label === "secondRamp" || bodyB.label === "secondRamp") {
-      firstRamp.body.collisionFilter.group = -1;
-      console.log('test');
+    if (bodyA.label === "underplain_right" || bodyB.label === "underplain_right") {
+      marblinTest.body.friction = 1;
     }
 
   });
@@ -1002,12 +1007,13 @@ function draw() {
   //loverRamp.draw();
   marblinTest.draw();
   marblinTest2.draw();
-  firstPlain.draw();
+ firstPlain.draw();
   firstRamp.draw();
   secondRamp.draw();
   secondPlain.draw();
   thirdPlain.draw();
   bluePlain.draw();
+  bluePlain2.draw();
   blueWall.draw();
   loverPlain.draw();
   underplain_left.draw();
@@ -1380,8 +1386,7 @@ function keyPressed() {
       groesserAnfang = marblinTest2.body.position.y;
       groesserYEnd = marblinTest2.body.position.y+100;
       marblinGrows = true;
-      marblinTest2.body.collisionFilter.group = -1;
-      firstPlain.body.collisionFilter.group = -1;
+      Matter.World.remove(engine.world, firstPlain.body);
       break;
 
     case 66: //b
