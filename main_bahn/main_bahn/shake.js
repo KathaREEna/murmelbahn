@@ -4,6 +4,20 @@ let sekunden = 0;
 let dauer = 3; //Zeit Sekunden
 let countertestzahl = 0;
 let alternate = 0;
+let anzahlshakes = 10;
+
+
+
+//onStairShake
+let leftright = 0;
+let stairInterval;
+let stairsekunden = 0;
+let stairdauer = 3; //Zeit Sekunden
+let staircountertestzahl = 0;
+let stairalternate = 0;
+let stairanzahlshakes = 20;
+
+
 
 //ShakePrison
 let pinterval1;
@@ -16,9 +30,8 @@ let pforce = 1;
 
 
 function shake(){
-  //console.log(sekunden);
   countertestzahl++;
-  if (countertestzahl >= 10) {
+  if (countertestzahl >= anzahlshakes) {
     clearInterval(interval1);
     countertestzahl = 0;
   }
@@ -38,10 +51,62 @@ function shake(){
 }
 
 
+let countStairAttractor = 4;
+function turnOffStairAttractor(){
+  switch (countStairAttractor) {
+    case 4:
+      countStairAttractor++;
+      stair4attractor.isActive = 0;
+      break;
+    case 5:
+      countStairAttractor++;
+      stair5attractor.isActive = 0;
+      break;
+    case 6:
+      countStairAttractor++;
+      stair6attractor.isActive = 0;
+      break;
+    default:
+      console.log("countStairAttractor out of range");
+      console.log(countStairAttractor);
+  }
+}
+
+
+
+function onStairShake(){ //0 = left, 1 = right
+  marblin.body.friction = 1;
+  staircountertestzahl++;
+  if (leftright == 1 && staircountertestzahl == floor(stairanzahlshakes/3)){
+    //nudge("right",0.12);
+  }
+  if (staircountertestzahl > (stairanzahlshakes/2)){
+    if (staircountertestzahl >= stairanzahlshakes) {
+      clearInterval(stairInterval);
+      staircountertestzahl = 0;
+      //marblin.body.friction = 0;
+      console.log("clearing stairInterval");
+      stairJump(leftright);
+    }
+    let direction = 1;
+    if (stairalternate == 0) {
+      direction = -1; // ball runs right to left <-
+      stairalternate = 1; // ball runs left to right ->
+    }else {
+      direction = 1;
+      stairalternate = 0;
+    }
+    Matter.Body.applyForce(
+      marblin.body,
+      {x: marblin.body.position.x, y: marblin.body.position.y},
+      {x: (0.04 * direction) /*+ marblin.body.velocity.x */, y: 0.01}
+    );
+  }
+}
+
 
 
 function shakePrison(){
-  //console.log(sekunden);
   pcountertestzahl++;
 
   if (pcountertestzahl >= 30) {

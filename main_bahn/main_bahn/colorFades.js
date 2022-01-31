@@ -9,9 +9,9 @@ let marblinnewG = 255;
 let marblinnewB = 255;
 
 let intervalTERRAIN;
-let actualR = 0;
-let actualG = 0;
-let actualB = 139;
+let actualR = 70;
+let actualG = 70;
+let actualB = 70;
 let newR = 255;
 let newG = 255;
 let newB = 255;
@@ -19,7 +19,7 @@ let newB = 255;
 let intervalBG;
 let bgactualR = 0;
 let bgactualG = 0;
-let bgactualB = 255;
+let bgactualB = 0;
 let bgnewR = 255;
 let bgnewG = 255;
 let bgnewB = 255;
@@ -31,6 +31,14 @@ let sunactualB = 197;
 let sunnewR = 255;
 let sunnewG = 255;
 let sunnewB = 255;
+
+let intervalHouse;
+let houseactualR = 128;
+let houseactualG = 128;
+let houseactualB = 128;
+let housenewR = 255;
+let housenewG = 255;
+let housenewB = 255;
 
 
 
@@ -47,7 +55,12 @@ function changeColorSonnenaufgang(){
   sunnewR = 255;
   sunnewG = 255;
   sunnewB = 0;
-  intervalSUN = setInterval(colorFadeSUN,200);
+  intervalSUN = setInterval(colorFadeSUN,20);
+
+  housenewR = 255;
+  housenewG = 255;
+  housenewB = 255;
+  intervalHouse = setInterval(colorFadeHouse,5);
 }
 
 
@@ -174,5 +187,35 @@ function colorFadeSUN(){
   if (sunnewB-sunactualB+sunnewG-sunactualG+sunnewR-sunactualR == 0){
     clearInterval(intervalSUN);
     console.log("clearing intervalSUN");
+  }
+}
+
+
+function colorFadeHouse(){
+  //console.log("newR: " + newR + "newG: " + newG + "newB: " + newB);
+  //console.log("actualR: " + actualR + "actualG: " + actualG + "actualB: " + actualB);
+  if (housenewR-houseactualR > 0) {
+    houseactualR++;
+  } else if (housenewR-houseactualR < 0) {
+    houseactualR--;
+  }
+
+  if (housenewG-houseactualG > 0) {
+    houseactualG++;
+  }else if (housenewG-houseactualG < 0) {
+    houseactualG--;
+  }
+
+  if (housenewB-houseactualB > 0) {
+    houseactualB++;
+  }else if (housenewB-houseactualB < 0) {
+    houseactualB--;
+  }
+  //console.log("new values: actualR: " + actualR + "actualG: " + actualG + "actualB: " + actualB);
+  house.attrs.color = color(houseactualR,houseactualG,houseactualB);
+
+  if (housenewB-houseactualB+housenewG-houseactualG+housenewR-houseactualR == 0){
+    clearInterval(intervalHouse);
+    console.log("clearing intervalHouse");
   }
 }

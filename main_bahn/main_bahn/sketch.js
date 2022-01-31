@@ -21,21 +21,6 @@ let blocks = [];
 
 let loveballs = [];
 
-//leon treppen
-let stair1;
-let stair2;
-let stair3;
-let stair4;
-let stair5;
-let stair6;
-let stair7;
-let drawStair1 = false;
-let drawStair2 = false;
-let drawStair3 = false;
-let drawStair4 = false;
-let drawStair5 = false;
-let drawStair6 = false;
-let drawStair7 = false;
 
 //spotlight lampe
 let loverRamp;
@@ -49,6 +34,7 @@ let secondPlain;
 let thirdPlain;
 let blueWall;
 let bluePlain;
+let bluePLain2;
 
 //gradient steps
 // let marblin;
@@ -70,6 +56,9 @@ let terrain_11_l;
 let terrain_11_middle;
 let terrain_11_r;
 let terrain_10_links;
+
+let underplain_Left;
+let underplain_right;
 
 
 
@@ -99,9 +88,9 @@ let world = engine.world;
 
 let level2position = viewportH * 4.5;
 
-let stack1
-let stack2
-let stack3
+let stack1;
+let stack2;
+let stack3;
 function addStack1(){
   stack1 = new Stack(world, {
     x: -200, y: level2position-470 , cols: 2, rows: 5, colGap: 15, rowGap: 20, color: 'red',
@@ -156,7 +145,7 @@ function preload() {
     y: 417,
     fromFile: './house.svg',
     scale: 3,
-    color: 'white'
+    color: color(houseactualR,houseactualG,houseactualB)
   });
 
   let level4position = viewportH * 7.5;
@@ -261,12 +250,8 @@ function setup() {
     friction: 0.00,
     restitution: 0
   });
-// attrackt lover to marblin
-// marblin.addAttracted(marblinLover.body)
-
-
-
-
+  // attrackt lover to marblin
+  // marblin.addAttracted(marblinLover.body)
 
 
 
@@ -359,87 +344,31 @@ function setup() {
     restitution: 0
   });
 
+
+
   // create zwischensequenz 1 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
-  stair1 = new Block(
-    world,
-    { x: 1000, y: 1440, w: 100, h: 100, color: 'darkblue' },
-    { isStatic: true, restitution: 1, label: 'stair' }
-  );
+  //Stairs left to right
 
-  stair2 = new Block(
-    world,
-    { x: 700, y : 1640, w: 100, h: 100, color: 'darkblue' },
-    { isStatic: true, friction: 1, restitution: 1, label: 'stair2' }
-  );
-
-  stair3 = new Block(
-    world,
-    { x: 400, y : 1840, w: 100, h: 100, color: 'darkblue' },
-    { isStatic: true, restitution: 1, label: 'stair3' }
-  );
-
-  stair4 = new Block(
-    world,
-    { x: 100, y : 2340, w: 200, h: 100, color: '#050D7F' },
-    { isStatic: true, friction: 0.5, restitution: 0, label: 'stair4' }
-  );
-
-  stair5 = new Block(
-    world,
-    { x: 100, y : 2440, w: 500, h: 100, color: '#0794DB' },
-    { isStatic: true, restitution: 1, label: 'stair5' }
-  );
-
-  stair6 = new Block(
-    world,
-    { x: 100, y : 2540, w: 800, h: 100, color: '#00BFEC' },
-    { isStatic: true, restitution: 1, label: 'stair6' }
-  );
-
+  createStair456();
+/*
   stair7 = new Block(
     world,
     { x: 100, y : 2640, w: 1100, h: 110, color: '#1CD0F8' },
     { isStatic: true, restitution: 1, label: 'stair7' }
-  );
+  );*/
 
 
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    const pairs = event.pairs[0];
-    const bodyA = pairs.bodyA;
-    const bodyB = pairs.bodyB;
-    if (bodyA.label === "stair" || bodyB.label === "stair") {
-      drawStair1 = true;
-    }
-  });
 
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    const pairs = event.pairs[0];
-    const bodyA = pairs.bodyA;
-    const bodyB = pairs.bodyB;
-    if (bodyA.label === "stair2" || bodyB.label === "stair2") {
-      drawStair1 = false;
-      drawStair2 = true;
-    }
-  });
 
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    const pairs = event.pairs[0];
-    const bodyA = pairs.bodyA;
-    const bodyB = pairs.bodyB;
-    if (bodyA.label === "stair3" || bodyB.label === "stair3") {
-      drawStair2 = false;
-      drawStair3 = true;
-    }
-  });
 
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "stair4" || bodyB.label === "stair4") {
-      drawStair3 = false;
+      //drawStair3 = false;
       drawStair4 = true;
     }
   });
@@ -968,13 +897,13 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
   //create lampe level
   marblinTest = new Ball(
     world,
-    { x: 1320, y: 5050, r: 40, color: 'white'},
+    { x: 1320, y: 5050, r: 40, color: 'red'},
     { isStatic: false, friction: 0 }
   );
 
   marblinTest2 = new Ball(
     world,
-    { x: 680, y: 5000, r: 40, color: 'white'},
+    { x: 640, y: 5000, r: 40, color: 'black'},
     { restitution: 0, friction: 0 }
   );
 
@@ -992,13 +921,13 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
   firstPlain = new Block(
     world,
-    { x: 680, y : 5600, w: 100, h: 10, color: 'red' },
+    { x: 640, y : 5620, w: 100, h: 10, color: 'red' },
     { isStatic: true, label: 'firstPlain' }
   );
 
   firstRamp = new Block(
     world,
-    { x: 720, y : 5655, w: 180, h: 10, color: 'red' },
+    { x: 710, y : 5655, w: 180, h: 10, color: 'red' },
     { isStatic: true, label: 'firstRamp', angle: radians(22) }
   );
 
@@ -1010,53 +939,52 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
   secondPlain = new Block(
     world,
-    { x: 690, y : 5780, w: 450, h: 10, color: 'red' },
-    { isStatic: true, label: 'secondPlain', angle: radians(-3), }
+    { x: 690, y : 5795, w: 450, h: 10, color: 'blue' },
+    { isStatic: true, label: 'secondPlain' }
   );
 
   thirdPlain = new Block(
     world,
-    { x: 310, y : 5795, w: 310, h: 10, color: 'red' },
+    { x: 308, y : 5795, w: 314, h: 10, color: 'red' },
     { isStatic: true, label: 'thirdPlain' }
   );
 
   blueWall = new Block(
     world,
-    { x: 10, y : 5700, w: 300, h: 10, color: 'blue' },
+    { x: 30, y : 5700, w: 300, h: 10, color: 'blue' },
     { isStatic: true, label: 'blueWall', angle: radians(90) }
   );
 
   bluePlain = new Block(
     world,
-    { x: 60, y : 5795, w: 180, h: 10, color: 'blue' },
+    { x: 50, y : 5795, w: 100, h: 10, color: 'blue' },
     { isStatic: true, label: 'bluePlain' }
   );
 
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    const pairs = event.pairs[0];
-    const bodyA = pairs.bodyA;
-    const bodyB = pairs.bodyB;
-    if (bodyA.label === "secondRamp" || bodyB.label === "secondRamp") {
-    }
+  bluePlain2 = new Block(
+    world,
+    { x: 126, y : 5795, w: 50, h: 10, color: 'red' },
+    { isStatic: true, label: 'bluePlain2' }
+  );
 
-  });
+  underplain_left = new Block(
+    world,
+    { x: 308, y : 5796, w: 314, h: 10, color: 'pink' },
+    { isStatic: true, label: 'underplain_left' }
+  );
 
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    const pairs = event.pairs[0];
-    const bodyA = pairs.bodyA;
-    const bodyB = pairs.bodyB;
-    if (bodyA.label === "thirdPlain" || bodyB.label === "thirdPlain") {
-      marblinTest2.body.friction = 0.2;
-    }
-
-  });
+  underplain_right = new Block(
+    world,
+    { x: 690, y : 5796, w: 450, h: 10, color: 'green' },
+    { isStatic: true, label: 'underplain_right' }
+  );
 
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "secondPlain" || bodyB.label === "secondPlain") {
-      marblinTest2.body.friction = -0.2;
+      marblinTest2.body.friction = -0.045;
     }
 
   });
@@ -1066,8 +994,29 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "bluePlain" || bodyB.label === "bluePlain") {
-      marblinTest.body.collisionFilter.group = -1;
-      loverPlain.body.collisionFilter.group = -1;
+      marblinTest2.body.friction = 1;
+      Matter.World.remove(engine.world, secondPlain.body);
+      Matter.World.remove(engine.world, loverPlain.body);
+    }
+
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "bluePlain2" || bodyB.label === "bluePlain2") {
+      marblinTest2.body.friction = 1;
+    }
+
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "blueWall" || bodyB.label === "blueWall") {
+      marblinTest2.body.friction = 1;
     }
 
   });
@@ -1078,20 +1027,17 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "secondRamp" || bodyB.label === "secondRamp") {
-      firstRamp.body.collisionFilter.group = -1;
-      console.log('test');
+      Matter.World.remove(engine.world, firstRamp.body);
     }
 
   });
-
 
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
-    if (bodyA.label === "secondRamp" || bodyB.label === "secondRamp") {
-      firstRamp.body.collisionFilter.group = -1;
-      console.log('test');
+    if (bodyA.label === "underplain_right" || bodyB.label === "underplain_right") {
+      marblinTest.body.friction = 1;
     }
 
   });
@@ -1120,13 +1066,12 @@ function draw() {
   scrollFollow(marblin);
   blocks.forEach(block => block.draw());
   lamp.draw();
-  house.draw();
         // //collisionen aussschalten
         // marblin.body.collisionFilter.group = -1;
         // house.body.collisionFilter.group = -1;
 
-//loveballs.draw();
 
+//loveballs.draw();
 
   // level 2 setup
   // let transition5position = viewportH * 9.5;
@@ -1172,10 +1117,10 @@ function draw() {
   //theta = 0.4
   push();
   translate(width / 2, 526+5);
-  stroke(255);
+  stroke(color(houseactualR,houseactualG,houseactualB));
   branch(80);
   translate(500, 80);
-  stroke(255);
+  stroke(color(houseactualR,houseactualG,houseactualB));
   branch2(80);
   pop();
 
@@ -1192,8 +1137,11 @@ function draw() {
   secondPlain.draw();
   thirdPlain.draw();
   bluePlain.draw();
+  bluePlain2.draw();
   blueWall.draw();
-  loverPlain.draw();*/
+  loverPlain.draw();
+  underplain_left.draw();
+  underplain_right.draw();*/
 
   marblinLover.draw();
   sun_moon.draw();
@@ -1222,6 +1170,13 @@ function draw() {
   terrain_10_links.draw();
   // marblin.draw();
   // marblin.attract();
+  levelMarblin.draw();
+  levelMarblin.attract();
+
+  stair4attractor.attract();
+  stair5attractor.attract();
+  stair6attractor.attract();
+
   terrain_9_left.draw();
   terrain_9_right.draw();
   terrain_10_left.draw();
@@ -1250,10 +1205,6 @@ function draw() {
   }
 
 
-
-
-
-
   // shatter system/prison
 
   if(boom){
@@ -1265,12 +1216,93 @@ function draw() {
   // //balls.draw();
   marblin.draw();
   marblin.attract();
+  house.draw();
 
 
    // ove.draw();
 
   //Bäume Mappen
   theta = map(marblin.body.position.x, 300, 740, 0, PI / 4);
+
+
+
+  //STAIR TRIGGER DYNAMIX
+  if (marblin.body.position.y > 1350 && marblin.body.position.y < 1400) {
+    if (stair1trigger){ //nur einmal auslösen
+      createStair1();
+      drawStair1 = true;
+      stair1trigger = false;
+      clearInterval(stairInterval);
+      stairInterval = setInterval(onStairShake,100);
+      console.log("STAIR 1!!!!!!!");
+    }
+  }
+
+  if (marblin.body.position.y > 1550 && marblin.body.position.y < 1600) {
+    if (stair2trigger){ //nur einmal auslösen
+      console.log("STAIR 2!!!!!!!");
+      createStair2();
+      drawStair2 = true;
+      stair2trigger = false;
+      clearInterval(stairInterval);
+      stairInterval = setInterval(onStairShake,100);
+    }
+  }
+
+  if (marblin.body.position.y > 1750 && marblin.body.position.y < 1800) {
+    if (stair3trigger){ //nur einmal auslösen
+      console.log("STAIR 3!!!!!!!");
+      createStair3();
+      drawStair3 = true;
+      stair3trigger = false;
+      clearInterval(stairInterval);
+      stairInterval = setInterval(onStairShake,100);
+    }
+  }
+//420
+  if (marblin.body.position.y > 2290 && marblin.body.position.y < 2310) {
+    if (stair4trigger){ //nur einmal auslösen
+      console.log("STAIR 4!!!!!!!");
+      stair4attractor.addAttracted(marblin.body);
+        console.log("stair4attr. add attracted");
+      drawStair4 = true;
+      stair4trigger = false;
+      leftright = 1;
+      clearInterval(stairInterval);
+      stairInterval = setInterval(onStairShake,100);
+    }
+  }
+
+  if (marblin.body.position.y > 2470 && marblin.body.position.y < 2490) {
+    if (stair5trigger){ //nur einmal auslösen
+      console.log("STAIR 5!!!!!!!");
+      stair5attractor.addAttracted(marblin.body);
+      drawStair5 = true;
+      stair5trigger = false;
+      leftright = 1;
+      clearInterval(stairInterval);
+      stairInterval = setInterval(onStairShake,100);
+    }
+  }
+
+  if (marblin.body.position.y > 2650 && marblin.body.position.y < 2670) {
+    if (stair6trigger){ //nur einmal auslösen
+      console.log("STAIR 6!!!!!!!");
+      stair6attractor.addAttracted(marblin.body);
+      drawStair6 = true;
+      stair6trigger = false;
+      leftright = 1;
+      clearInterval(stairInterval);
+      stairInterval = setInterval(onStairShake,100);
+    }
+  }
+
+
+
+
+
+
+
 
   //draw the stairs
 
@@ -1288,6 +1320,7 @@ function draw() {
 
   if(drawStair4) {
     stair4.draw();
+    //stairBegrenzungLinks.draw();
   }
 
   if (drawStair5) {
@@ -1298,12 +1331,9 @@ function draw() {
     stair6.draw();
   }
 
-  if (drawStair7) {
-    stair7.draw();
-  }
 
   // ove.draw();
-  
+
 
 
   //sleepyTrigger
@@ -1312,6 +1342,10 @@ function draw() {
   } else {
     sleepy = false;
   }
+
+
+
+
 
   //controlFunction1trigger
   if (marblinLover.body.position.x > 1040 && marblinLover.body.position.x < 1100 && marblinLover.body.position.y > 480 && marblinLover.body.position.y < 500) {
@@ -1337,8 +1371,8 @@ function draw() {
   }
   //marblinGrows
   if(marblinGrows){
-    let scaleStart = 5977;
-    let scaleEnd = 8000;
+    let scaleStart = 6050;
+    let scaleEnd = 9000;
     let localtarget = map(marblinTest2.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1)
 
     while(marblinTest2.body.area < localtarget){
@@ -1354,6 +1388,12 @@ function draw() {
     Matter.Body.scale(marblinTest2.body, 0.99, 0.99);
     }
   }
+
+  /*
+  stair4attractor.draw();
+  stair5attractor.draw();
+  stair6attractor.draw();
+  */
 }
 
 // level 2 trigger
@@ -1373,8 +1413,6 @@ let marblinGrows = false;
 let marblinShrinks = false;
 
 let jumpalternator = true;
-
-
 
 
 
@@ -1408,36 +1446,34 @@ function keyPressed() {
 
 
     case 49: // 1 addStack1
-    console.log("adding stack");
-    addStack1();
-    console.log("stack added");
-    break;
+      console.log("adding stack");
+      addStack1();
+      console.log("stack added");
+      break;
 
     case 50: // 2 addStack2
-    console.log("adding stack");
-    addStack2();
-    console.log("stack added");
-    break;
+      console.log("adding stack");
+      addStack2();
+      console.log("stack added");
+      break;
 
     case 51: // 3 addStack3
-    console.log("adding stack");
-    addStack3();
-    console.log("stack added");
-    break;
+      console.log("adding stack");
+      addStack3();
+      console.log("stack added");
+      break;
 
     case 52: // 4 removeStack1
-    removeStack1();
-    break;
+      removeStack1();
+      break;
 
     case 53: // 5 removeStack2
-    removeStack2();
-    break;
+      removeStack2();
+      break;
 
     case 54: // 6 removeStack3
-    removeStack3();
-
-    break;
-
+      removeStack3();
+      break;
 
     case 90: //z
       console.log("collisions aus");
@@ -1446,6 +1482,7 @@ function keyPressed() {
       marblin.body.collisionFilter.group = -1
       marblin.body.friction = -0.04
       break;
+
     case 32: //SPACE
       //TerrainColors
       event.preventDefault();
@@ -1453,12 +1490,12 @@ function keyPressed() {
 
 
       break;
-    case 83:
+    case 83: //S
       console.log("pressed s --> shaking ball");
-      interval1 = setInterval(shake, 120);
-
-
+      //interval1 = setInterval(shake, 120);
+      stairInterval = setInterval(onStairShake,100);
       break;
+
     case 76: //L inLove
       toggleInLove();
       break;
@@ -1479,10 +1516,7 @@ function keyPressed() {
       groesserAnfang = marblinTest2.body.position.y;
       groesserYEnd = marblinTest2.body.position.y+100;
       marblinGrows = true;
-
-      marblinTest2.body.collisionFilter.group = -1;
-      firstPlain.body.collisionFilter.group = -1;
-
+      Matter.World.remove(engine.world, firstPlain.body);
       break;
 
     case 66: //b
@@ -1492,18 +1526,18 @@ function keyPressed() {
       groesserAnfang = marblinTest2.body.position.y;
       groesserYEnd = marblinTest2.body.position.y+100;
       marblinGrows = true;
-    break;
+      break;
     case 80:
       shrinkScaleStart = marblinTest2.body.area;
       shrinkScaleEnd = marblinTest2.body.area/3;
       shrinkAnfang = marblinTest2.body.position.y;
       shrinkEnd = marblinTest2.body.position.y+100;
       marblinShrinks = true;
-    break;
+      break;
 
     case 79: //o
       Matter.World.remove(engine.world, terrain_9.body);
-    break;
+      break;
 
    // make marblin jump at the beginning
    case 85: // u
@@ -1543,9 +1577,13 @@ function keyPressed() {
     case 69: //e
       Matter.Body.setPosition(
       marblin.body,
-      {x: marblin.body.position.x, y: marblin.body.position.y-100}
+      {x: 50, y: 2100}
       );
-    break;
+      break;
+    case 84: //t
+      stair4attractor.addAttracted(marblin.body);
+      console.log("stair4attractor.addAttracted(marblin.body);")
+      break;
 
     default:
   }

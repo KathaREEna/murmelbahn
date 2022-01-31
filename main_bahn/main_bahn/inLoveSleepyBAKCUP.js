@@ -1,7 +1,6 @@
 
 //in love animation
 let inLove = false;
-let lovelyFadeOut = false;
 let lovelyLoop = 100;
 let lovelyBoundry = 60;
 let lovelyPosition = 0;
@@ -22,8 +21,7 @@ let sleepyOffsetY = 40;
 //inLove
 function toggleInLove(){
   if (inLove) {
-    //inLove = false;
-    lovelyFadeOut = true;
+    inLove = false;
   } else {
     inLove = true;
   }
@@ -38,35 +36,12 @@ function inLoveAni(){
     } else {
       fill(255,192,203, lovelyTransparencyInverted);
     }
-
-
-    if(lovelyFadeOut){
-      lovelyPositions[i][0] = (lovelyPositions[i][0] + 1);
-
-      //testen ob alle Werte größer als lovelyloop sind
-      let overflow = true;
-      for (var j = 0; j < lovelyCount; j++) {
-        if(lovelyPositions[j][0]<lovelyLoop){
-          overflow = false;
-        }
-      }
-      if(overflow){
-        inLove = false;
-        lovelyFadeOut = false;
-        for (var k = 0; k < lovelyCount; k++) {
-          lovelyPositions[k][0] = floor(0 - (lovelyLoop / lovelyCount)*k);
-        }
-      }
-    } else {
-      lovelyPositions[i][0] = (lovelyPositions[i][0] + 1) % lovelyLoop;
-    }
-
+    lovelyPositions[i][0] = (lovelyPositions[i][0] + 1) % lovelyLoop;
 
     if (lovelyPositions[i][0] == 0) {
       //lovelyOffsets
       lovelyPositions[i][1] = floor(random(lovelyBoundry, -1*lovelyBoundry));
     }
-
     if (lovelyPositions[i][0] > 0) {
       textSize(lovelySize);
       let wackeln = map(noise(lovelyPositions[i][0]/30)*10,0,10,-5,5);
