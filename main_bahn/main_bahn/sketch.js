@@ -1188,7 +1188,6 @@ function draw() {
   // marblin.attract();
   //levelMarblin.draw();
   //levelMarblin.attract();
->>>>>>> b856225c6d02cfb8758221eb8b7d7b645a45a6e9
 
   stair4attractor.attract();
   stair5attractor.attract();
