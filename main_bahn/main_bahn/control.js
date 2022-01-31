@@ -123,7 +123,7 @@ function fleeJump2() {
 
 function jumpUp() {
   console.log("jump");
-  sleepy = false;
+  // sleepy = false;
   direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
   Matter.Body.applyForce(
     marblin.body,

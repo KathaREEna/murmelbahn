@@ -43,23 +43,28 @@ let housenewB = 255;
 
 
 function changeColorSonnenaufgang(){
-  newR = 101;
-  newG = 67;
-  newB = 33;
+  //TERAIN
+  newR = 117;
+  newG = 72;
+  newB = 30;
   intervalTERRAIN = setInterval(colorFadeTERRAIN, 5);
-  bgnewR = 205;
-  bgnewG = 105;
-  bgnewB = 255;
+  
+  //HINTERGRUND
+  bgnewR = 245;
+  bgnewG = 151;
+  bgnewB = 64;
   intervalBG = setInterval(colorFadeBG, 1);
 
+  //SONNE
   sunnewR = 255;
   sunnewG = 255;
   sunnewB = 0;
   intervalSUN = setInterval(colorFadeSUN,20);
 
-  housenewR = 255;
-  housenewG = 255;
-  housenewB = 255;
+  //HAUS UND BÄUMCHEN
+  housenewR = 194;
+  housenewG = 119;
+  housenewB = 51;
   intervalHouse = setInterval(colorFadeHouse,5);
 }
 
@@ -156,6 +161,7 @@ function colorFadeTERRAIN(){
   terrain_1.attrs.color = color(actualR,actualG,actualB);
   terrain_1edge.attrs.color = color(actualR,actualG,actualB);
   terrain_2.attrs.color = color(actualR,actualG,actualB);
+  
 
   if (newB-actualB+newG-actualG+newR-actualR == 0){
     clearInterval(intervalTERRAIN);

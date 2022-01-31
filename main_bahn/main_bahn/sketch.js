@@ -3,6 +3,9 @@ Matter.use('matter-wrap');
 
 Matter.use('matter-attractors');
 
+let cnvs, ctx;
+
+
 let marblin;
 let marblinLover;
 let canvasW = 1280;
@@ -181,8 +184,9 @@ function preload() {
 
 function setup() {
   rectMode(CORNER);
-  const canvas = createCanvas(canvasW, canvasH);
-
+  const canvs = createCanvas(canvasW, canvasH);
+  cnvs = document.getElementById('defaultCanvas0');
+  ctx = canvas.getContext('2d');
 
 
   // config wrap area
@@ -258,7 +262,7 @@ function setup() {
     x: 1350,
     y: 250,
     r: 40,
-    color: 'red'
+    color: 'pink'
   }, {
     friction: 0.00,
     restitution: 0
@@ -1192,7 +1196,9 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
 function draw() {
   background(backgroundColor);
-
+  terrainColor = color(actualR, actualG, actualB);
+  ctx.shadowColor = color("rgba(0, 0, 0, 0.5)");
+  ctx.shadowBlur = 0;
     //lampe
   if (lampStatus) {
   image(img, 150, viewportH * 7+450, 1500, 1200);
@@ -1287,25 +1293,39 @@ function draw() {
   miniRamp.draw();
 
   marblinLover.draw();
+
+  push();
+  ctx.shadowColor = "yellow";
+  ctx.shadowBlur = 200;
   sun_moon.draw();
+  pop();
+
+  
   terrain_1.draw();
   terrain_1edge.draw();
   // ramp.draw();
   // ramp2.draw();
     ramp3.draw();
     ramp4.draw();
+    ctx.shadowBlur = 100;
   terrain_2.draw();
+  ctx.shadowBlur = 0;
   // house.draw();
   // terrain_4.draw();
   // terrain_5.draw();
   // terrain_6.draw();
   // terrain_7.draw();
   // terrain_8.draw();
+  ctx.shadowBlur = 100;
   terrain_9.draw();
   terrain_10.draw();
   terrain_11.draw();
+  ctx.shadowBlur = 0;
   terrain_11_links.draw();
+  ctx.shadowBlur = 100;
+
   terrain_12.draw();
+  ctx.shadowBlur = 0;
 
 
 
@@ -1349,6 +1369,7 @@ function draw() {
 
 
   // shatter system/prison
+  ctx.shadowBlur = 100;
 
   if(boom){
     if (boomtransparency >0){
@@ -1360,10 +1381,19 @@ function draw() {
     prison.draw();
   }
   // //balls.draw();
+  ctx.shadowBlur = 0;
+  ctx.shadowBlur = 100;
+  fill(terrainColor);
+  rectMode(CORNER);
+  rect (-178,530,viewportW * 3 / 5 + viewportW * 1 / 5,viewportH / 4)
+  ctx.shadowBlur = 0;
+
+
   marblin.draw();
   marblin.attract();
-  house.draw();
 
+  
+  house.draw();
   if(marblinLoverDraw){
     marblinLover2.draw();
     marblinLover2.attract();
@@ -1472,7 +1502,7 @@ function draw() {
 
 
   //draw the stairs
-
+  ctx.shadowBlur = 100;
   if (drawStair1) {
     stair1.draw();
   }
@@ -1497,7 +1527,7 @@ function draw() {
   if (drawStair6) {
     stair6.draw();
   }
-
+  ctx.shadowBlur = 0;
 
   // ove.draw();
 
@@ -1581,6 +1611,7 @@ function draw() {
   stair6attractor.draw();
   */
 
+  // masks
 
   
 }
