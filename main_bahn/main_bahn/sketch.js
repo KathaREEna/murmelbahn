@@ -6,7 +6,7 @@ Matter.use('matter-attractors');
 let marblin;
 let marblinLover;
 let canvasW = 1280;
-let canvasH = 720 * 11;
+let canvasH = 720 * 12;
 let viewportW = 1280;
 let viewportH = 720;
 let frameR = 60;
@@ -24,6 +24,7 @@ let loveballs = [];
 
 //spotlight lampe
 let loverRamp;
+let lampStatus = false;
 let marblinTest2;
 let marblinTest;
 let loverPlain;
@@ -148,7 +149,7 @@ function preload() {
     color: color(houseactualR,houseactualG,houseactualB)
   });
 
-  let level4position = viewportH * 7.5;
+  let level4position = viewportH * 8.5;
   lamp = new PolygonFromSVG(world, {
     x: viewportW / 2 +200,
     y: level4position+200,
@@ -853,7 +854,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
 
   // create level 5 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  let level7position = viewportH * 10.5;
+  let level7position = viewportH * 12.5;
 
   terrain_6 = new BlockCore(world, {
     x: 273,
@@ -894,90 +895,104 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     density: 100
   });
 
-  //create lampe level
+  //create lampe level + 2*viewportH
+
+
+  let levelmover = viewportH
+
   marblinTest = new Ball(
     world,
-    { x: 1320, y: 5050, r: 40, color: 'red'},
+    { x: 1320, y: 5050+ levelmover, r: 40, color: 'red'},
     { isStatic: false, friction: 0 }
   );
 
   marblinTest2 = new Ball(
     world,
-    { x: 640, y: 5000, r: 40, color: 'black'},
+    { x: 640, y: 5000+ levelmover, r: 40, color: 'black'},
     { restitution: 0, friction: 0 }
   );
 
   loverRamp = new Block(
     world,
-    { x: 1160, y : 5480, w: 600, h: 10, color: 'yellow' },
+    { x: 1160, y : 5480+ levelmover, w: 600, h: 10, color: 'yellow' },
     { isStatic: true, label: 'loverRamp', angle: radians(-45) }
   );
 
   loverPlain = new Block(
     world,
-    { x: 1330, y : 5200, w: 100, h: 10, color: 'red' },
+    { x: 1330, y : 5200+ levelmover, w: 100, h: 10, color: 'red' },
     { isStatic: true, label: 'loverPlain' }
   );
 
   firstPlain = new Block(
     world,
-    { x: 640, y : 5620, w: 100, h: 10, color: 'red' },
+    { x: 640, y : 5620+ levelmover, w: 100, h: 10, color: 'red' },
     { isStatic: true, label: 'firstPlain' }
   );
 
   firstRamp = new Block(
     world,
-    { x: 710, y : 5655, w: 180, h: 10, color: 'red' },
+    { x: 710, y : 5655+ levelmover, w: 180, h: 10, color: 'red' },
     { isStatic: true, label: 'firstRamp', angle: radians(22) }
   );
 
   secondRamp = new Block(
     world,
-    { x: 910, y : 5730, w: 100, h: 10, color: 'red' },
+    { x: 910, y : 5730+ levelmover, w: 100, h: 10, color: 'red' },
     { isStatic: true, label: 'secondRamp', angle: radians(-45) }
   );
 
   secondPlain = new Block(
     world,
-    { x: 690, y : 5795, w: 450, h: 10, color: 'blue' },
+    { x: 690, y : 5795+ levelmover, w: 450, h: 10, color: 'blue' },
     { isStatic: true, label: 'secondPlain' }
   );
 
   thirdPlain = new Block(
     world,
-    { x: 308, y : 5795, w: 314, h: 10, color: 'red' },
+    { x: 308, y : 5795+ levelmover, w: 314, h: 10, color: 'red' },
     { isStatic: true, label: 'thirdPlain' }
   );
 
   blueWall = new Block(
     world,
-    { x: 30, y : 5700, w: 300, h: 10, color: 'blue' },
+    { x: 30, y : 5700+ levelmover, w: 300, h: 10, color: 'blue' },
     { isStatic: true, label: 'blueWall', angle: radians(90) }
   );
 
   bluePlain = new Block(
     world,
-    { x: 50, y : 5795, w: 100, h: 10, color: 'blue' },
+    { x: 50, y : 5795+ levelmover, w: 100, h: 10, color: 'blue' },
     { isStatic: true, label: 'bluePlain' }
   );
 
   bluePlain2 = new Block(
     world,
-    { x: 126, y : 5795, w: 50, h: 10, color: 'red' },
+    { x: 126, y : 5795+ levelmover, w: 50, h: 10, color: 'red' },
     { isStatic: true, label: 'bluePlain2' }
   );
 
   underplain_left = new Block(
     world,
-    { x: 308, y : 5796, w: 314, h: 10, color: 'pink' },
+    { x: 308, y : 5796+ levelmover, w: 314, h: 10, color: 'pink' },
     { isStatic: true, label: 'underplain_left' }
   );
 
   underplain_right = new Block(
     world,
-    { x: 690, y : 5796, w: 450, h: 10, color: 'green' },
+    { x: 690, y : 5796+ levelmover, w: 450, h: 10, color: 'green' },
     { isStatic: true, label: 'underplain_right' }
   );
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "firstPlain" || bodyB.label === "firstPlain") {
+      lampStatus = true;
+    }
+
+  });
 
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
@@ -1065,7 +1080,6 @@ function draw() {
   background(backgroundColor);
   scrollFollow(marblin);
   blocks.forEach(block => block.draw());
-  lamp.draw();
         // //collisionen aussschalten
         // marblin.body.collisionFilter.group = -1;
         // house.body.collisionFilter.group = -1;
@@ -1127,11 +1141,13 @@ function draw() {
 
 
   //lampe
-  lamp.draw();
+  if (lampStatus) {
+    lamp.draw();
+  }
   //loverRamp.draw();
   marblinTest.draw();
   marblinTest2.draw();
-  /*firstPlain.draw();
+  firstPlain.draw();
   firstRamp.draw();
   secondRamp.draw();
   secondPlain.draw();
@@ -1141,7 +1157,7 @@ function draw() {
   blueWall.draw();
   loverPlain.draw();
   underplain_left.draw();
-  underplain_right.draw();*/
+  underplain_right.draw();
 
   marblinLover.draw();
   sun_moon.draw();
@@ -1172,6 +1188,7 @@ function draw() {
   // marblin.attract();
   //levelMarblin.draw();
   //levelMarblin.attract();
+>>>>>>> b856225c6d02cfb8758221eb8b7d7b645a45a6e9
 
   stair4attractor.attract();
   stair5attractor.attract();
@@ -1371,12 +1388,12 @@ function draw() {
   }
   //marblinGrows
   if(marblinGrows){
-    let scaleStart = 6050;
+    let scaleStart = 5750;
     let scaleEnd = 9000;
     let localtarget = map(marblinTest2.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1)
 
     while(marblinTest2.body.area < localtarget){
-    Matter.Body.scale(marblinTest2.body, 1.03, 1.03);
+    Matter.Body.scale(marblinTest2.body, 1.01, 1.01);
     }
   }
   //marblinShrinks
