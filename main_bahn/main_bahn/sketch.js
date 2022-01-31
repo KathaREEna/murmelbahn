@@ -1053,9 +1053,6 @@ function draw() {
   stair4attractor.attract();
   stair5attractor.attract();
   stair6attractor.attract();
-  //stair4attractor.draw();
-  //stair5attractor.draw();
-  //stair6attractor.draw();
 
   terrain_9_left.draw();
   terrain_9_right.draw();
@@ -1259,6 +1256,12 @@ function draw() {
     Matter.Body.scale(marblinTest2.body, 0.99, 0.99);
     }
   }
+
+  /*
+  stair4attractor.draw();
+  stair5attractor.draw();
+  stair6attractor.draw();
+  */
 }
 
 

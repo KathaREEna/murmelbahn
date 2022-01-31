@@ -71,6 +71,9 @@ function turnOffStairAttractor(){
       console.log(countStairAttractor);
   }
 }
+
+
+
 function onStairShake(){ //0 = left, 1 = right
   marblin.body.friction = 1;
   staircountertestzahl++;
