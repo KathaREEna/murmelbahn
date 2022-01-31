@@ -51,12 +51,31 @@ function shake(){
 }
 
 
-
+let countStairAttractor = 4;
+function turnOffStairAttractor(){
+  switch (countStairAttractor) {
+    case 4:
+      countStairAttractor++;
+      stair4attractor.isActive = 0;
+      break;
+    case 5:
+      countStairAttractor++;
+      stair5attractor.isActive = 0;
+      break;
+    case 6:
+      countStairAttractor++;
+      stair6attractor.isActive = 0;
+      break;
+    default:
+      console.log("countStairAttractor out of range");
+      console.log(countStairAttractor);
+  }
+}
 function onStairShake(){ //0 = left, 1 = right
   marblin.body.friction = 1;
   staircountertestzahl++;
   if (leftright == 1 && staircountertestzahl == floor(stairanzahlshakes/3)){
-    nudge("right",0.15);
+    //nudge("right",0.12);
   }
   if (staircountertestzahl > (stairanzahlshakes/2)){
     if (staircountertestzahl >= stairanzahlshakes) {

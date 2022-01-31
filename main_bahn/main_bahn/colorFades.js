@@ -55,7 +55,7 @@ function changeColorSonnenaufgang(){
   sunnewR = 255;
   sunnewG = 255;
   sunnewB = 0;
-  intervalSUN = setInterval(colorFadeSUN,200);
+  intervalSUN = setInterval(colorFadeSUN,20);
 
   housenewR = 255;
   housenewG = 255;

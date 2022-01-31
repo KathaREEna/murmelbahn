@@ -21,7 +21,7 @@ function controlFunction1() {
       break;
     case 2:
       controlCounter = 3;
-      inLove = false;
+      lovelyFadeOut = true;
       jumpIntoAbyss();
       break;
     case 3:
@@ -101,12 +101,15 @@ function stairJump(leftright) { //leftright 0 = left, 1 = right
   direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
   switch (leftright) {
     case 1:
+      if (countStairAttractor > 3){
+        turnOffStairAttractor();
+      }
       Matter.Body.applyForce(
         marblin.body, {
           x: marblin.body.position.x,
           y: marblin.body.position.y
         }, {
-          x: 0.01,
+          x: 0.05,
           y: -0.1
         }
       );

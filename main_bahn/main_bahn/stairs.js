@@ -13,9 +13,9 @@ let stair7;
 let drawStair1 = false;
 let drawStair2 = false;
 let drawStair3 = false;
-let drawStair4 = true;
-let drawStair5 = true;
-let drawStair6 = true;
+let drawStair4 = false;
+let drawStair5 = false;
+let drawStair6 = false;
 let stair1trigger = true;
 let stair2trigger = true;
 let stair3trigger = true;
@@ -54,9 +54,14 @@ function createStair3() {
 
 
 function createStair456(){
+  let stair4Y = 2430;
+  let stair5Y = 2610;
+  let stair6Y = 2790;
+  let attraction = 0.65e-4;
+
   stair4 = new Block(
     world,
-    { x: 100, y : 2430, w: 200, h: viewportH/4, color: '#050D7F' },
+    { x: 100, y : stair4Y, w: 200, h: viewportH/4, color: '#050D7F' },
     { isStatic: true, friction: 1, restitution: 0, label: 'stair4' }
   );
   stairBegrenzungLinks = new Block(
@@ -67,13 +72,58 @@ function createStair456(){
 
   stair5 = new Block(
     world,
-    { x: 100, y : 2610, w: 700, h: viewportH/4, color: '#0794DB' },
+    { x: 100, y : stair5Y, w: 700, h: viewportH/4, color: '#0794DB' },
     { isStatic: true, friction: 1, restitution: 0, label: 'stair5' }
   );
 
   stair6 = new Block( //y: 2740
     world,
-    { x: 100, y : 2790, w: 1200, h: viewportH/4, color: '#00BFEC' },
+    { x: 100, y : stair6Y, w: 1200, h: viewportH/4, color: '#00BFEC' },
     { isStatic: true, friction: 1, restitution: 0, label: 'stair6' }
   );
+
+
+
+  stair4attractor = new Magnet(world, {
+    x: 140,
+    y: stair4Y-stair4.attrs.h/3,
+    r: 10,
+    color: 'RED',
+    attraction: attraction
+  },
+  {
+    isStatic: true,
+    restitution: 0,
+    friction: 0,
+    label: "stair4attractor"
+  });
+
+  stair5attractor = new Magnet(world, {
+    x: 390,
+    y: stair5Y-stair5.attrs.h/3,
+    r: 10,
+    color: 'RED',
+    attraction: attraction
+  },
+  {
+    isStatic: true,
+    restitution: 0,
+    friction: 0,
+    label: "stair5attractor"
+  });
+
+  stair6attractor = new Magnet(world, {
+    x: 640,
+    y: stair6Y-stair6.attrs.h/3,
+    r: 10,
+    color: 'RED',
+    attraction: attraction
+  },
+  {
+    isStatic: true,
+    restitution: 0,
+    friction: 0,
+    label: "stair6attractor"
+  });
+
 }

@@ -1031,6 +1031,14 @@ function draw() {
   terrain_10_links.draw();
   levelMarblin.draw();
   levelMarblin.attract();
+
+  stair4attractor.attract();
+  stair5attractor.attract();
+  stair6attractor.attract();
+  //stair4attractor.draw();
+  //stair5attractor.draw();
+  //stair6attractor.draw();
+
   terrain_9_left.draw();
   terrain_9_right.draw();
   terrain_10_left.draw();
@@ -1104,10 +1112,12 @@ function draw() {
       stairInterval = setInterval(onStairShake,100);
     }
   }
-
+//420
   if (marblin.body.position.y > 2290 && marblin.body.position.y < 2310) {
     if (stair4trigger){ //nur einmal auslösen
       console.log("STAIR 4!!!!!!!");
+      stair4attractor.addAttracted(marblin.body);
+        console.log("stair4attr. add attracted");
       drawStair4 = true;
       stair4trigger = false;
       leftright = 1;
@@ -1119,6 +1129,7 @@ function draw() {
   if (marblin.body.position.y > 2470 && marblin.body.position.y < 2490) {
     if (stair5trigger){ //nur einmal auslösen
       console.log("STAIR 5!!!!!!!");
+      stair5attractor.addAttracted(marblin.body);
       drawStair5 = true;
       stair5trigger = false;
       leftright = 1;
@@ -1130,6 +1141,7 @@ function draw() {
   if (marblin.body.position.y > 2650 && marblin.body.position.y < 2670) {
     if (stair6trigger){ //nur einmal auslösen
       console.log("STAIR 6!!!!!!!");
+      stair6attractor.addAttracted(marblin.body);
       drawStair6 = true;
       stair6trigger = false;
       leftright = 1;
@@ -1161,7 +1173,7 @@ function draw() {
 
   if(drawStair4) {
     stair4.draw();
-    stairBegrenzungLinks.draw();
+    //stairBegrenzungLinks.draw();
   }
 
   if (drawStair5) {
@@ -1399,8 +1411,12 @@ function keyPressed() {
     case 69: //e
       Matter.Body.setPosition(
       marblin.body,
-      {x: 950, y: 331}
+      {x: 50, y: 2100}
       );
+      break;
+    case 84: //t
+      stair4attractor.addAttracted(marblin.body);
+      console.log("stair4attractor.addAttracted(marblin.body);")
       break;
 
     default:
