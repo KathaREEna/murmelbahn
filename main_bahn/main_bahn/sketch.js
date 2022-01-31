@@ -791,7 +791,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     y: level3position,
     w: 15*prisonSize,
     h: 15*prisonSize,
-    color: prisonColor  
+    color: prisonColor
   },{ isStatic: false });
 
  terrain_12 = new BlockCore(world, {
@@ -895,7 +895,11 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     density: 100
   });
 
-  //create lampe level
+  //create lampe level + 2*viewportH
+
+
+  let levelmover = viewportH
+
   marblinTest = new Ball(
     world,
     { x: 1320, y: 5050, r: 40, color: 'red'},
@@ -904,7 +908,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
   marblinTest2 = new Ball(
     world,
-    { x: 640, y: 5000, r: 40, color: '#404040f'},
+    { x: 640, y: 5000+ levelmover, r: 40, color: 'black'},
     { restitution: 0, friction: 0 }
   );
 
@@ -922,7 +926,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
   firstPlain = new Block(
     world,
-    { x: 640, y : 5610, w: 100, h: 10, color: 'red' },
+    { x: 640, y : 5620+ levelmover, w: 100, h: 10, color: 'red' },
     { isStatic: true, label: 'firstPlain' }
   );
 
@@ -1101,13 +1105,13 @@ function draw() {
   // loveballs.draw();}
 
   // level 2 trigger
-  if (jumper){ 
+  if (jumper){
     fleeJump();
     console.log("jumped");
     jumper = false;
   }
 
-  if (jumper2){ 
+  if (jumper2){
     fleeJump2();
     console.log("jumped");
     jumper2 = false;
