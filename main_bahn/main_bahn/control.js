@@ -2,6 +2,12 @@ let controlStarter1 = true;
 let controlCounter = 0;
 let count = false;
 
+
+let nudger = false;
+let nudgeCount = 0;
+let mergetrigger = true;
+let marblinLoverDraw = true;
+
 function controlFunction1() {
   switch (controlCounter) {
     case 0:
@@ -44,7 +50,7 @@ function nudge(direct, amount){
   let directMinusPlus;
   if (direct == "right"){
     directMinusPlus = 1;
-  } else {
+  } else { //left
     directMinusPlus = -1
   }
 
@@ -123,6 +129,27 @@ function jumpUp() {
     marblin.body,
     {x: marblin.body.position.x, y: marblin.body.position.y},
     {x: marblin.body.velocity.x / 100, y: -0.23}
+  );
+}
+
+
+function jumpUp2() {
+  marblinnewR = 255;
+  marblinnewG = 0;
+  marblinnewB = 0;
+  marblinactualR = marblinnewR;
+  marblinactualG = marblinnewG;
+  marblinactualB = marblinnewB;
+  marblin.attrs.color = color(marblinactualR,marblinactualG,marblinactualB);
+
+  console.log("jump");
+  direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
+  Matter.World.remove(engine.world, marblinLover2.body);
+  marblinLoverDraw = false;
+  Matter.Body.applyForce(
+    marblin.body,
+    {x: marblin.body.position.x, y: marblin.body.position.y},
+    {x: marblin.body.velocity.x / 100, y: -0.5}
   );
 }
 

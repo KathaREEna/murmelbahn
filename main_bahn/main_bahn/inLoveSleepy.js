@@ -8,7 +8,7 @@ let lovelyPosition = 0;
 let lovelyPositions; //Array welches für die einzelnen Positionen verwendet wird
 let lovelyCount = 10;
 let lovelySize = 20;
-
+let inlove2trigger = true;
 
 //sleepy animation
 let sleepy = false;

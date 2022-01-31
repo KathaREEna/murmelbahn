@@ -26,7 +26,7 @@ let loveballs = [];
 let loverRamp;
 let lampStatus = false;
 let marblinTest2;
-let marblinTest;
+let marblinLover2; //war mal marblinTest
 let loverPlain;
 let firstPlain;
 let firstRamp;
@@ -217,8 +217,8 @@ function setup() {
 
   // create Main Character MURMEL
   marblin = new Magnet(world, {
-    x: viewportW/2,
-    y: 3050,
+    x: 350,
+    y: 50,
     r: 40,
     color: 'white',
     attraction: 0.25e-5
@@ -906,17 +906,19 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
   let levelmover = viewportH
 
-  marblinTest = new Ball(
+  marblinLover2 = new Magnet(
     world,
     { x: 1330, y: 5050, r: 55, color: 'red'},
-    { isStatic: false, friction: 0 }
+    { isStatic: false, friction: 0, attraction: 0.25e-5 }
   );
 
+  /*
   marblinTest2 = new Ball(
     world,
     { x: 640, y: 5000+ levelmover, r: 40, color: 'white'},
     { restitution: 0, friction: 0 }
   );
+  */
 
   marblinPulley = new Ball(
     world,
@@ -1029,7 +1031,8 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "secondPlain" || bodyB.label === "secondPlain") {
-      marblinTest2.body.friction = 1;
+      marblin.body.friction = 1;
+
       Matter.World.remove(engine.world, plainPulley.body);
     }
 
@@ -1040,7 +1043,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "thirdPlain" || bodyB.label === "thirdPlain") {
-      marblinTest2.body.friction = 0.05;
+      marblin.body.friction = 0.05;
     }
 
   });
@@ -1050,7 +1053,11 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "bottomPulley" || bodyB.label === "bottomPulley") {
-      marblinTest2.body.friction = -0.18;
+      nudger = true;
+      marblinLover2.attrs.attraction = 0.6e-4;
+      marblinLover2.isActive = 0.6e-4;
+      marblin.body.collisionFilter.group = -1;
+      marblinLover2.body.collisionFilter.group = -1;
       Matter.World.remove(engine.world, secondPlain.body);
     }
 
@@ -1061,7 +1068,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "loverRamp" || bodyB.label === "loverRamp") {
-      marblinTest.body.friction = 0.2;
+      marblinLover2.body.friction = 0.2;
       Matter.World.remove(engine.world, miniRamp.body);
     }
 
@@ -1072,7 +1079,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "bluePlain" || bodyB.label === "bluePlain") {
-      marblinTest2.body.friction = 1;
+      marblin.body.friction = 1;
       Matter.World.remove(engine.world, secondPlain.body);
       Matter.World.remove(engine.world, loverPlain.body);
     }
@@ -1084,7 +1091,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "bluePlain2" || bodyB.label === "bluePlain2") {
-      marblinTest2.body.friction = 1;
+      marblin.body.friction = 1;
     }
 
   });
@@ -1094,7 +1101,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "blueWall" || bodyB.label === "blueWall") {
-      marblinTest2.body.friction = 1;
+      marblin.body.friction = 1;
     }
 
   });
@@ -1115,7 +1122,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "underplain_right" || bodyB.label === "underplain_right") {
-      marblinTest.body.friction = 1;
+      marblinLover2.body.friction = 1;
     }
 
   });
@@ -1213,8 +1220,7 @@ function draw() {
     lamp.draw();
   }
   //loverRamp.draw();
-  marblinTest.draw();
-  marblinTest2.draw();
+  //marblinTest2.draw();
   firstPlain.draw();
   firstRamp.draw();
   secondRamp.draw();
@@ -1309,6 +1315,10 @@ function draw() {
   marblin.attract();
   house.draw();
 
+  if(marblinLoverDraw){
+    marblinLover2.draw();
+    marblinLover2.attract();
+  }
 
    // ove.draw();
 
@@ -1390,6 +1400,23 @@ function draw() {
 
 
 
+  //marblinLover2 Trigger for MERGE
+  if (marblinLover2.body.position.x > 510 && marblinLover2.body.position.x < 520) {
+    if (mergetrigger){ //nur einmal auslösen
+      marblinLover2.addAttracted(marblin.body);
+      console.log("sie werden eins");
+    }
+    mergetrigger = false;
+  }
+
+  if ((marblinLover2.body.position.x - marblin.body.position.x) < 100) {
+    if (inlove2trigger){ //nur einmal auslösen
+      inLove = true;
+    }
+    inlove2trigger = false;
+  }
+
+
 
 
 
@@ -1462,24 +1489,34 @@ function draw() {
   }
   //marblinGrows
   if(marblinGrows){
-    let scaleStart = 5750;
+    let scaleStart = 4900;
     let scaleEnd = 9000;
-    let localtarget = map(marblinTest2.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1)
+    let localtarget = map(marblin.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1)
 
-    while(marblinTest2.body.area < localtarget){
-    Matter.Body.scale(marblinTest2.body, 1.01, 1.01);
+    while(marblin.body.area < localtarget){
+    Matter.Body.scale(marblin.body, 1.01, 1.01);
     }
   }
   //marblinShrinks
   if(marblinShrinks){
 
-    let localtarget = map(marblinTest2.body.position.y,groesserAnfang,groesserYEnd,shrinkScaleStart,shrinkScaleEnd,1);
+    let localtarget = map(marblin.body.position.y,groesserAnfang,groesserYEnd,shrinkScaleStart,shrinkScaleEnd,1);
 
-    while(marblinTest2.body.area > localtarget){
-    Matter.Body.scale(marblinTest2.body, 0.99, 0.99);
+    while(marblin.body.area > localtarget){
+    Matter.Body.scale(marblin.body, 0.99, 0.99);
     }
   }
 
+  if (nudger) {
+    if (nudgeCount < 30) {
+      nudgeCount++;
+    } else {
+    nudge("left",0.5);
+    console.log("nudge left");
+    marblin.body.friction = 0;
+    nudger = false;
+    }
+  }
   /*
   stair4attractor.draw();
   stair5attractor.draw();
@@ -1606,8 +1643,8 @@ function keyPressed() {
 
 
     case 70: //F: Marblin Jumps into spotlight and gets bigger
-      groesserAnfang = marblinTest2.body.position.y;
-      groesserYEnd = marblinTest2.body.position.y+100;
+      groesserAnfang = marblin.body.position.y;
+      groesserYEnd = marblin.body.position.y+100;
       marblinGrows = true;
       Matter.World.remove(engine.world, firstPlain.body);
       break;
@@ -1679,7 +1716,9 @@ function keyPressed() {
       stair4attractor.addAttracted(marblin.body);
       console.log("stair4attractor.addAttracted(marblin.body);")
       break;
-
+    case 88:
+      jumpUp2();
+      break;
     default:
   }
 }
