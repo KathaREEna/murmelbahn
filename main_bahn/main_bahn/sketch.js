@@ -56,6 +56,9 @@ let terrain_11_middle;
 let terrain_11_r;
 let terrain_10_links;
 
+let underplain_Left;
+let underplain_right;
+
 
 
 
@@ -795,7 +798,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
   marblinTest2 = new Ball(
     world,
-    { x: 680, y: 5000, r: 40, color: 'white'},
+    { x: 640, y: 5000, r: 40, color: 'white'},
     { restitution: 0, friction: 0 }
   );
 
@@ -813,13 +816,13 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
   firstPlain = new Block(
     world,
-    { x: 680, y : 5600, w: 100, h: 10, color: 'red' },
+    { x: 640, y : 5600, w: 100, h: 10, color: 'red' },
     { isStatic: true, label: 'firstPlain' }
   );
 
   firstRamp = new Block(
     world,
-    { x: 720, y : 5655, w: 180, h: 10, color: 'red' },
+    { x: 710, y : 5655, w: 180, h: 10, color: 'red' },
     { isStatic: true, label: 'firstRamp', angle: radians(22) }
   );
 
@@ -831,8 +834,8 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
   secondPlain = new Block(
     world,
-    { x: 690, y : 5780, w: 450, h: 10, color: 'red' },
-    { isStatic: true, label: 'secondPlain', angle: radians(-3), }
+    { x: 690, y : 5795, w: 450, h: 10, color: 'blue' },
+    { isStatic: true, label: 'secondPlain' }
   );
 
   thirdPlain = new Block(
@@ -853,31 +856,44 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     { isStatic: true, label: 'bluePlain' }
   );
 
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    const pairs = event.pairs[0];
-    const bodyA = pairs.bodyA;
-    const bodyB = pairs.bodyB;
-    if (bodyA.label === "secondRamp" || bodyB.label === "secondRamp") {
-    }
+  underplain_left = new Block(
+    world,
+    { x: 315, y : 5805, w: 300, h: 10, color: 'pink' },
+    { isStatic: true, label: 'underplain_left' }
+  );
 
-  });
-
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    const pairs = event.pairs[0];
-    const bodyA = pairs.bodyA;
-    const bodyB = pairs.bodyB;
-    if (bodyA.label === "thirdPlain" || bodyB.label === "thirdPlain") {
-      marblinTest2.body.friction = 0.2;
-    }
-
-  });
+  underplain_right = new Block(
+    world,
+    { x: 690, y : 5805, w: 450, h: 10, color: 'green' },
+    { isStatic: true, label: 'underplain_right' }
+  );
 
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "secondPlain" || bodyB.label === "secondPlain") {
-      marblinTest2.body.friction = -0.2;
+      marblinTest2.body.friction = -0.045;
+    }
+
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "bluePlain" || bodyB.label === "bluePlain") {
+      marblinTest2.body.friction = 1;
+    }
+
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "blueWall" || bodyB.label === "blueWall") {
+      marblinTest2.body.friction = 1;
     }
 
   });
@@ -986,14 +1002,16 @@ function draw() {
   //loverRamp.draw();
   marblinTest.draw();
   marblinTest2.draw();
-  /*firstPlain.draw();
+  firstPlain.draw();
   firstRamp.draw();
   secondRamp.draw();
   secondPlain.draw();
   thirdPlain.draw();
   bluePlain.draw();
   blueWall.draw();
-  loverPlain.draw();*/
+  loverPlain.draw();
+  underplain_left.draw();
+  underplain_right.draw();
 
   marblinLover.draw();
   sun_moon.draw();
@@ -1213,7 +1231,7 @@ function draw() {
   //marblinGrows
   if(marblinGrows){
     let scaleStart = 5977;
-    let scaleEnd = 8000;
+    let scaleEnd = 9000;
     let localtarget = map(marblinTest2.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1)
 
     while(marblinTest2.body.area < localtarget){
