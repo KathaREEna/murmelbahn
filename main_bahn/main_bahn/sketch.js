@@ -6,7 +6,7 @@ Matter.use('matter-attractors');
 let marblin;
 let marblinLover;
 let canvasW = 1280;
-let canvasH = 720 * 12;
+let canvasH = 720 * 11;
 let viewportW = 1280;
 let viewportH = 720;
 let frameR = 60;
@@ -149,7 +149,7 @@ function preload() {
     color: color(houseactualR,houseactualG,houseactualB)
   });
 
-  let level4position = viewportH * 8.5;
+  let level4position = viewportH * 7.5;
   lamp = new PolygonFromSVG(world, {
     x: viewportW / 2 +200,
     y: level4position+200,
@@ -211,8 +211,8 @@ function setup() {
 
   // create Main Character MURMEL
   marblin = new Magnet(world, {
-    x: 350,
-    y: 50,
+    x: viewportW/2,
+    y: 3050,
     r: 40,
     color: 'white',
     attraction: 0.25e-5
@@ -854,7 +854,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
 
   // create level 5 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  let level7position = viewportH * 12.5;
+  let level7position = viewportH * 10.5;
 
   terrain_6 = new BlockCore(world, {
     x: 273,
@@ -895,100 +895,88 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     density: 100
   });
 
-  //create lampe level + 2*viewportH
-
-
-  let levelmover = viewportH
-  
+  //create lampe level
   marblinTest = new Ball(
     world,
-    { x: 1320, y: 5050+ levelmover, r: 40, color: 'red'},
+    { x: 1320, y: 5050, r: 40, color: 'red'},
     { isStatic: false, friction: 0 }
   );
 
   marblinTest2 = new Ball(
     world,
-<<<<<<< Updated upstream
-    { x: 640, y: 5000+ levelmover, r: 40, color: 'black'},
-=======
-    { x: 640, y: 5000, r: 40, color: '#404040'},
->>>>>>> Stashed changes
+    { x: 640, y: 5000, r: 40, color: '#404040f'},
     { restitution: 0, friction: 0 }
   );
 
   loverRamp = new Block(
     world,
-    { x: 1160, y : 5480+ levelmover, w: 600, h: 10, color: 'yellow' },
+    { x: 1160, y : 5480, w: 600, h: 10, color: 'yellow' },
     { isStatic: true, label: 'loverRamp', angle: radians(-45) }
   );
 
   loverPlain = new Block(
     world,
-    { x: 1330, y : 5200+ levelmover, w: 100, h: 10, color: 'red' },
+    { x: 1330, y : 5200, w: 100, h: 10, color: 'red' },
     { isStatic: true, label: 'loverPlain' }
   );
 
   firstPlain = new Block(
     world,
-<<<<<<< Updated upstream
-    { x: 640, y : 5620+ levelmover, w: 100, h: 10, color: 'red' },
-=======
     { x: 640, y : 5610, w: 100, h: 10, color: 'red' },
->>>>>>> Stashed changes
     { isStatic: true, label: 'firstPlain' }
   );
 
   firstRamp = new Block(
     world,
-    { x: 710, y : 5655+ levelmover, w: 180, h: 10, color: 'red' },
+    { x: 710, y : 5655, w: 180, h: 10, color: 'red' },
     { isStatic: true, label: 'firstRamp', angle: radians(22) }
   );
 
   secondRamp = new Block(
     world,
-    { x: 910, y : 5730+ levelmover, w: 100, h: 10, color: 'red' },
+    { x: 910, y : 5730, w: 100, h: 10, color: 'red' },
     { isStatic: true, label: 'secondRamp', angle: radians(-45) }
   );
 
   secondPlain = new Block(
     world,
-    { x: 690, y : 5795+ levelmover, w: 450, h: 10, color: 'blue' },
+    { x: 690, y : 5795, w: 450, h: 10, color: 'blue' },
     { isStatic: true, label: 'secondPlain' }
   );
 
   thirdPlain = new Block(
     world,
-    { x: 308, y : 5795+ levelmover, w: 314, h: 10, color: 'red' },
+    { x: 308, y : 5795, w: 314, h: 10, color: 'red' },
     { isStatic: true, label: 'thirdPlain' }
   );
 
   blueWall = new Block(
     world,
-    { x: 30, y : 5700+ levelmover, w: 300, h: 10, color: 'blue' },
+    { x: 30, y : 5700, w: 300, h: 10, color: 'blue' },
     { isStatic: true, label: 'blueWall', angle: radians(90) }
   );
 
   bluePlain = new Block(
     world,
-    { x: 50, y : 5795+ levelmover, w: 100, h: 10, color: 'blue' },
+    { x: 50, y : 5795, w: 100, h: 10, color: 'blue' },
     { isStatic: true, label: 'bluePlain' }
   );
 
   bluePlain2 = new Block(
     world,
-    { x: 126, y : 5795+ levelmover, w: 50, h: 10, color: 'red' },
+    { x: 126, y : 5795, w: 50, h: 10, color: 'red' },
     { isStatic: true, label: 'bluePlain2' }
   );
 
   underplain_left = new Block(
     world,
-    { x: 308, y : 5796+ levelmover, w: 314, h: 10, color: 'pink' },
+    { x: 308, y : 5796, w: 314, h: 10, color: 'pink' },
     { isStatic: true, label: 'underplain_left' }
   );
 
   underplain_right = new Block(
     world,
-    { x: 690, y : 5796+ levelmover, w: 450, h: 10, color: 'green' },
+    { x: 690, y : 5796, w: 450, h: 10, color: 'green' },
     { isStatic: true, label: 'underplain_right' }
   );
 
@@ -1194,13 +1182,8 @@ function draw() {
   terrain_10_links.draw();
   // marblin.draw();
   // marblin.attract();
-<<<<<<< Updated upstream
-  // levelMarblin.draw();
-  // levelMarblin.attract();
-=======
   //levelMarblin.draw();
   //levelMarblin.attract();
->>>>>>> Stashed changes
 
   stair4attractor.attract();
   stair5attractor.attract();
