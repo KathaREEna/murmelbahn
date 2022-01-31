@@ -31,12 +31,16 @@ function toggleInLove(){
 
 function inLoveAni(){
   for (var i = 0; i < lovelyCount; i++) {
+    let heartr = 214;
+    let heartg = 73;
+    let heartb = 66;
+    
     let lovelyTransparency = map(lovelyPositions[i][0], 0, lovelyLoop, 0, 1255)
     let lovelyTransparencyInverted = map(lovelyPositions[i][0], 0, lovelyLoop, 1255, 0)
     if (lovelyPositions[i][0] < (lovelyLoop/2)) {
-      fill(255,192,203, lovelyTransparency);
+      fill(heartr,heartg,heartb, lovelyTransparency);
     } else {
-      fill(255,192,203, lovelyTransparencyInverted);
+      fill(heartr,heartg,heartb, lovelyTransparencyInverted);
     }
 
 

@@ -29,7 +29,7 @@ let stair1interval;
 function createStair1() {
   stair1 = new Block(
       world,
-      { x: marblin.body.position.x+30, y: marblin.body.position.y+150, w: 150, h: 150, color: 'darkblue' },
+      { x: marblin.body.position.x+30, y: marblin.body.position.y+150, w: 150, h: 150, color: terrainColor },
       { isStatic: true, restitution: 0, friction: 1, label: 'stair' }
     );
 
@@ -38,7 +38,7 @@ function createStair1() {
 function createStair2() {
   stair2 = new Block(
       world,
-      { x: marblin.body.position.x-30, y: marblin.body.position.y+150, w: 150, h: 150, color: 'darkblue' },
+      { x: marblin.body.position.x-30, y: marblin.body.position.y+150, w: 150, h: 150, color: terrainColor },
       { isStatic: true, restitution: 0, friction: 1, label: 'stair' }
     );
 }
@@ -46,7 +46,7 @@ function createStair2() {
 function createStair3() {
   stair3 = new Block(
       world,
-      { x: marblin.body.position.x-30, y: marblin.body.position.y+150, w: 150, h: 150, color: 'darkblue' },
+      { x: marblin.body.position.x-30, y: marblin.body.position.y+150, w: 150, h: 150, color: terrainColor },
       { isStatic: true, restitution: 0, friction: 1, label: 'stair' }
     );
 }
@@ -61,7 +61,7 @@ function createStair456(){
 
   stair4 = new Block(
     world,
-    { x: 100, y : stair4Y, w: 200, h: viewportH/4, color: '#050D7F' },
+    { x: 100, y : stair4Y, w: 200, h: viewportH/4, color: '#C97D18' },
     { isStatic: true, friction: 1, restitution: 0, label: 'stair4' }
   );
   stairBegrenzungLinks = new Block(
@@ -72,13 +72,13 @@ function createStair456(){
 
   stair5 = new Block(
     world,
-    { x: 100, y : stair5Y, w: 700, h: viewportH/4, color: '#0794DB' },
+    { x: 100, y : stair5Y, w: 640, h: viewportH/4, color: '#C97D18' },
     { isStatic: true, friction: 1, restitution: 0, label: 'stair5' }
   );
 
   stair6 = new Block( //y: 2740
     world,
-    { x: 100, y : stair6Y, w: 1200, h: viewportH/4, color: '#00BFEC' },
+    { x: 100, y : stair6Y, w: 1080, h: viewportH/4, color: '#C97D18' },
     { isStatic: true, friction: 1, restitution: 0, label: 'stair6' }
   );
 
@@ -99,7 +99,7 @@ function createStair456(){
   });
 
   stair5attractor = new Magnet(world, {
-    x: 390,
+    x: 140+220,
     y: stair5Y-stair5.attrs.h/3,
     r: 10,
     color: 'RED',
@@ -113,7 +113,7 @@ function createStair456(){
   });
 
   stair6attractor = new Magnet(world, {
-    x: 640,
+    x: 140+220+220,
     y: stair6Y-stair6.attrs.h/3,
     r: 10,
     color: 'RED',

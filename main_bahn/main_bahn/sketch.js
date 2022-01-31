@@ -262,7 +262,7 @@ function setup() {
     x: 1350,
     y: 250,
     r: 40,
-    color: 'pink'
+    color: "#D64942"
   }, {
     friction: 0.00,
     restitution: 0
@@ -776,7 +776,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
           x: 20 + i * 50,
           y: 5 * viewportH + 50 * j,
           r: 20,
-          color: terrainColor
+          color: "#382307"
         }, {
           isStatic: false,
           restitution: 0.3
@@ -815,7 +815,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     y: level3position,
     w: 15*prisonSize,
     h: 15*prisonSize,
-    color: prisonColor
+    color: "#6B420D"
   },{ isStatic: false });
 
  terrain_12 = new BlockCore(world, {
@@ -823,7 +823,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     y: level3position+viewportH/6*2,
     w: viewportW,
     h: viewportH/3,
-    color: "darkblue"
+    color: "#382307"
   },{ isStatic: true, label: "terrain_12"});
 
 
@@ -1205,7 +1205,10 @@ function draw() {
   };
 
   scrollFollow(marblin);
+
+
   blocks.forEach(block => block.draw());
+
         // //collisionen aussschalten
         // marblin.body.collisionFilter.group = -1;
         // house.body.collisionFilter.group = -1;
@@ -1274,6 +1277,37 @@ function draw() {
 
 
 
+
+  //draw the stairs
+  ctx.shadowBlur = 100;
+  if (drawStair1) {
+    stair1.draw();
+  }
+
+  if (drawStair2) {
+    stair2.draw();
+  }
+
+  if(drawStair3) {
+    stair3.draw();
+  }
+
+  if(drawStair4) {
+    stair4.draw();
+    //stairBegrenzungLinks.draw();
+  }
+
+  if (drawStair5) {
+    stair5.draw();
+  }
+
+  if (drawStair6) {
+    stair6.draw();
+  }
+  ctx.shadowBlur = 0;
+
+
+
   //loverRamp.draw();
   //marblinTest2.draw();
   firstPlain.draw();
@@ -1292,7 +1326,7 @@ function draw() {
   marblinPulley.draw();
   miniRamp.draw();
 
-  marblinLover.draw();
+
 
   push();
   ctx.shadowColor = "yellow";
@@ -1316,25 +1350,39 @@ function draw() {
   // terrain_6.draw();
   // terrain_7.draw();
   // terrain_8.draw();
-  ctx.shadowBlur = 100;
-  terrain_9.draw();
-  terrain_10.draw();
-  terrain_11.draw();
-  ctx.shadowBlur = 0;
-  terrain_11_links.draw();
-  ctx.shadowBlur = 100;
-
-  terrain_12.draw();
-  ctx.shadowBlur = 0;
-
-
 
   //level 2
   terrain_10_links.draw();
-  // marblin.draw();
-  // marblin.attract();
-  //levelMarblin.draw();
-  //levelMarblin.attract();
+
+  let level2position2 = viewportH * 4.5 + viewportH*0.5;
+  /// level 2
+  push();
+  ctx.shadowBlur = 100;
+
+  fill("#8F5811");
+  rect (0,level2position2-viewportH*3/3,viewportW,viewportH/3)
+ 
+  fill("#6B420D");
+  rect (0,level2position2-viewportH*2/3,viewportW,viewportH/3)
+  fill("#382307");
+  rectMode(CORNER);
+  rect (0,level2position2-viewportH/3,viewportW,viewportH/3)
+  ctx.shadowBlur = 0;
+  // ctx.shadowBlur = 100;
+  // terrain_9.draw();
+  // terrain_10.draw();
+  // terrain_11.draw();
+  // ctx.shadowBlur = 0;
+  // terrain_11_links.draw();
+  // ctx.shadowBlur = 100;
+
+
+  // ctx.shadowBlur = 0;
+
+
+
+
+
 
   stair4attractor.attract();
   stair5attractor.attract();
@@ -1371,6 +1419,23 @@ function draw() {
   // shatter system/prison
   ctx.shadowBlur = 100;
 
+ 
+  // //balls.draw();
+  ctx.shadowBlur = 0;
+  ctx.shadowBlur = 100;
+  fill(terrainColor);
+  rectMode(CORNER);
+  rect (-178,530,viewportW * 3 / 5 + viewportW * 1 / 5,viewportH / 4)
+ 
+
+  //level 4
+  terrain_12.draw();
+  ctx.shadowBlur = 0;
+
+  marblin.draw();
+  marblin.attract();
+  
+  ctx.shadowBlur = 100;
   if(boom){
     if (boomtransparency >0){
       boomtransparency-=2;
@@ -1380,19 +1445,8 @@ function draw() {
   }else {
     prison.draw();
   }
-  // //balls.draw();
-  ctx.shadowBlur = 0;
-  ctx.shadowBlur = 100;
-  fill(terrainColor);
-  rectMode(CORNER);
-  rect (-178,530,viewportW * 3 / 5 + viewportW * 1 / 5,viewportH / 4)
   ctx.shadowBlur = 0;
 
-
-  marblin.draw();
-  marblin.attract();
-
-  
   house.draw();
   if(marblinLoverDraw){
     marblinLover2.draw();
@@ -1500,35 +1554,6 @@ function draw() {
 
 
 
-
-  //draw the stairs
-  ctx.shadowBlur = 100;
-  if (drawStair1) {
-    stair1.draw();
-  }
-
-  if (drawStair2) {
-    stair2.draw();
-  }
-
-  if(drawStair3) {
-    stair3.draw();
-  }
-
-  if(drawStair4) {
-    stair4.draw();
-    //stairBegrenzungLinks.draw();
-  }
-
-  if (drawStair5) {
-    stair5.draw();
-  }
-
-  if (drawStair6) {
-    stair6.draw();
-  }
-  ctx.shadowBlur = 0;
-
   // ove.draw();
 
 
@@ -1613,7 +1638,7 @@ function draw() {
 
   // masks
 
-  
+  marblinLover.draw();
 }
 
 // level 2 trigger

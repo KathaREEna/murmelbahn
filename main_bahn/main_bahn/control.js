@@ -12,9 +12,9 @@ function controlFunction1() {
   switch (controlCounter) {
     case 0:
       controlCounter = 1;
-      marblinnewR = 255;
-      marblinnewG = 0;
-      marblinnewB = 0;
+      marblinnewR = 214;
+      marblinnewG = 73;
+      marblinnewB = 66;
       intervalmarblin = setInterval(colorFade, 2);
       break;
     case 1:
