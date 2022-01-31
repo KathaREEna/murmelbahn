@@ -6,7 +6,7 @@ Matter.use('matter-attractors');
 let marblin;
 let marblinLover;
 let canvasW = 1280;
-let canvasH = 720 * 12;
+let canvasH = 720 * 11;
 let viewportW = 1280;
 let viewportH = 720;
 let frameR = 60;
@@ -19,6 +19,7 @@ let number = 0;
 let spiel = [];
 let blocks = [];
 
+let loveballser = false;
 let loveballs = [];
 
 
@@ -147,7 +148,14 @@ function preload() {
     fromFile: './house.svg',
     scale: 3,
     color: color(houseactualR,houseactualG,houseactualB)
-  });
+  },
+  { isStatic: true}
+  );
+  // Matter.World.remove(engine.world, house.body);
+
+
+  img = loadImage('./spotlight.png');
+
 
   let level4position = viewportH * 8.5;
   lamp = new PolygonFromSVG(world, {
@@ -156,8 +164,13 @@ function preload() {
     fromFile: './lamp.svg',
     scale: 1,
     color: 'yellow'
-  });
+  },
+  { isStatic: true}
+  );
+  // Matter.World.remove(engine.world, lamp.body);
 
+
+  Matter.Engine.run(engine);
 }
 
 function setup() {
@@ -185,13 +198,6 @@ function setup() {
 
 
 
-
-  // let transition5position = viewportH * 9.5;
-
-  // loveballs = new Stack(world, {
-  //   x: 0, y: transition5position-500, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
-  //   create: (x, y) => Matter.Bodies.circle(x, y, 15, { restitution: 0.1, friction: -0.1})
-  // });
 
 
 
@@ -777,6 +783,14 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
       blocks.push(kugel);
     }
   }
+
+  //remove vorhang
+  //blocks.forEach(block => Matter.World.remove(engine.world, block.body));
+
+
+
+
+
   // create level 3 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   level3position = viewportH * 6.5;
 
@@ -853,49 +867,14 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
 
 
-  // create level 5 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  let level7position = viewportH * 12.5;
 
-  terrain_6 = new BlockCore(world, {
-    x: 273,
-    y: level7position - 44,
-    w: 130,
-    h: 190,
-    color: "white"
-  }, {
-    isStatic: true
-  });
-  terrain_7 = new BlockCore(world, {
-    x: 233,
-    y: level7position + 116,
-    w: 200,
-    h: 22,
-    color: "white"
-  }, {
-    isStatic: true
-  });
-  terrain_8 = new BlockCore(world, {
-    x: 130,
-    y: level7position - 6,
-    w: 40,
-    h: 270,
-    color: "white"
-  }, {
-    isStatic: true
-  });
-  ove = new PolygonFromSVG(world, {
-    x: viewportW / 2 - 100,
-    y: level7position,
-    fromFile: './love.svg',
-    scale: 1,
-    color: 'white'
-  }, {
-    isStatic: true,
-    friction: 1,
-    density: 100
-  });
 
   //create lampe level + 2*viewportH
+
+
+
+
+
 
 
   let levelmover = viewportH
@@ -1058,6 +1037,69 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
   });
 
 
+
+    // create liebestaumel
+    // let taumelposition = viewportH * 9.5;
+
+    // magnet1 = new Magnet(world, {
+    //   x: 350,
+    //   y: taumelposition+350,
+    //   r: 40,
+    //   color: 'white',
+    //   attraction: 0.35e-5
+    // },
+    // {
+    //   restitution: 0,
+    //   friction: 0,
+    //   label: "marblin",
+    //   isStatic: true,
+    //   plugin: { 
+    //   },
+    // });
+
+
+
+    // create level 5 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    let level7position = viewportH * 10.5;
+    terrain_6 = new BlockCore(world, {
+      x: 273,
+      y: level7position - 44,
+      w: 130,
+      h: 190,
+      color: "white"
+    }, {
+      isStatic: true
+    });
+    terrain_7 = new BlockCore(world, {
+      x: 233,
+      y: level7position + 116,
+      w: 200,
+      h: 22,
+      color: "white"
+    }, {
+      isStatic: true
+    });
+    terrain_8 = new BlockCore(world, {
+      x: 130,
+      y: level7position - 6,
+      w: 40,
+      h: 270,
+      color: "white"
+    }, {
+      isStatic: true
+    });
+    ove = new PolygonFromSVG(world, {
+      x: viewportW / 2 - 100,
+      y: level7position,
+      fromFile: './love.svg',
+      scale: 1,
+      color: 'white'
+    }, {
+      isStatic: true,
+      friction: 1,
+      density: 100
+    });
+
   //MAIN ENGINE////////////////////////////////////////////////////////////////
   // run the engine
   Matter.Engine.run(engine);
@@ -1078,6 +1120,12 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
 function draw() {
   background(backgroundColor);
+
+    //lampe
+  if (lampStatus) {
+  image(img, 150, viewportH * 7+450, 1500, 1200);
+  };
+
   scrollFollow(marblin);
   blocks.forEach(block => block.draw());
         // //collisionen aussschalten
@@ -1085,7 +1133,8 @@ function draw() {
         // house.body.collisionFilter.group = -1;
 
 
-//loveballs.draw();
+
+
 
   // level 2 setup
   // let transition5position = viewportH * 9.5;
@@ -1140,10 +1189,8 @@ function draw() {
 
 
 
-  //lampe
-  if (lampStatus) {
-    lamp.draw();
-  }
+
+
   //loverRamp.draw();
   marblinTest.draw();
   marblinTest2.draw();
@@ -1235,7 +1282,7 @@ function draw() {
   house.draw();
 
 
-   // ove.draw();
+  //  ove.draw();
 
   //Bäume Mappen
   theta = map(marblin.body.position.x, 300, 740, 0, PI / 4);
@@ -1405,11 +1452,23 @@ function draw() {
     }
   }
 
+  if (loveballser){
+    loveballs.draw();
+    };
+// draw liebestaumel
+  // magnet1.draw();
+
+
+
+
   /*
   stair4attractor.draw();
   stair5attractor.draw();
   stair6attractor.draw();
   */
+
+
+  
 }
 
 // level 2 trigger
@@ -1581,6 +1640,39 @@ function keyPressed() {
      //second Jump
 
      break;
+
+     case 77: // M
+     //make loveballs spawn
+
+     let transition5position = viewportH * 8.5;
+
+    // remove all terrains of spotlight level
+     Matter.World.remove(engine.world, loverRamp.body);
+     Matter.World.remove(engine.world, loverPlain.body);
+     Matter.World.remove(engine.world, firstPlain.body);
+     Matter.World.remove(engine.world, firstRamp.body);
+     Matter.World.remove(engine.world, secondRamp.body);
+     Matter.World.remove(engine.world, secondPlain.body);
+     Matter.World.remove(engine.world, thirdPlain.body);
+     Matter.World.remove(engine.world, blueWall.body);
+     Matter.World.remove(engine.world, bluePlain.body);
+     Matter.World.remove(engine.world, bluePlain2.body);
+     Matter.World.remove(engine.world, underplain_left.body);
+     Matter.World.remove(engine.world, underplain_right.body);
+     Matter.World.remove(engine.world, underplain_right.body);
+
+     // spawn loveballs, trigger draw function
+     loveballs = new Stack(world, {
+       x: 0, y: transition5position-500, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
+       create: (x, y) => Matter.Bodies.circle(x, y, 15, { restitution: 0.1, friction: -0.1})
+     });
+    //  loveballs.body.bodys.collisionFilter.group = -1;
+     marblin.body.collisionFilter.group = -2;
+     loveballser = true;
+
+     break;
+
+
 
 
     case 86: //v
