@@ -36,6 +36,10 @@ let thirdPlain;
 let blueWall;
 let bluePlain;
 let bluePLain2;
+let marblinPulley;
+let plainPulley;
+let bottomPulley;
+let miniRamp;
 
 //gradient steps
 // let marblin;
@@ -149,10 +153,12 @@ function preload() {
     color: color(houseactualR,houseactualG,houseactualB)
   });
 
+  let levelmover = viewportH;
+
   let level4position = viewportH * 7.5;
   lamp = new PolygonFromSVG(world, {
     x: viewportW / 2 +200,
-    y: level4position+200,
+    y: level4position + 200 + levelmover,
     fromFile: './lamp.svg',
     scale: 1,
     color: 'yellow'
@@ -902,85 +908,109 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
   marblinTest = new Ball(
     world,
-    { x: 1320, y: 5050, r: 40, color: 'red'},
+    { x: 1330, y: 5050, r: 55, color: 'red'},
     { isStatic: false, friction: 0 }
   );
 
   marblinTest2 = new Ball(
     world,
-    { x: 640, y: 5000+ levelmover, r: 40, color: 'black'},
+    { x: 640, y: 5000+ levelmover, r: 40, color: 'white'},
     { restitution: 0, friction: 0 }
+  );
+
+  marblinPulley = new Ball(
+    world,
+    { x: 200, y: 4500+ levelmover, r: 40, color: 'white'},
+    { restitution: 0, friction: 0 }
+  );
+
+  plainPulley = new Block(
+    world,
+    { x: 200, y : 4700 + levelmover, w: 100, h: 10, color: 'white' },
+    { isStatic: true, label: 'plainPulley' }
+  );
+
+  bottomPulley= new Block(
+    world,
+    { x: 200, y : 5500 + levelmover, w: 100, h: 10, color: 'white' },
+    { isStatic: true, label: 'bottomPulley' }
+  );
+
+  miniRamp = new Block(
+    world,
+    { x: 810, y : 5807 + levelmover, w: 30, h: 20, color: 'white' },
+    { isStatic: true, label: 'miniRamp', angle: radians(-30) }
   );
 
   loverRamp = new Block(
     world,
-    { x: 1160, y : 5480, w: 600, h: 10, color: 'yellow' },
+    { x: 1160, y : 5520 + levelmover, w: 600, h: 10, color: 'red' },
     { isStatic: true, label: 'loverRamp', angle: radians(-45) }
   );
 
   loverPlain = new Block(
     world,
-    { x: 1330, y : 5200, w: 100, h: 10, color: 'red' },
+    { x: 1330, y : 5200 + levelmover, w: 100, h: 10, color: 'red' },
     { isStatic: true, label: 'loverPlain' }
   );
 
   firstPlain = new Block(
     world,
-    { x: 640, y : 5620+ levelmover, w: 100, h: 10, color: 'red' },
+    { x: 640, y : 5620 + levelmover, w: 100, h: 10, color: 'red' },
     { isStatic: true, label: 'firstPlain' }
   );
 
   firstRamp = new Block(
     world,
-    { x: 710, y : 5655, w: 180, h: 10, color: 'red' },
-    { isStatic: true, label: 'firstRamp', angle: radians(22) }
+    { x: 710, y : 5645 + levelmover, w: 180, h: 10, color: 'red' },
+    { isStatic: true, label: 'firstRamp', angle: radians(10) }
   );
 
   secondRamp = new Block(
     world,
-    { x: 910, y : 5730, w: 100, h: 10, color: 'red' },
-    { isStatic: true, label: 'secondRamp', angle: radians(-45) }
+    { x: 910, y : 5760 + levelmover, w: 100, h: 10, color: 'red' },
+    { isStatic: true, label: 'secondRamp', angle: radians(-30) }
   );
 
   secondPlain = new Block(
     world,
-    { x: 690, y : 5795, w: 450, h: 10, color: 'blue' },
+    { x: 690, y : 5792 + levelmover, w: 450, h: 10, color: 'blue' },
     { isStatic: true, label: 'secondPlain' }
   );
 
   thirdPlain = new Block(
     world,
-    { x: 308, y : 5795, w: 314, h: 10, color: 'red' },
+    { x: 308, y : 5796 + levelmover, w: 314, h: 10, color: 'red' },
     { isStatic: true, label: 'thirdPlain' }
   );
 
   blueWall = new Block(
     world,
-    { x: 30, y : 5700, w: 300, h: 10, color: 'blue' },
+    { x: 20, y : 5701 + levelmover, w: 300, h: 10, color: 'blue' },
     { isStatic: true, label: 'blueWall', angle: radians(90) }
   );
 
   bluePlain = new Block(
     world,
-    { x: 50, y : 5795, w: 100, h: 10, color: 'blue' },
+    { x: 50, y : 5797 + levelmover, w: 100, h: 10, color: 'blue' },
     { isStatic: true, label: 'bluePlain' }
   );
 
   bluePlain2 = new Block(
     world,
-    { x: 126, y : 5795, w: 50, h: 10, color: 'red' },
+    { x: 125, y : 5797 + levelmover, w: 51, h: 10, color: 'orange' },
     { isStatic: true, label: 'bluePlain2' }
   );
 
   underplain_left = new Block(
     world,
-    { x: 308, y : 5796, w: 314, h: 10, color: 'pink' },
+    { x: 308, y : 5797 + levelmover, w: 314, h: 10, color: 'pink' },
     { isStatic: true, label: 'underplain_left' }
   );
 
   underplain_right = new Block(
     world,
-    { x: 690, y : 5796, w: 450, h: 10, color: 'green' },
+    { x: 690, y : 5796 + levelmover, w: 450, h: 10, color: 'green' },
     { isStatic: true, label: 'underplain_right' }
   );
 
@@ -999,7 +1029,40 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "secondPlain" || bodyB.label === "secondPlain") {
-      marblinTest2.body.friction = -0.045;
+      marblinTest2.body.friction = 1;
+      Matter.World.remove(engine.world, plainPulley.body);
+    }
+
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "thirdPlain" || bodyB.label === "thirdPlain") {
+      marblinTest2.body.friction = 0.05;
+    }
+
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "bottomPulley" || bodyB.label === "bottomPulley") {
+      marblinTest2.body.friction = -0.18;
+      Matter.World.remove(engine.world, secondPlain.body);
+    }
+
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "loverRamp" || bodyB.label === "loverRamp") {
+      marblinTest.body.friction = 0.2;
+      Matter.World.remove(engine.world, miniRamp.body);
     }
 
   });
@@ -1158,6 +1221,10 @@ function draw() {
   loverPlain.draw();
   underplain_left.draw();
   underplain_right.draw();
+  plainPulley.draw();
+  bottomPulley.draw();
+  marblinPulley.draw();
+  miniRamp.draw();
 
   marblinLover.draw();
   sun_moon.draw();
