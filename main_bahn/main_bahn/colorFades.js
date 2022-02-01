@@ -48,7 +48,7 @@ function changeColorSonnenaufgang(){
   newG = 72;
   newB = 30;
   intervalTERRAIN = setInterval(colorFadeTERRAIN, 5);
-  
+
   //HINTERGRUND
   bgnewR = 245;
   bgnewG = 151;
@@ -69,16 +69,44 @@ function changeColorSonnenaufgang(){
 }
 
 
+function changeColorDreierLevel(){
+  controlCounter = 7;
+  //TERAIN
+  newR = 0;
+  newG = 0;
+  newB = 139;
+  intervalTERRAIN = setInterval(colorFadeTERRAIN, 1);
+
+  //HINTERGRUND
+  bgnewR = 0;
+  bgnewG = 0;
+  bgnewB = 255;
+  intervalBG = setInterval(colorFadeBG, 1);
+
+  /*
+  //Marblin
+  marblinnewR = 255;
+  marblinnewG = 138;
+  marblinnewB = 138;
+  intervalmarblin = setInterval(colorFade, 0.2);
+  */
+}
+
 
 function changeColorToDarkness(){
+  //TERAIN
   newR = 0;
   newG = 0;
   newB = 0;
   intervalTERRAIN = setInterval(colorFadeTERRAIN, 1);
+
+  //HINTERGRUND
   bgnewR = 0;
   bgnewG = 0;
   bgnewB = 0;
   intervalBG = setInterval(colorFadeBG, 1);
+
+  //Marblin
   marblinnewR = 10;
   marblinnewG = 10;
   marblinnewB = 10;
@@ -86,17 +114,21 @@ function changeColorToDarkness(){
 }
 
 
-
 function changeColorAfterSpotlight(){
   controlCounter = 7;
+  //TERAIN
   newR = 0;
   newG = 0;
   newB = 0;
   intervalTERRAIN = setInterval(colorFadeTERRAIN, 1);
+
+  //HINTERGRUND
   bgnewR = 125;
   bgnewG = 0;
   bgnewB = 0;
   intervalBG = setInterval(colorFadeBG, 1);
+
+  //Marblin
   marblinnewR = 255;
   marblinnewG = 138;
   marblinnewB = 138;
@@ -161,7 +193,7 @@ function colorFadeTERRAIN(){
   terrain_1.attrs.color = color(actualR,actualG,actualB);
   terrain_1edge.attrs.color = color(actualR,actualG,actualB);
   terrain_2.attrs.color = color(actualR,actualG,actualB);
-  
+
 
   if (newB-actualB+newG-actualG+newR-actualR == 0){
     clearInterval(intervalTERRAIN);

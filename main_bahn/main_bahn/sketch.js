@@ -1426,7 +1426,7 @@ function draw() {
   ctx.shadowBlur = 100;
   if(boom){
     if (boomtransparency >0){
-      boomtransparency-=2;
+      boomtransparency-=3;
     }
     ps.display();
     ps.update();
@@ -1516,6 +1516,7 @@ function draw() {
       leftright = 1;
       clearInterval(stairInterval);
       stairInterval = setInterval(onStairShake,100);
+      changeColorDreierLevel();
     }
   }
 
@@ -1528,7 +1529,7 @@ function draw() {
       stairENDtrigger = false;
       stairENDattractor.addAttracted(marblin.body);
       drawStairEND = true;
-      endInterval = setInterval(endJump, 500);
+      endInterval = setInterval(endJump, 1000);
     }
   }
 
