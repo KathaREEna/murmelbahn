@@ -5,7 +5,6 @@ Matter.use('matter-attractors');
 
 let cnvs, ctx;
 
-
 let marblin;
 let marblinLover;
 let canvasW = 1280;
@@ -1189,7 +1188,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
   frameRate(frameR);
 
   //END MAIN ENGINE////////////////////////////////////////////////////////////
- 
+
 
   // SIDE ENGINE
 
@@ -1475,7 +1474,30 @@ function draw() {
 
 
 
-  //STAIR TRIGGER DYNAMIX
+  //Kathi's TRIGGER DYNAMIX
+  if (marblin.body.position.y > 3000 && marblin.body.position.y < 3200) {
+    if (case1barrier){
+      case1barrier = false;
+      spaceCounter = 1;
+      console.log("space now mapped to next event: Spawn Stack");
+    }
+  }
+  if (marblin.body.position.y > 4650 && marblin.body.position.y < 4800) {
+    if (case2barrier){
+      case2barrier = false;
+      spaceCounter = 2;
+      console.log("space now mapped to next event: Prison Break");
+    }
+  }
+  if (marblin.body.position.y > 6150 && marblin.body.position.y < 6350) {
+    if (case3barrier){
+      case3barrier = false;
+      spaceCounter = 3;
+      console.log("space now mapped to next event: Spotlight");
+    }
+  }
+
+  //Stair Trigger
   if (marblin.body.position.y > 1350 && marblin.body.position.y < 1400) {
     if (stair1trigger){ //nur einmal auslösen
       createStair1();
@@ -1508,12 +1530,12 @@ function draw() {
       stairInterval = setInterval(onStairShake,100);
     }
   }
-//420
+
   if (marblin.body.position.y > 2290 && marblin.body.position.y < 2310) {
     if (stair4trigger){ //nur einmal auslösen
       console.log("STAIR 4!!!!!!!");
       stair4attractor.addAttracted(marblin.body);
-        console.log("stair4attr. add attracted");
+
       drawStair4 = true;
       stair4trigger = false;
       leftright = 1;
@@ -1525,7 +1547,9 @@ function draw() {
   if (marblin.body.position.y > 2470 && marblin.body.position.y < 2490) {
     if (stair5trigger){ //nur einmal auslösen
       console.log("STAIR 5!!!!!!!");
-      stair5attractor.addAttracted(marblin.body);
+      //stair5attractor.addAttracted(marblin.body);
+      stair6attractor.addAttracted(marblin.body);
+      shakebeforejump = false;
       drawStair5 = true;
       stair5trigger = false;
       leftright = 1;
@@ -1537,12 +1561,14 @@ function draw() {
   if (marblin.body.position.y > 2650 && marblin.body.position.y < 2670) {
     if (stair6trigger){ //nur einmal auslösen
       console.log("STAIR 6!!!!!!!");
-      stair6attractor.addAttracted(marblin.body);
       drawStair6 = true;
+      countStairAttractor = 6;
+      //stair6attractor.isActive = 0;
+      turnOffStairAttractor();
       stair6trigger = false;
       leftright = 1;
       clearInterval(stairInterval);
-      stairInterval = setInterval(onStairShake,100);
+      //stairInterval = setInterval(onStairShake,100);
       changeColorDreierLevel();
     }
   }
@@ -1598,7 +1624,7 @@ function draw() {
 
 
   //controlFunction1trigger
-  if (marblinLover.body.position.x > 1040 && marblinLover.body.position.x < 1100 && marblinLover.body.position.y > 480 && marblinLover.body.position.y < 500) {
+  if (marblinLover.body.position.x > 1040 && marblinLover.body.position.x < 1150 && marblinLover.body.position.y > 480 && marblinLover.body.position.y < 500) {
     if (controlStarter1){
       controlFunction1();
       controlStarter1 = false;
@@ -1788,10 +1814,8 @@ function keyPressed() {
       break;
 
     case 32: //SPACE
-      //TerrainColors
       event.preventDefault();
-      changeColorSonnenaufgang();
-
+      controlfunction2();
 
       break;
     case 83: //S
@@ -1860,19 +1884,6 @@ function keyPressed() {
 
      break;
 
-   case 85: // u
-     //first jump
-     if (jumpalternator){
-       jumpalternator = false;
-       jumpIntoAbyss();
-     } else {
-       smallJump();
-       jumpalternator = true;
-     }
-     //second Jump
-
-     break;
-
      case 77: // M
      //make loveballs spawn
 
@@ -1882,7 +1893,7 @@ function keyPressed() {
     //    r: 50,
     //    color: "green"
     //  }, {
-   
+
     //  });
     // testballser = true;
 
@@ -1932,7 +1943,7 @@ function keyPressed() {
       stair4attractor.addAttracted(marblin.body);
       console.log("stair4attractor.addAttracted(marblin.body);")
       break;
-    case 88:
+    case 88: //x
       jumpUp2();
       break;
     default:

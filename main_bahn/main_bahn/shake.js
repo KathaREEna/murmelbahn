@@ -72,35 +72,34 @@ function turnOffStairAttractor(){
   }
 }
 
-
+let shakebeforejump = true;
 
 function onStairShake(){ //0 = left, 1 = right
   marblin.body.friction = 1;
   staircountertestzahl++;
-  if (leftright == 1 && staircountertestzahl == floor(stairanzahlshakes/3)){
-    //nudge("right",0.12);
-  }
+
   if (staircountertestzahl > (stairanzahlshakes/2)){
     if (staircountertestzahl >= stairanzahlshakes) {
       clearInterval(stairInterval);
       staircountertestzahl = 0;
-      //marblin.body.friction = 0;
       console.log("clearing stairInterval");
       stairJump(leftright);
     }
-    let direction = 1;
-    if (stairalternate == 0) {
-      direction = -1; // ball runs right to left <-
-      stairalternate = 1; // ball runs left to right ->
-    }else {
-      direction = 1;
-      stairalternate = 0;
+    if(shakebeforejump){
+      let direction = 1;
+      if (stairalternate == 0) {
+        direction = -1; // ball runs right to left <-
+        stairalternate = 1; // ball runs left to right ->
+      }else {
+        direction = 1;
+        stairalternate = 0;
+      }
+      Matter.Body.applyForce(
+        marblin.body,
+        {x: marblin.body.position.x, y: marblin.body.position.y},
+        {x: (0.04 * direction), y: 0.01}
+      );
     }
-    Matter.Body.applyForce(
-      marblin.body,
-      {x: marblin.body.position.x, y: marblin.body.position.y},
-      {x: (0.04 * direction) /*+ marblin.body.velocity.x */, y: 0.01}
-    );
   }
 }
 
