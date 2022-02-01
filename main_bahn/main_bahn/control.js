@@ -41,6 +41,45 @@ function controlFunction1() {
   }
 }
 
+
+let spaceCounter = 0;
+let case1barrier = true;
+let case2barrier = true;
+let case3barrier = true;
+let case4barrier = true;
+function controlfunction2(){
+  switch (spaceCounter) {
+    case 0:
+      //TerrainColors
+      changeColorSonnenaufgang();
+      break;
+    case 1:
+      //dreier Level
+      addStack1();
+      break;
+    case 2:
+      //PRISON BOOM
+      pinterval1 = setInterval(shakePrison, 100);
+      break;
+    case 3:
+      //spotlight
+      groesserAnfang = marblin.body.position.y;
+      groesserYEnd = marblin.body.position.y+100;
+      marblinGrows = true;
+      Matter.World.remove(engine.world, rightV.body);
+      Matter.World.remove(engine.world, leftV.body);
+      break;
+    case 4:
+      //Last Jump?
+      jumpUp2();
+      break;
+    default:
+
+  }
+}
+
+
+
 /*
 Matter.Body.setPosition(
 elevator.body,

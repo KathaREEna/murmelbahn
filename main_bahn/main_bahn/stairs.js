@@ -123,7 +123,7 @@ function createStair456(){
     y: stair6Y-stair6.attrs.h/3,
     r: 10,
     color: 'RED',
-    attraction: attraction
+    attraction: attraction/2
   },
   {
     isStatic: true,
