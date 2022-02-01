@@ -941,7 +941,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
   loverRamp2 = new Block(
     world,
-    { x: 1332, y : 5350 + levelmover, w: 200, h: 10, color: 'green' },
+    { x: 1368, y : 5315 + levelmover, w: 100, h: 10, color: 'green' },
     { isStatic: true, label: 'loverRamp2', angle: radians(-45) }
   );
 
@@ -1314,7 +1314,7 @@ function draw() {
   ctx.shadowBlur = 0;
 
 
-  loverRamp2.draw();
+  /*loverRamp2.draw();
   loverRamp.draw();
   rightV.draw();
   firstRamp.draw();
@@ -1328,7 +1328,7 @@ function draw() {
   plainPulley.draw();
   bottomPulley.draw();
   marblinPulley.draw();
-  leftV.draw();
+  leftV.draw();*/
 
 
 
@@ -1612,7 +1612,7 @@ function draw() {
   //marblinGrows
   if(marblinGrows){
     let scaleStart = 4900; //FLÄCHENINHALT
-    let scaleEnd = 9800;
+    let scaleEnd = 9700;
     let localtarget = map(marblin.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1)
 
     while(marblin.body.area < localtarget){
