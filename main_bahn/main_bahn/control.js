@@ -72,13 +72,56 @@ function controlfunction2(){
     case 4:
       //Last Jump?
       jumpUp2();
+      doTheEnd();
+      changeColorAfterSpotlight();
       break;
     default:
 
   }
 }
 
+function doTheEnd(){
+  Matter.World.remove(engine.world, loverRamp.body);
+      Matter.World.remove(engine.world, loverRamp2.body);
+      Matter.World.remove(engine.world, loverPlain.body);
+      Matter.World.remove(engine.world, rightV.body);
+      Matter.World.remove(engine.world, leftV.body);
+      Matter.World.remove(engine.world, firstRamp.body);
+      Matter.World.remove(engine.world, secondRamp.body);
+      Matter.World.remove(engine.world, secondPlain.body);
+      Matter.World.remove(engine.world, thirdPlain.body);
+      Matter.World.remove(engine.world, blueWall.body);
+      Matter.World.remove(engine.world, bluePlain.body);
+      Matter.World.remove(engine.world, bluePlain2.body);
+      Matter.World.remove(engine.world, bottomPulley.body);
+ 
+      let transition5position = viewportH * 8.5;
+ 
+     //  // spawn loveballs, trigger draw function
+      loveballs = new Stack(world, {
+        x: 0, y: transition5position-1000, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
+        create: (x, y) => Matter.Bodies.circle(x, y, 15, { restitution: 0.1, friction: -0.1})
+      });
+     // //  loveballs.body.bodys.collisionFilter.group = -1;
+     //  marblin.body.collisionFilter.group = -2;
+      loveballser = true;
+      marblin.body.collisionFilter.group = 1;
+     marblin.body.collisionFilter.mask = 2;
+    loveballs.body.bodies.forEach(Block => Block.collisionFilter.mask = 2);
+    loveballs.body.bodies.forEach(Block => Block.collisionFilter.category = 3);
+    ove.body.collisionFilter.mask = 2;
+    ove.body.collisionFilter.category = 3;
+    terrain_6.body.collisionFilter.mask = 2;
+    terrain_6.body.collisionFilter.category = 3;
 
+    terrain_7.body.collisionFilter.mask = 2;
+    terrain_7.body.collisionFilter.category = 3;
+
+    terrain_8.body.collisionFilter.mask = 2;
+    terrain_8.body.collisionFilter.category = 3;
+    lampStatus = false;
+
+}
 
 /*
 Matter.Body.setPosition(
@@ -100,7 +143,7 @@ function nudge(direct, amount){
       x: marblin.body.position.x,
       y: marblin.body.position.y
     }, {
-      x: directMinusPlus*((amount) + marblin.body.velocity.x / 100),
+      x: directMinusPlus*((amount/8) + marblin.body.velocity.x / 100),
       y: 0
     }
   );
