@@ -1049,7 +1049,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
       marblin.body.friction = 1;
       Matter.World.remove(engine.world, loverPlain.body);
       groesserAnfang = marblinLover2.body.position.y;
-      groesserYEnd = marblinLover2.body.position.y+100;
+      groesserYEnd = marblinLover2.body.position.y+400;
       marblinLoverGrows = true;
     }
 
@@ -1589,8 +1589,8 @@ function draw() {
   }
   //marblinGrows
   if(marblinGrows){
-    let scaleStart = 4900;
-    let scaleEnd = 9000;
+    let scaleStart = 4900; //FLÄCHENINHALT
+    let scaleEnd = 10000;
     let localtarget = map(marblin.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1)
 
     while(marblin.body.area < localtarget){
@@ -1609,15 +1609,14 @@ function draw() {
 
   //marblinLoverGrows
   if(marblinLoverGrows){
-    let scaleStart = 5600;
-    let scaleEnd = 9000;
+    let scaleStart = 4900;//FLÄCHENINHALT
+    let scaleEnd = 11000;
     let localtarget = map(marblinLover2.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1)
-
     while(marblinLover2.body.area < localtarget){
     Matter.Body.scale(marblinLover2.body, 1.01, 1.01);
     }
   }
- 
+
   if (loveballser){
     loveballs.draw();
     };
