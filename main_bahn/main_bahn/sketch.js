@@ -960,7 +960,7 @@ function setup() {
     const bodyB = pairs.bodyB;
     if (bodyA.label === "marblin", bodyB.label === "terrain_12") {
       console.log('setPosition x: viewportW/2, y: 4759');
-      scrollOffset = 400;
+      scrollOffset = 500;
       Matter.Body.setPosition(
         marblin.body, {
           x: viewportW / 2,
@@ -1525,7 +1525,7 @@ function draw() {
   if (jumper3) {
     jumpUp();
     jumper3 = false;
-
+    scrollOffset = 250;
     //Color Fade to DARKNESS
     changeColorToDarkness();
     controlCounter = 7;
@@ -1755,6 +1755,7 @@ function draw() {
       case3barrier = false;
       spaceCounter = 3;
       console.log("space now mapped to next event: Spotlight");
+      scrollOffset = 300;
     }
   }
   if (marblin.body.position.y > 6450 && marblin.body.position.y < 6500) {
@@ -1786,7 +1787,7 @@ function draw() {
       stair2trigger = false;
       clearInterval(stairInterval);
       stairInterval = setInterval(onStairShake, 100);
-      scrollOffset = 200;
+      scrollOffset = 180;
     }
   }
 
@@ -1852,6 +1853,7 @@ function draw() {
       stairEND.body.collisionFilter.group = 1;
       stairEND.body.collisionFilter.mask = 2;
       stairENDtrigger = false;
+
       stairENDattractor.addAttracted(marblin.body);
       //drawStairEND = true;
       endInterval = setInterval(endJump, 1000);
@@ -1953,9 +1955,6 @@ function draw() {
   // draw liebestaumel
   // magnet1.draw();
 
-  if (scrolla) {
-    scrolldown();
-  }
 
 
   if (nudger) {
@@ -1991,7 +1990,9 @@ function draw() {
   //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
   //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
   //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
-  selbstDasScrollenMussManSelbstMachen();
+  if (scrolla) {
+    selbstDasScrollenMussManSelbstMachen();
+  }
 }
 
 
@@ -2124,8 +2125,7 @@ function keyPressed() {
       break;
 
     case 81: //Q = Testscroll
-      scrolla = true;
-      console.log("funktionier endlich bitte");
+      console.log("du hast Q gedrückt! Star Trek oder James Bond? ;)")
       break;
 
     case 80:
@@ -2210,10 +2210,12 @@ function keyPressed() {
 
 
     case 86: //v
-      if (scroller) {
-        scroller = false;
+      if (scrolla) {
+        scrolla = false;
+        console.log("scrolling AUS");
       } else {
-        scroller = true;
+        scrolla = true;
+        console.log("scrolling AN");
       }
       break;
     case 69: //e
@@ -2286,21 +2288,25 @@ function keyPressed() {
 
 
 let scroller = false;
-let scrolla = false;
+let scrolla = true;
 
 let startscroll = 0;
 let targetscroll = 2900;
-let scrollOffset = 400;
+let scrollOffset = 480;
+let stopScrollingAboveLove = false;
 
 function selbstDasScrollenMussManSelbstMachen() {
   startscroll = window.pageYOffset;
-  targetscroll = marblin.body.position.y - scrollOffset
-  let scrolldiff = (targetscroll - startscroll);
-  if (Math.abs(scrolldiff) > 10) {
-
-    window.scrollTo(0, startscroll + scrolldiff * 0.05);
+  if (stopScrollingAboveLove){
+    targetscroll = 7050;
   } else {
-    scrolla = false;
+    targetscroll = marblin.body.position.y - scrollOffset;
+  }
+  let scrolldiff = (targetscroll - startscroll);
+  if (Math.abs(scrolldiff) > 1) {
+
+    window.scrollTo(0, startscroll + scrolldiff * 0.05); //Heilige Scrollfunktion
+
   }
 }
 

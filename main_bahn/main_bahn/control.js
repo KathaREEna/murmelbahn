@@ -56,6 +56,7 @@ function controlfunction2(){
     case 1:
       //dreier Level
       addStack1();
+      scrolla = false;
       break;
     case 2:
       //PRISON BOOM
@@ -74,6 +75,7 @@ function controlfunction2(){
       jumpUp2();
       doTheEnd();
       changeColorAfterSpotlight();
+      scrollOffset = 100;
       break;
     default:
 
@@ -94,9 +96,9 @@ function doTheEnd(){
       Matter.World.remove(engine.world, bluePlain.body);
       Matter.World.remove(engine.world, bluePlain2.body);
       Matter.World.remove(engine.world, bottomPulley.body);
- 
+
       let transition5position = viewportH * 8.5;
- 
+
      //  // spawn loveballs, trigger draw function
       loveballs = new Stack(world, {
         x: 0, y: transition5position-1000, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
@@ -169,7 +171,7 @@ function jumpIntoAbyss() {
 
 
 function smallJump() {
-  console.log("jump");
+  console.log("smalljump");
   sleepy = false;
   direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
   jump1.play();
@@ -185,7 +187,7 @@ function smallJump() {
 }
 
 function fleeJump() {
-  console.log("jump");
+  console.log("fleejump");
   sleepy = false;
   jump1.play();
   direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
@@ -197,7 +199,9 @@ function fleeJump() {
 }
 
 function fleeJump2() {
-  console.log("jump");
+  console.log("jumpendedreierLevel");
+  scrollOffset = 550;
+  scrolla = true;
   jump1.play();
   sleepy = false;
   direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
@@ -209,7 +213,7 @@ function fleeJump2() {
 }
 
 function jumpUp() {
-  console.log("jump");
+  console.log("jumpUp");
   jump1.play();
   Matter.Body.applyForce(
     marblin.body,
@@ -228,7 +232,7 @@ function jumpUp2() {
   marblinactualB = marblinnewB;
   marblin.attrs.color = color(marblinactualR,marblinactualG,marblinactualB);
 
-  console.log("jump");
+  console.log("jumpUp2");
   direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
   Matter.World.remove(engine.world, marblinLover2.body);
   marblinLoverDraw = false;
@@ -280,4 +284,5 @@ function endJump() {
     {x: marblin.body.position.x, y: marblin.body.position.y},
     {x: 0, y: -0.3}
   );
+  stopScrollingAboveLove = true;
 }
