@@ -147,6 +147,36 @@ function removeStack3() {
 function preload() {
   const engine = Matter.Engine.create();
   let world = engine.world;
+
+
+
+  // add sounds
+  soundtrack = loadSound('./sounds/soundtrack.mp3');
+  soundtrack2 = loadSound('./sounds/soundtrack2.mp3');
+  hi = loadSound('./sounds/hi.mp3');
+  verlegen = loadSound('./sounds/verlegen.mp3');
+  jump1 = loadSound('./sounds/jump1.mp3');
+  sound2 = loadSound('./sounds/sound2.mp3');
+  sound3 = loadSound('./sounds/sound3.mp3');
+  sound4 = loadSound('./sounds/sound4.mp3');
+  sound5 = loadSound('./sounds/sound5.mp3');
+  sound6 = loadSound('./sounds/sound6.mp3');
+  sound7 = loadSound('./sounds/sound7.mp3');
+  sound8 = loadSound('./sounds/sound8.mp3');
+  sound9 = loadSound('./sounds/sound9.mp3');
+  sound10 = loadSound('./sounds/sound10.mp3');
+  sound11 = loadSound('./sounds/sound11.mp3');
+  sound12 = loadSound('./sounds/sound12.mp3');
+  sound13 = loadSound('./sounds/sound13.mp3');
+  sound14 = loadSound('./sounds/sound14.mp3');
+  sound15 = loadSound('./sounds/sound15.mp3');
+  sound16 = loadSound('./sounds/sound16.mp3');
+  sound17 = loadSound('./sounds/sound17.mp3');
+  sound18 = loadSound('./sounds/sound18.mp3');
+  sound19 = loadSound('./sounds/sound19.mp3');
+  sound20 = loadSound('./sounds/sound20.mp3');
+  sound21 = loadSound('./sounds/sound21.mp3');
+  sound22 = loadSound('./sounds/sound22.mp3');
   //create house
   house = new PolygonFromSVG(world, {
     x: 350,
@@ -1201,10 +1231,21 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
 
 
-
-
+let soundtrackplay = false;
+let soundtrackplay2 = false;
 function draw() {
   background(backgroundColor);
+  if (soundtrackplay) {  
+    soundtrack.play();
+    soundtrackplay = false;
+    
+  }
+  if (soundtrackplay2) {  
+    soundtrack2.play();
+    soundtrackplay2 = false;
+    
+  }
+
   terrainColor = color(actualR, actualG, actualB);
   ctx.shadowColor = color("rgba(0, 0, 0, 0.5)");
   ctx.shadowBlur = 0;
@@ -1750,21 +1791,17 @@ function keyPressed() {
       changeColorAfterSpotlight();
       break;
     case 49: // 1 addStack1
+      soundtrackplay = true;
+      break;
+
+    case 50: // 2 addStack2
       console.log("adding stack");
       addStack1();
       console.log("stack added");
       break;
 
-    case 50: // 2 addStack2
-      console.log("adding stack");
-      addStack2();
-      console.log("stack added");
-      break;
-
     case 51: // 3 addStack3
-      console.log("adding stack");
-      addStack3();
-      console.log("stack added");
+    soundtrackplay2 = true;
       break;
 
     case 52: // 4 removeStack1

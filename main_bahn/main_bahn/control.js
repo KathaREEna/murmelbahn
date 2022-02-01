@@ -16,6 +16,7 @@ function controlFunction1() {
       marblinnewG = 73;
       marblinnewB = 66;
       intervalmarblin = setInterval(colorFade, 2);
+      verlegen.play();
       break;
     case 1:
       controlCounter = 2;
@@ -28,6 +29,7 @@ function controlFunction1() {
     case 2:
       controlCounter = 3;
       lovelyFadeOut = true;
+      jump1.play();
       jumpIntoAbyss();
       break;
     case 3:
@@ -88,6 +90,7 @@ function smallJump() {
   console.log("jump");
   sleepy = false;
   direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
+  jump1.play();
   Matter.Body.applyForce(
     marblin.body, {
       x: marblin.body.position.x,
@@ -102,6 +105,7 @@ function smallJump() {
 function fleeJump() {
   console.log("jump");
   sleepy = false;
+  jump1.play();
   direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
   Matter.Body.applyForce(
     marblin.body,
@@ -112,6 +116,7 @@ function fleeJump() {
 
 function fleeJump2() {
   console.log("jump");
+  jump1.play();
   sleepy = false;
   direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
   Matter.Body.applyForce(
@@ -123,6 +128,7 @@ function fleeJump2() {
 
 function jumpUp() {
   console.log("jump");
+  jump1.play();
   Matter.Body.applyForce(
     marblin.body,
     {x: marblin.body.position.x, y: marblin.body.position.y},
@@ -154,6 +160,7 @@ function jumpUp2() {
 
 function stairJump(leftright) { //leftright 0 = left, 1 = right
   console.log("stairjump "+ leftright);
+  jump1.play();
   switch (leftright) {
     case 1:
       if (countStairAttractor > 3){
