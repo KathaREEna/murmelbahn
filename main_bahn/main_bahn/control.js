@@ -184,5 +184,15 @@ function stairJump(leftright) { //leftright 0 = left, 1 = right
         }
       );
   }
+}
 
+
+function endJump() {
+  console.log("Ende");
+  // sleepy = false;
+  Matter.Body.applyForce(
+    marblin.body,
+    {x: marblin.body.position.x, y: marblin.body.position.y},
+    {x: 0, y: -0.2}
+  );
 }

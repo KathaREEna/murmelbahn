@@ -10,21 +10,27 @@ let stair5;
 let stair6;
 let stair7;
 
+let stairEND;
+
 let drawStair1 = false;
 let drawStair2 = false;
 let drawStair3 = false;
 let drawStair4 = false;
 let drawStair5 = false;
 let drawStair6 = false;
+let drawStairEND = false;
 let stair1trigger = true;
 let stair2trigger = true;
 let stair3trigger = true;
 let stair4trigger = true;
 let stair5trigger = true;
 let stair6trigger = true;
+let stairENDtrigger = true;
 
 
 let stair1interval;
+let endInterval;
+let stairENDattractor;
 
 function createStair1() {
   stair1 = new Block(
@@ -125,5 +131,35 @@ function createStair456(){
     friction: 0,
     label: "stair6attractor"
   });
+
+}
+
+
+function createStairENDattractor() {
+  let endattraction = 0.65e-4;
+
+  stairENDattractor = new Magnet(world, {
+    x: 0,
+    y: 7000,
+    r: 10,
+    color: 'RED',
+    attraction: endattraction
+  },
+  {
+    isStatic: true,
+    restitution: 0,
+    friction: 0,
+    label: "stairENDattractor"
+  });
+}
+
+function createStairEND() {
+  stairEND = new Block(
+    world,
+    { x: marblin.body.position.x, y: marblin.body.position.y+150, w: 150, h: 150, color: terrainColor },
+    { isStatic: true, restitution: 0, friction: 1, label: 'stair' }
+  );
+  Matter.Body.setPosition(stairENDattractor.body, {x:stairEND.attrs.x, y: stairEND.attrs.y-50})
+
 
 }

@@ -369,6 +369,7 @@ function setup() {
   //Stairs left to right
 
   createStair456();
+  createStairENDattractor();
 /*
   stair7 = new Block(
     world,
@@ -1129,7 +1130,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     //   friction: 0,
     //   label: "marblin",
     //   isStatic: true,
-    //   plugin: { 
+    //   plugin: {
     //   },
     // });
 
@@ -1304,6 +1305,10 @@ function draw() {
   if (drawStair6) {
     stair6.draw();
   }
+
+  if (drawStairEND) {
+    stairEND.draw();
+  }
   ctx.shadowBlur = 0;
 
 
@@ -1334,7 +1339,7 @@ function draw() {
   sun_moon.draw();
   pop();
 
-  
+
   terrain_1.draw();
   terrain_1edge.draw();
   // ramp.draw();
@@ -1361,7 +1366,7 @@ function draw() {
 
   fill("#8F5811");
   rect (0,level2position2-viewportH*3/3,viewportW,viewportH/3)
- 
+
   fill("#6B420D");
   rect (0,level2position2-viewportH*2/3,viewportW,viewportH/3)
   fill("#382307");
@@ -1387,6 +1392,7 @@ function draw() {
   stair4attractor.attract();
   stair5attractor.attract();
   stair6attractor.attract();
+  stairENDattractor.attract();
 
   terrain_9_left.draw();
   terrain_9_right.draw();
@@ -1419,14 +1425,14 @@ function draw() {
   // shatter system/prison
   ctx.shadowBlur = 100;
 
- 
+
   // //balls.draw();
   ctx.shadowBlur = 0;
   ctx.shadowBlur = 100;
   fill(terrainColor);
   rectMode(CORNER);
   rect (-178,530,viewportW * 3 / 5 + viewportW * 1 / 5,viewportH / 4)
- 
+
 
   //level 4
   terrain_12.draw();
@@ -1434,7 +1440,7 @@ function draw() {
 
   marblin.draw();
   marblin.attract();
-  
+
   ctx.shadowBlur = 100;
   if(boom){
     if (boomtransparency >0){
@@ -1532,6 +1538,18 @@ function draw() {
   }
 
 
+  ////STAIR AT THE END
+  if (marblin.body.position.y > 6900 && marblin.body.position.y < 6950) {
+    if (stairENDtrigger){ //nur einmal auslösen
+      console.log("STAIR at the END!!!!!!!");
+      createStairEND();
+      stairENDtrigger = false;
+      stairENDattractor.addAttracted(marblin.body);
+      drawStairEND = true;
+      endInterval = setInterval(endJump, 500);
+    }
+  }
+
 
   //marblinLover2 Trigger for MERGE
   if (marblinLover2.body.position.x > 510 && marblinLover2.body.position.x < 520) {
@@ -1553,10 +1571,7 @@ function draw() {
 
 
 
-
   // ove.draw();
-
-
 
   //sleepyTrigger
   if (marblin.body.position.x > 340 && marblin.body.position.x < 400 && marblin.body.position.y > 400 && marblin.body.position.y < 500) {
@@ -1634,18 +1649,34 @@ function draw() {
   stair4attractor.draw();
   stair5attractor.draw();
   stair6attractor.draw();
+  stairENDattractor.draw();
   */
 
   // masks
 
   marblinLover.draw();
+
+    //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
+    //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
+    //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
+    //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
+    //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
+    //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
+    //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
+    //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
+    //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
+    //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
+    //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
+    //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
 }
+
+
+
+
+
 
 // level 2 trigger
 let jumper = false
-
-
-
 
 let groesserAnfang;
 let groesserYEnd;
