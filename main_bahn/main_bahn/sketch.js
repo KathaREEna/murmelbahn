@@ -27,6 +27,7 @@ let loveballs = [];
 
 
 //spotlight lampe
+let loverRamp2;
 let loverRamp;
 let lampStatus = false;
 let marblinTest2;
@@ -938,6 +939,12 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     { isStatic: true, label: 'loverRamp', angle: radians(-45) }
   );
 
+  loverRamp2 = new Block(
+    world,
+    { x: 1332, y : 5350 + levelmover, w: 200, h: 10, color: 'green' },
+    { isStatic: true, label: 'loverRamp2', angle: radians(-45) }
+  );
+
   loverPlain = new Block(
     world,
     { x: 1330, y : 5200 + levelmover, w: 100, h: 10, color: 'red' },
@@ -1035,7 +1042,6 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "loverRamp" || bodyB.label === "loverRamp") {
-      marblinLover2.body.friction = 0.2;
       Matter.World.remove(engine.world, firstRamp.body);
     }
 
@@ -1063,6 +1069,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     if (bodyA.label === "bluePlain2" || bodyB.label === "bluePlain2") {
       marblin.body.collisionFilter.group = -1;
       marblinLover2.body.collisionFilter.group = -1;
+      Matter.World.remove(engine.world, loverPlain.body);
     }
 
   });
@@ -1093,6 +1100,16 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "secondPlain" || bodyB.label === "seconPlain") {
+      marblinLover2.body.friction = 1;
+    }
+
+  });
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "loverRamp2" || bodyB.label === "loverRamp2") {
       marblinLover2.body.friction = 1;
     }
 
@@ -1297,7 +1314,7 @@ function draw() {
   ctx.shadowBlur = 0;
 
 
-
+  loverRamp2.draw();
   loverRamp.draw();
   rightV.draw();
   firstRamp.draw();
@@ -1595,7 +1612,7 @@ function draw() {
   //marblinGrows
   if(marblinGrows){
     let scaleStart = 4900; //FLÄCHENINHALT
-    let scaleEnd = 10000;
+    let scaleEnd = 9800;
     let localtarget = map(marblin.body.position.y,groesserAnfang,groesserYEnd,scaleStart,scaleEnd,1)
 
     while(marblin.body.area < localtarget){
