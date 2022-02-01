@@ -1,5 +1,6 @@
 
 //in love animation
+let loveInSpotlight = false;
 let inLove = false;
 let lovelyFadeOut = false;
 let lovelyLoop = 100;
@@ -34,7 +35,7 @@ function inLoveAni(){
     let heartr = 214;
     let heartg = 73;
     let heartb = 66;
-    
+
     let lovelyTransparency = map(lovelyPositions[i][0], 0, lovelyLoop, 0, 1255)
     let lovelyTransparencyInverted = map(lovelyPositions[i][0], 0, lovelyLoop, 1255, 0)
     if (lovelyPositions[i][0] < (lovelyLoop/2)) {

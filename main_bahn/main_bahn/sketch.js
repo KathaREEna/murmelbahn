@@ -1047,6 +1047,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     const bodyB = pairs.bodyB;
     if (bodyA.label === "bluePlain" || bodyB.label === "bluePlain") {
       marblin.body.friction = 1;
+      loveInSpotlight = true;
       Matter.World.remove(engine.world, loverPlain.body);
       groesserAnfang = marblinLover2.body.position.y;
       groesserYEnd = marblinLover2.body.position.y+400;
@@ -1541,11 +1542,14 @@ function draw() {
     mergetrigger = false;
   }
 
-  if ((marblinLover2.body.position.x - marblin.body.position.x) < 100) {
-    if (inlove2trigger){ //nur einmal auslösen
-      inLove = true;
+  if (loveInSpotlight){
+    if ((marblinLover2.body.position.x - marblin.body.position.x) < 100) {
+      if (inlove2trigger){ //nur einmal auslösen
+        inLove = true;
+      }
+      inlove2trigger = false;
+      loveInSpotlight = false;
     }
-    inlove2trigger = false;
   }
 
 
