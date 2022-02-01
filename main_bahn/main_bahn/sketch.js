@@ -25,7 +25,8 @@ let blocks = [];
 let loveballser = false;
 let loveballs = [];
 
-
+let testballser = false;
+let testball;
 //spotlight lampe
 let loverRamp2;
 let loverRamp;
@@ -89,6 +90,7 @@ let particles = [];
 
 const engine = Matter.Engine.create();
 let world = engine.world;
+
 
 /////////////////////////////// setup level 2
 
@@ -1187,6 +1189,10 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
   frameRate(frameR);
 
   //END MAIN ENGINE////////////////////////////////////////////////////////////
+ 
+
+  // SIDE ENGINE
+
 }
 
 
@@ -1208,6 +1214,10 @@ function draw() {
   };
 
   scrollFollow(marblin);
+
+  if (testballser) {
+    testball.draw();
+  }
 
 
   blocks.forEach(block => block.draw());
@@ -1866,27 +1876,38 @@ function keyPressed() {
      case 77: // M
      //make loveballs spawn
 
+    // testball = new Ball (world, {
+    //    x: 100,
+    //    y: 100,
+    //    r: 50,
+    //    color: "green"
+    //  }, {
+   
+    //  });
+    // testballser = true;
+
+
      let transition5position = viewportH * 8.5;
 
-    // remove all terrains of spotlight level
-     Matter.World.remove(engine.world, loverRamp.body);
-     Matter.World.remove(engine.world, loverPlain.body);
-     Matter.World.remove(engine.world, rightV.body);
-     Matter.World.remove(engine.world, firstRamp.body);
-     Matter.World.remove(engine.world, secondRamp.body);
-     Matter.World.remove(engine.world, secondPlain.body);
-     Matter.World.remove(engine.world, thirdPlain.body);
-     Matter.World.remove(engine.world, blueWall.body);
-     Matter.World.remove(engine.world, bluePlain.body);
-     Matter.World.remove(engine.world, bluePlain2.body);
+    // // remove all terrains of spotlight level
+    // //  Matter.World.remove(engine.world, loverRamp.body);
+    // //  Matter.World.remove(engine.world, loverPlain.body);
+    // //  Matter.World.remove(engine.world, rightV.body);
+    // //  Matter.World.remove(engine.world, firstRamp.body);
+    // //  Matter.World.remove(engine.world, secondRamp.body);
+    // //  Matter.World.remove(engine.world, secondPlain.body);
+    // //  Matter.World.remove(engine.world, thirdPlain.body);
+    // //  Matter.World.remove(engine.world, blueWall.body);
+    // //  Matter.World.remove(engine.world, bluePlain.body);
+    // //  Matter.World.remove(engine.world, bluePlain2.body);
 
-     // spawn loveballs, trigger draw function
+    //  // spawn loveballs, trigger draw function
      loveballs = new Stack(world, {
        x: 0, y: transition5position-500, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
        create: (x, y) => Matter.Bodies.circle(x, y, 15, { restitution: 0.1, friction: -0.1})
      });
-    //  loveballs.body.bodys.collisionFilter.group = -1;
-     marblin.body.collisionFilter.group = -2;
+    // //  loveballs.body.bodys.collisionFilter.group = -1;
+    //  marblin.body.collisionFilter.group = -2;
      loveballser = true;
 
      break;
