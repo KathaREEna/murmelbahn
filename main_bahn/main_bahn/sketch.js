@@ -862,6 +862,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     const bodyB = pairs.bodyB;
     if (bodyA.label === "marblin", bodyB.label === "terrain_12") {
       console.log('setPosition x: viewportW/2, y: 4759');
+      scrollOffset = 400;
       Matter.Body.setPosition(
         marblin.body,
         {x: viewportW/2, y: 4759}
@@ -1048,7 +1049,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
         frictionprevent = false;
       }
 
-  
+
     }
 
   });
@@ -1233,15 +1234,15 @@ let soundtrackplay = false;
 let soundtrackplay2 = false;
 function draw() {
   background(backgroundColor);
-  if (soundtrackplay) {  
+  if (soundtrackplay) {
     soundtrack.play();
     soundtrackplay = false;
-    
+
   }
-  if (soundtrackplay2) {  
+  if (soundtrackplay2) {
     soundtrack2.play();
     soundtrackplay2 = false;
-    
+
   }
 
   terrainColor = color(actualR, actualG, actualB);
@@ -1253,7 +1254,6 @@ function draw() {
   };
 
   scrollFollow(marblin);
-
   if (testballser) {
     testball.draw();
   }
@@ -1553,6 +1553,7 @@ function draw() {
       clearInterval(stairInterval);
       stairInterval = setInterval(onStairShake,100);
       console.log("STAIR 1!!!!!!!");
+      scrollOffset = 300;
     }
   }
 
@@ -1564,6 +1565,7 @@ function draw() {
       stair2trigger = false;
       clearInterval(stairInterval);
       stairInterval = setInterval(onStairShake,100);
+      scrollOffset = 200;
     }
   }
 
@@ -1730,7 +1732,9 @@ function draw() {
 // draw liebestaumel
   // magnet1.draw();
 
-
+  if (scrolla){
+    scrolldown();
+  }
 
 
   if (nudger) {
@@ -1766,6 +1770,7 @@ function draw() {
     //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
     //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
     //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
+    selbstDasScrollenMussManSelbstMachen();
 }
 
 
@@ -1897,10 +1902,9 @@ function keyPressed() {
       pinterval1 = setInterval(shakePrison, 100);
       break;
 
-    case 81: //Q = Murmel wächst
-      groesserAnfang = marblinTest2.body.position.y;
-      groesserYEnd = marblinTest2.body.position.y+100;
-      marblinGrows = true;
+    case 81: //Q = Testscroll
+      scrolla = true;
+      console.log("funktionier endlich bitte");
       break;
 
     case 80:
@@ -1954,7 +1958,7 @@ function keyPressed() {
      Matter.World.remove(engine.world, bluePlain2.body);
      Matter.World.remove(engine.world, bottomPulley.body);
 
- 
+
 
     //  // spawn loveballs, trigger draw function
      loveballs = new Stack(world, {
@@ -1963,8 +1967,8 @@ function keyPressed() {
      });
     // //  loveballs.body.bodys.collisionFilter.group = -1;
     //  marblin.body.collisionFilter.group = -2;
-     loveballser = true;
-     marblin.body.collisionFilter.group = 1;
+    loveballser = true;
+    marblin.body.collisionFilter.group = 1;
     marblin.body.collisionFilter.mask = 2;
     stairEND.body.collisionFilter.group = 1;
     stairEND.body.collisionFilter.mask = 2;
@@ -2007,9 +2011,9 @@ function keyPressed() {
       Matter.World.remove(engine.world, bluePlain.body);
       Matter.World.remove(engine.world, bluePlain2.body);
       Matter.World.remove(engine.world, bottomPulley.body);
- 
+
       let transition5position = viewportH * 8.5;
- 
+
      //  // spawn loveballs, trigger draw function
       loveballs = new Stack(world, {
         x: 0, y: transition5position-1000, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
@@ -2041,6 +2045,23 @@ function keyPressed() {
 
 
 let scroller = false;
+let scrolla = false;
+
+let startscroll = 0;
+let targetscroll = 2900;
+let scrollOffset = 400;
+
+function selbstDasScrollenMussManSelbstMachen(){
+  startscroll = window.pageYOffset;
+  targetscroll = marblin.body.position.y-scrollOffset
+  let scrolldiff = (targetscroll - startscroll);
+  if(Math.abs(scrolldiff) > 10){
+
+    window.scrollTo(0, startscroll+scrolldiff*0.05);
+  } else {
+    scrolla = false;
+  }
+}
 
 function scrollFollow(matterObj) {
 
