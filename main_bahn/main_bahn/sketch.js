@@ -977,13 +977,13 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
   bluePlain = new Block(
     world,
-    { x: 30, y : 5792 + levelmover, w: 100, h: 10, color: 'blue' },
+    { x: 35, y : 5792 + levelmover, w: 100, h: 10, color: 'blue' },
     { isStatic: true, label: 'bluePlain' }
   );
 
   bluePlain2 = new Block(
     world,
-    { x: 115, y : 5792 + levelmover, w: 70, h: 10, color: 'orange' },
+    { x: 120, y : 5792 + levelmover, w: 70, h: 10, color: 'orange' },
     { isStatic: true, label: 'bluePlain2' }
   );
 
@@ -1025,7 +1025,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
       nudger = true;
       marblinLover2.attrs.attraction = 0.6e-4;
       marblinLover2.isActive = 0.6e-4;
-      marblin.body.friction = 0.2;
+      marblin.body.friction = 0.6;
     }
 
   });
@@ -1635,7 +1635,7 @@ function draw() {
     if (nudgeCount < 30) {
       nudgeCount++;
     } else {
-    nudge("left",0.2);
+    nudge("left",0.22);
     console.log("nudge left");
     marblin.body.friction = 0;
     nudger = false;
