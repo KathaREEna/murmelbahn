@@ -123,8 +123,6 @@ function fleeJump2() {
 
 function jumpUp() {
   console.log("jump");
-  // sleepy = false;
-  direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
   Matter.Body.applyForce(
     marblin.body,
     {x: marblin.body.position.x, y: marblin.body.position.y},
@@ -156,8 +154,6 @@ function jumpUp2() {
 
 function stairJump(leftright) { //leftright 0 = left, 1 = right
   console.log("stairjump "+ leftright);
-  sleepy = false;
-  direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
   switch (leftright) {
     case 1:
       if (countStairAttractor > 3){
@@ -168,8 +164,8 @@ function stairJump(leftright) { //leftright 0 = left, 1 = right
           x: marblin.body.position.x,
           y: marblin.body.position.y
         }, {
-          x: 0.05,
-          y: -0.1
+          x: 0.10,
+          y: -0.0025
         }
       );
       break;
