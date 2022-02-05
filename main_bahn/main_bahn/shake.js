@@ -30,6 +30,7 @@ let pforce = 1;
 
 
 function shake(){
+  jumpprep.play();
   countertestzahl++;
   if (countertestzahl >= anzahlshakes) {
     clearInterval(interval1);
@@ -102,7 +103,20 @@ function onStairShake(){ //0 = left, 1 = right
     }
   }
 }
+function onStairShake2(){ //0 = left, 1 = right
+  marblin.body.friction = 1;
+  staircountertestzahl++;
 
+  if (staircountertestzahl > (stairanzahlshakes/2)){
+    if (staircountertestzahl >= stairanzahlshakes) {
+      clearInterval(stairInterval);
+      staircountertestzahl = 0;
+      console.log("clearing stairInterval");
+      stairJump(leftright);
+    }
+    //kein Jump lol
+  }
+}
 
 let boomtransparency = 255;
 function shakePrison(){
@@ -113,6 +127,7 @@ function shakePrison(){
     pcountertestzahl = 0;
     ps = new ParticleSystem(prison.body.position.x-(prison.attrs.w / 2), prison.body.position.y-(prison.attrs.h / 2), prisonSize);
     boom = true;
+    explode.play();
     ps.shatter();
     Matter.World.remove(engine.world, prison.body);
     jumper3 = true;

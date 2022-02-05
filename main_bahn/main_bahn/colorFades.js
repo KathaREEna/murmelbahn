@@ -69,6 +69,22 @@ function changeColorSonnenaufgang(){
 }
 
 
+function changeColorFirstStair(){
+  //TERAIN
+  newR = 0;
+  newG = 0;
+  newB = 64;
+  intervalTERRAIN = setInterval(colorFadeTERRAIN, 5);
+
+  //HINTERGRUND
+  bgnewR = 0;
+  bgnewG = 0;
+  bgnewB = 255;
+  intervalBG = setInterval(colorFadeBG, 1);
+
+}
+
+
 function changeColorDreierLevel(){
   controlCounter = 7;
   //TERAIN
@@ -193,6 +209,7 @@ function colorFadeTERRAIN(){
   terrain_1.attrs.color = color(actualR,actualG,actualB);
   terrain_1edge.attrs.color = color(actualR,actualG,actualB);
   terrain_2.attrs.color = color(actualR,actualG,actualB);
+
 
 
   if (newB-actualB+newG-actualG+newR-actualR == 0){

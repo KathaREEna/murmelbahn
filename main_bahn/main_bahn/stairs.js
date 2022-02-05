@@ -67,7 +67,7 @@ function createStair456(){
 
   stair4 = new Block(
     world,
-    { x: 100, y : stair4Y, w: 200, h: viewportH/4, color: '#C97D18' },
+    { x: 100, y : stair4Y, w: 200, h: viewportH/4, color: '#0000FF' },
     { isStatic: true, friction: 1, restitution: 0, label: 'stair4' }
   );
   stairBegrenzungLinks = new Block(
@@ -78,13 +78,13 @@ function createStair456(){
 
   stair5 = new Block(
     world,
-    { x: 100, y : stair5Y, w: 640, h: viewportH/4, color: '#C97D18' },
+    { x: 100, y : stair5Y, w: 640, h: viewportH/4, color: '#0000FF' },
     { isStatic: true, friction: 1, restitution: 0, label: 'stair5' }
   );
 
   stair6 = new Block( //y: 2740
     world,
-    { x: 100, y : stair6Y, w: 1080, h: viewportH/4, color: '#C97D18' },
+    { x: 100, y : stair6Y, w: 1080, h: viewportH/4, color: '#0000FF' },
     { isStatic: true, friction: 1, restitution: 0, label: 'stair6' }
   );
 

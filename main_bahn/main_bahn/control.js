@@ -11,12 +11,12 @@ let marblinLoverDraw = true;
 function controlFunction1() {
   switch (controlCounter) {
     case 0:
+      flustered.play();
       controlCounter = 1;
       marblinnewR = 214;
       marblinnewG = 73;
       marblinnewB = 66;
       intervalmarblin = setInterval(colorFade, 2);
-      verlegen.play();
       break;
     case 1:
       controlCounter = 2;
@@ -29,7 +29,6 @@ function controlFunction1() {
     case 2:
       controlCounter = 3;
       lovelyFadeOut = true;
-      jump1.play();
       jumpIntoAbyss();
       break;
     case 3:
@@ -60,10 +59,12 @@ function controlfunction2(){
       break;
     case 2:
       //PRISON BOOM
+      ticking.play();
       pinterval1 = setInterval(shakePrison, 100);
       break;
     case 3:
       //spotlight
+      question.play();
       groesserAnfang = marblin.body.position.y;
       groesserYEnd = marblin.body.position.y+100;
       marblinGrows = true;
@@ -101,7 +102,7 @@ function doTheEnd(){
 
      //  // spawn loveballs, trigger draw function
       loveballs = new Stack(world, {
-        x: 0, y: transition5position-1000, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
+        x: 0, y: 4570, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
         create: (x, y) => Matter.Bodies.circle(x, y, 15, { restitution: 0.1, friction: -0.1})
       });
      // //  loveballs.body.bodys.collisionFilter.group = -1;
@@ -155,6 +156,7 @@ function nudge(direct, amount){
 
 function jumpIntoAbyss() {
   console.log("jump");
+  jump.play();
   sleepy = false;
   direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
   Matter.Body.applyForce(
@@ -173,8 +175,8 @@ function jumpIntoAbyss() {
 function smallJump() {
   console.log("smalljump");
   sleepy = false;
+  jump.play();
   direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
-  jump1.play();
   Matter.Body.applyForce(
     marblin.body, {
       x: marblin.body.position.x,
@@ -189,7 +191,6 @@ function smallJump() {
 function fleeJump() {
   console.log("fleejump");
   sleepy = false;
-  jump1.play();
   direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
   Matter.Body.applyForce(
     marblin.body,
@@ -202,7 +203,8 @@ function fleeJump2() {
   console.log("jumpendedreierLevel");
   scrollOffset = 550;
   scrolla = true;
-  jump1.play();
+  jump.play();
+  console.log("jump");
   sleepy = false;
   direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
   Matter.Body.applyForce(
@@ -214,7 +216,8 @@ function fleeJump2() {
 
 function jumpUp() {
   console.log("jumpUp");
-  jump1.play();
+  jump.play();
+  console.log("jump");
   Matter.Body.applyForce(
     marblin.body,
     {x: marblin.body.position.x, y: marblin.body.position.y},
@@ -236,17 +239,16 @@ function jumpUp2() {
   direction = 1; // ball runs left to right -> direction = -1; // ball runs right to left <-
   Matter.World.remove(engine.world, marblinLover2.body);
   marblinLoverDraw = false;
-  Matter.Body.applyForce(
-    marblin.body,
-    {x: marblin.body.position.x, y: marblin.body.position.y},
-    {x: marblin.body.velocity.x / 100, y: -0.5}
-  );
+  // Matter.Body.applyForce(
+  //   marblin.body,
+  //   {x: marblin.body.position.x, y: marblin.body.position.y},
+  //   {x: marblin.body.velocity.x / 100, y: -0.5}
+  // );
 }
 
 
 function stairJump(leftright) { //leftright 0 = left, 1 = right
   console.log("stairjump "+ leftright);
-  jump1.play();
   switch (leftright) {
     case 1:
       if (countStairAttractor > 3){
@@ -257,12 +259,13 @@ function stairJump(leftright) { //leftright 0 = left, 1 = right
           x: marblin.body.position.x,
           y: marblin.body.position.y
         }, {
-          x: 0.10,
+          x: 0.1,
           y: -0.0025
         }
       );
       break;
     default:
+      jump.play();
       Matter.Body.applyForce(
         marblin.body, {
           x: marblin.body.position.x,

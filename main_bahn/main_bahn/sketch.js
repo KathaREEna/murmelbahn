@@ -78,7 +78,7 @@ let sun_moonColor;
 
 // prison
 let ps
-let prisonColor = "white"
+let prisonColor = "#000067"
 let boom = false;
 let level3position;
 let prisonSize;
@@ -182,15 +182,16 @@ function preload() {
   soundtrack = loadSound('./sounds/soundtrack.mp3');
   soundtrack2 = loadSound('./sounds/soundtrack2.mp3');
   hi = loadSound('./sounds/hi.mp3');
-  verlegen = loadSound('./sounds/verlegen.mp3');
-  jump1 = loadSound('./sounds/jump1.mp3');
-  sound2 = loadSound('./sounds/sound2.mp3');
-  sound3 = loadSound('./sounds/sound3.mp3');
-  sound4 = loadSound('./sounds/sound4.mp3');
-  sound5 = loadSound('./sounds/sound5.mp3');
-  sound6 = loadSound('./sounds/sound6.mp3');
-  sound7 = loadSound('./sounds/sound7.mp3');
-  sound8 = loadSound('./sounds/sound8.mp3');
+  flustered = loadSound('./sounds/flustered.mp3');
+  jump = loadSound('./sounds/jump.mp3');
+  jumpprep = loadSound('./sounds/jump.mp3');
+  scared = loadSound('./sounds/scared.mp3');
+  relief = loadSound('./sounds/relief.mp3');
+  ticking = loadSound('./sounds/ticking.mp3');
+  explode = loadSound('./sounds/explode.mp3');
+  question = loadSound('./sounds/question.mp3');
+  sad = loadSound('./sounds/sad.mp3');
+  happy = loadSound('./sounds/happy.mp3');
   sound9 = loadSound('./sounds/sound9.mp3');
   sound10 = loadSound('./sounds/sound10.mp3');
   sound11 = loadSound('./sounds/sound11.mp3');
@@ -240,11 +241,10 @@ function preload() {
 }
 
 function setup() {
-  rectMode(CORNER);
   const canvs = createCanvas(canvasW, canvasH);
   cnvs = document.getElementById('defaultCanvas0');
   ctx = canvas.getContext('2d');
-
+  rectMode(CORNER);
 
   // config wrap area
   const wrap = {
@@ -284,7 +284,7 @@ function setup() {
   // create Main Character MURMEL
   marblin = new Magnet(world, {
     x: 350,
-    y: 50,
+    y: -100,
     r: 40,
     color: 'white',
     attraction: 0.25e-5
@@ -295,19 +295,23 @@ function setup() {
     plugin: {},
   });
 
-
+  let hiprevent = true;
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "terrain_1edge" || bodyB.label === "terrain_1edge") {
       console.log("COLLISION")
-      marblin.body.friction = 0.05;
-      ramp4.body.collisionFilter.group = -1;
-      marblinLover.body.collisionFilter.group = -1;
-      marblinLover.body.friction = 0.0001;
-      prison.body.collisionFilter.group = -1;
-      terrain_9.body.collisionFilter.group = -1;
+      if (hiprevent) {
+        hi.play();
+        hiprevent = false;        
+      }
+     marblin.body.friction = 0.05;
+     ramp4.body.collisionFilter.group = -1;
+     marblinLover.body.collisionFilter.group = -1;
+     marblinLover.body.friction = 0.0001;
+     prison.body.collisionFilter.group = -1;
+     terrain_9.body.collisionFilter.group = -1;
     }
 
   });
@@ -826,39 +830,41 @@ function setup() {
     }
   });
 
-
-  // marblin slows down 3. stage
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    const pairs = event.pairs[0];
-    const bodyA = pairs.bodyA;
-    const bodyB = pairs.bodyB;
-    if (bodyA.label === "terrain_11_l" || bodyB.label === "terrain_11_l") {
-      stackPrevent = true;
-      if (stackPrevent) {
-        marblin.body.friction = 0;
-        stackPrevent = false;
-      };
-    }
-  });
+let stackPrevent3 = true;
+// marblin slows down 3. stage
+Matter.Events.on(engine, 'collisionStart', function(event) {
+  const pairs = event.pairs[0];
+  const bodyA = pairs.bodyA;
+  const bodyB = pairs.bodyB;
+  if (bodyA.label === "terrain_11_l" || bodyB.label === "terrain_11_l") {
+    stackPrevent = true;
+    if (stackPrevent3){
+    marblin.body.friction = 0;
+    relief.play();
+    stackPrevent3 = false;
+    };
+  }
+});
 
 
   // marblin entered 3. stage and triggers stack near middle
+  
   let stackPrevent2 = true;
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "terrain_11_middle" || bodyB.label === "terrain_11_middle") {
-      if (stackPrevent2) {
+      if (stackPrevent2){
         addStack3();
-        stackPrevent2 = false;
+        
+      stackPrevent2 = false;
       };
 
-      Matter.World.remove(engine.world, terrain_10_right.body);
-      Matter.World.remove(engine.world, terrain_10_rightWall.body);
-    }
+  }});  
+  
+  
 
-  });
 
 
   // red balls enter and trigger jump marblin stage 3
@@ -890,7 +896,7 @@ function setup() {
 
   });
 
-  // create zwischensequenz 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  // create zwischensequenz 2 VORHANG <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   for (let i = 0; i < 30; i++) {
     for (let j = 0; j < 12; j++) {
       const kugel = new Ball(
@@ -898,7 +904,7 @@ function setup() {
           x: 20 + i * 50,
           y: 5 * viewportH + 50 * j,
           r: 20,
-          color: "#382307"
+          color: "#000040"
         }, {
           isStatic: false,
           restitution: 0.3
@@ -937,7 +943,7 @@ function setup() {
     y: level3position,
     w: 15 * prisonSize,
     h: 15 * prisonSize,
-    color: "#6B420D"
+    color: prisonColor
   }, {
     isStatic: false
   });
@@ -947,7 +953,7 @@ function setup() {
     y: level3position + viewportH / 6 * 2,
     w: viewportW,
     h: viewportH / 3,
-    color: "#382307"
+    color: "#000040"
   }, {
     isStatic: true,
     label: "terrain_12"
@@ -1335,23 +1341,37 @@ function setup() {
 
   });
 
-
+  questionprevent = true;
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "secondRamp" || bodyB.label === "secondRamp") {
+      if (questionprevent) {
+        question.play();
+        questionprevent = false;
+        
+      }
       Matter.World.remove(engine.world, firstRamp.body);
     }
 
   });
 
+
+  questionprevent2 = true;
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "secondPlain" || bodyB.label === "seconPlain") {
+      if (questionprevent2) {
+        question.play();
+        questionprevent2 = false;
+        
+      }
+
       marblinLover2.body.friction = 1;
+
     }
 
   });
@@ -1467,7 +1487,7 @@ function draw() {
   }
 
   terrainColor = color(actualR, actualG, actualB);
-  ctx.shadowColor = color("rgba(0, 0, 0, 0.5)");
+  ctx.shadowColor = color("rgba(0, 0, 0, 0.4)");
   ctx.shadowBlur = 0;
   //lampe
   if (lampStatus) {
@@ -1510,12 +1530,14 @@ function draw() {
   // level 2 trigger
   if (jumper) {
     fleeJump();
+    scared.play();
     console.log("jumped");
     jumper = false;
   }
 
   if (jumper2) {
     fleeJump2();
+    scared.play();
     jumper2 = false;
   }
 
@@ -1555,14 +1577,17 @@ function draw() {
   ctx.shadowBlur = 100;
   if (drawStair1) {
     stair1.draw();
+    stair1.attrs.color = terrainColor;
   }
 
   if (drawStair2) {
     stair2.draw();
+    stair2.attrs.color = terrainColor;
   }
 
   if (drawStair3) {
     stair3.draw();
+    stair3.attrs.color = terrainColor;
   }
 
   if (drawStair4) {
@@ -1633,12 +1658,14 @@ function draw() {
   push();
   ctx.shadowBlur = 100;
 
-  fill("#8F5811");
+
+  //Dreier Level Overlay
+  fill("#0000A4");
   rect(0, level2position2 - viewportH * 3 / 3, viewportW, viewportH / 3)
 
-  fill("#6B420D");
+  fill("#000067");
   rect(0, level2position2 - viewportH * 2 / 3, viewportW, viewportH / 3)
-  fill("#382307");
+  fill("#000040");
   rectMode(CORNER);
   rect(0, level2position2 - viewportH / 3, viewportW, viewportH / 3)
   ctx.shadowBlur = 0;
@@ -1775,6 +1802,7 @@ function draw() {
       clearInterval(stairInterval);
       stairInterval = setInterval(onStairShake, 100);
       console.log("STAIR 1!!!!!!!");
+      changeColorFirstStair();
       scrollOffset = 300;
     }
   }
@@ -1871,12 +1899,15 @@ function draw() {
   }
 
   if (loveInSpotlight) {
-    if ((marblinLover2.body.position.x - marblin.body.position.x) < 100) {
-      if (inlove2trigger) { //nur einmal auslösen
-        inLove = true;
+      if ((marblinLover2.body.position.x - marblin.body.position.x) < 100) {
+        if (inlove2trigger) { //nur einmal auslösen
+        if (inlove2trigger){ //nur einmal auslösen
+          happy.play();
+          inLove = true;
+        }
+        inlove2trigger = false;
+        loveInSpotlight = false;
       }
-      inlove2trigger = false;
-      loveInSpotlight = false;
     }
   }
 
@@ -1922,7 +1953,7 @@ function draw() {
   //marblinGrows
   if (marblinGrows) {
     let scaleStart = 4900; //FLÄCHENINHALT
-    let scaleEnd = 9700;
+    let scaleEnd = 9800;
     let localtarget = map(marblin.body.position.y, groesserAnfang, groesserYEnd, scaleStart, scaleEnd, 1)
 
     while (marblin.body.area < localtarget) {
@@ -1961,10 +1992,11 @@ function draw() {
     if (nudgeCount < 30) {
       nudgeCount++;
     } else {
-      nudge("left", 0.22);
-      console.log("nudge left");
-      // marblin.body.friction = 0;
-      nudger = false;
+    sad.play();
+    nudge("left",0.22);
+    console.log("nudge left");
+    // marblin.body.friction = 0;
+    nudger = false;
     }
   }
   /*
@@ -1991,9 +2023,10 @@ function draw() {
   //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
   //END OF DRAW FUNCTION END OF DRAW FUNCTION END OF DRAW FUNCTION
   if (scrolla) {
-    selbstDasScrollenMussManSelbstMachen();
+    dasScrollenHabIchSelbstGemacht();
   }
 }
+
 
 
 
@@ -2140,71 +2173,62 @@ function keyPressed() {
       Matter.World.remove(engine.world, terrain_9.body);
       break;
 
-      // make marblin jump at the beginning
-    case 85: // u
-      //first jump
-      if (jumpalternator) {
-        jumpalternator = false;
-        jumpIntoAbyss();
-      } else {
-        smallJump();
-        jumpalternator = true;
-      }
-      //second Jump
+   // make marblin jump at the beginning
+   case 85: // u
+     //first jump
+     if (jumpalternator){
+       jumpalternator = false;
+       jumpIntoAbyss();
+     } else {
+       smallJump();
+       jumpalternator = true;
+     }
+     //second Jump
 
-      break;
+     break;
 
-    case 77: // M
-      //make loveballs spawn
+     case 77: // M
+     //make loveballs spawn
 
-      // testball = new Ball (world, {
-      //    x: 100,
-      //    y: 100,
-      //    r: 50,
-      //    color: "green"
-      //  }, {
+    // testball = new Ball (world, {
+    //    x: 100,
+    //    y: 100,
+    //    r: 50,
+    //    color: "green"
+    //  }, {
 
-      //  });
-      // testballser = true;
-      // // remove all terrains of spotlight level
-      Matter.World.remove(engine.world, loverRamp.body);
-      Matter.World.remove(engine.world, loverPlain.body);
-      Matter.World.remove(engine.world, rightV.body);
-      Matter.World.remove(engine.world, firstRamp.body);
-      Matter.World.remove(engine.world, secondRamp.body);
-      Matter.World.remove(engine.world, secondPlain.body);
-      Matter.World.remove(engine.world, thirdPlain.body);
-      Matter.World.remove(engine.world, blueWall.body);
-      Matter.World.remove(engine.world, bluePlain.body);
-      Matter.World.remove(engine.world, bluePlain2.body);
-      Matter.World.remove(engine.world, bottomPulley.body);
+    //  });
+    // testballser = true;
+    // // remove all terrains of spotlight level
+     Matter.World.remove(engine.world, loverRamp.body);
+     Matter.World.remove(engine.world, loverPlain.body);
+     Matter.World.remove(engine.world, rightV.body);
+     Matter.World.remove(engine.world, firstRamp.body);
+     Matter.World.remove(engine.world, secondRamp.body);
+     Matter.World.remove(engine.world, secondPlain.body);
+     Matter.World.remove(engine.world, thirdPlain.body);
+     Matter.World.remove(engine.world, blueWall.body);
+     Matter.World.remove(engine.world, bluePlain.body);
+     Matter.World.remove(engine.world, bluePlain2.body);
+     Matter.World.remove(engine.world, bottomPulley.body);
 
+ 
 
+    //  // spawn loveballs, trigger draw function
+     loveballs = new Stack(world, {
+       x: 0, y: transition5position-2500, cols: 60, rows: 10, colGap: 1, rowGap: 1, color: 'white',
+       create: (x, y) => Matter.Bodies.circle(x, y, 15, { restitution: 0.1, friction: -0.1})
+     });
+    // //  loveballs.body.bodys.collisionFilter.group = -1;
+    //  marblin.body.collisionFilter.group = -2;
+     loveballser = true;
+     marblin.body.collisionFilter.group = 1;
+    marblin.body.collisionFilter.mask = 2;
+    stairEND.body.collisionFilter.group = 1;
+    stairEND.body.collisionFilter.mask = 2;
+    loveballs.body.bodies.forEach(Block => Block.collisionFilter.mask = 2);
 
-      //  // spawn loveballs, trigger draw function
-      loveballs = new Stack(world, {
-        x: 0,
-        y: transition5position - 1800,
-        cols: 60,
-        rows: 10,
-        colGap: 1,
-        rowGap: 1,
-        color: 'white',
-        create: (x, y) => Matter.Bodies.circle(x, y, 15, {
-          restitution: 0.1,
-          friction: -0.1
-        })
-      });
-      // //  loveballs.body.bodys.collisionFilter.group = -1;
-      //  marblin.body.collisionFilter.group = -2;
-      loveballser = true;
-      marblin.body.collisionFilter.group = 1;
-      marblin.body.collisionFilter.mask = 2;
-      stairEND.body.collisionFilter.group = 1;
-      stairEND.body.collisionFilter.mask = 2;
-      loveballs.body.bodies.forEach(Block => Block.collisionFilter.mask = 2);
-
-      break;
+     break;
 
 
 
@@ -2295,7 +2319,7 @@ let targetscroll = 2900;
 let scrollOffset = 480;
 let stopScrollingAboveLove = false;
 
-function selbstDasScrollenMussManSelbstMachen() {
+function dasScrollenHabIchSelbstGemacht() {
   startscroll = window.pageYOffset;
   if (stopScrollingAboveLove){
     targetscroll = 7050;
@@ -2310,6 +2334,8 @@ function selbstDasScrollenMussManSelbstMachen() {
   }
 }
 
+
+//OldScrollFunctions
 function scrollFollow(matterObj) {
 
   const $element = $('html, body');
