@@ -51,6 +51,7 @@ function controlfunction2(){
     case 0:
       //TerrainColors
       changeColorSonnenaufgang();
+      soundtrackplay = true;
       break;
     case 1:
       //dreier Level
