@@ -1,3 +1,0 @@
-function controlFunction1(){
-
-}
